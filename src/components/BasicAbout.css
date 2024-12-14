@@ -1,0 +1,18 @@
+.BasicAbout {
+    position: absolute;
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-left: 2%;
+    top: 35%;
+}
+
+@media screen {
+    .BasicAbout {
+        position: absolute;
+        color: #FFFFFF;
+        font-size: 24px;
+        margin-left: 2%;
+        top: 35%;
+    }
+}
+
