@@ -4,19 +4,18 @@ export default function BasicAbout() {
     const [y, setY] = useState<string>('');
 
     useEffect(() => {
-        function addY() {
+        var interval = 1800;
+        let intervalRef = setInterval(() => {
             setY(prev => {
                 if (prev === "yy") {
-                    return prev + 'y';
+                    clearInterval(intervalRef)
                 }
-                else {
-                    setTimeout(addY, 1000);
-                    return prev + 'y'
-                }
-            });
-        }
+                interval = 1000;
+                return prev + 'y';
+            })
+        }, 2000);
 
-        setTimeout(addY, 1800);
+        return () => clearInterval(intervalRef);
     }, []);
 
     return (
