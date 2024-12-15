@@ -1,18 +1,23 @@
+@keyframes blend {
+    0% {color: #FFFFFF}
+    100% {color: #000000}
+}
+
 .BasicAbout {
     position: absolute;
     color: #FFFFFF;
-    font-size: 24px;
-    margin-left: 2%;
+    font-size: 38px;
+    left: 4%;
     top: 35%;
+    animation: blend 2s ease 7s 1 normal forwards;
 }
 
-@media screen {
+@media (width < 700) {
     .BasicAbout {
         position: absolute;
         color: #FFFFFF;
         font-size: 24px;
-        margin-left: 2%;
+        margin-left: 3%;
         top: 35%;
     }
 }
-

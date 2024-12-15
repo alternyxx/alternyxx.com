@@ -5,17 +5,35 @@ export default function BasicAbout() {
 
     useEffect(() => {
         var interval = 1800;
-        let intervalRef = setInterval(() => {
+        // let intervalRef = setInterval(() => {
+        //     setY(prev => {
+        //         if (prev === "yy") {
+        //             clearInterval(intervalRef)
+        //         }
+        //         interval = 1000;
+        //         return prev + 'y';
+        //     })
+        // }, 2000);
+
+        // return () => clearInterval(intervalRef);
+
+        function addingYs() {
+            let prevYs = ''; 
+            interval -= 300;
             setY(prev => {
-                if (prev === "yy") {
-                    clearInterval(intervalRef)
-                }
-                interval = 1000;
+                prevYs = prev;
                 return prev + 'y';
             })
-        }, 2000);
 
-        return () => clearInterval(intervalRef);
+            if (interval > 299) {
+                setTimeout(addingYs, interval);
+            }
+        }
+        const timer = setTimeout(addingYs, interval)
+
+        return () => {
+            clearTimeout(timer);
+        }
     }, []);
 
     return (

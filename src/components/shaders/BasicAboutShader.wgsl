@@ -18,7 +18,7 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
 
     // ~~~ The cool graph ~~~ //
     var d = ((uv.y - uv.x * uv.x + 5.0) * (uv.y - 4.8) * (uv.y + cos(1.0 / 
-            (uv.x / 100.0))) + 100 + sin(iTime / 800) * 12.0 + max(0, iTime - 3000) * 10);
+            (uv.x / 100.0))) + 100 + sin(iTime / 800) * 12.0 + max(0, iTime - 4000) * 10);
     var color = (d - 10.0) / 20.0;
     color = 1.0 - color;
     color = step(0.1, color);
