@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import BasicAboutShader from "./shaders/BasicAboutShader.wgsl?raw"
 
 interface Canvas {
+    stage: number
     device: GPUDevice
 }
 
@@ -49,6 +50,7 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(iTimeBuffer, 0, iTime);
 
+
         // ~~~~~~~~~~ Vertex Buffer ~~~~~~~~~~ //
         const vertexBuffer = props.device.createBuffer({
             label: "Basic About",
@@ -58,9 +60,17 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(vertexBuffer, 0, BasicAbout);
 
+        var shaderCode;
+        if (props.stage === 0) {
+            shaderCode = BasicAboutShader;
+        }
+        else {
+            return;
+        }
+
         const BasicAboutShaderModule = props.device.createShaderModule({
             label: "Basic About Shader",
-            code: BasicAboutShader
+            code: shaderCode
         });
 
         const vertexBufferLayout: GPUVertexBufferLayout = {
@@ -157,7 +167,7 @@ export default function Canvas(props: Canvas) {
         }
         
         requestAnimationFrame(frame)
-    }, [])
+    }, [props.stage])
     
     // Return canvas
     return (
