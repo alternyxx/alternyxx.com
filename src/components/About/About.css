@@ -1,19 +1,61 @@
 .About {
     position: absolute;
-    display: flex;
-    flex-wrap: wrap;
-    top: 5%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 140px 40px;
+    top: 6%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
 }
 
 .AboutAvatar {
-    border-radius: 15px;
+    border-radius: 150px;
+    box-shadow: 5px 5px #111111;
+    grid-column: 2 / 3;
+    width: 140px;
+    height: 140px;
 }
 
 .AboutText1 {
+    font-size: 12px;
+    grid-column: 3 / 6;
     padding-top: 0px;
-    font-size: 18px;
+    margin-top: 40px;
     color: #FFFFFF;
+    margin-left: 30px;;
+}
+
+.AboutHandle {
+    font-size: 10px;
+    color: #555555;
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: 50px;
+    margin-top: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+    .About {
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: 240px 40px;
+        top: 5%;
+    }
+    
+    .AboutAvatar {
+        width: 240px;
+        height: 240px;
+    }
+    
+    .AboutText1 {
+        font-size: 24px;
+        grid-column: 3 / 8;
+        margin-left: 50px;
+        margin-top: 100px;
+        color: #FFFFFF;
+    }
+
+    .AboutHandle {
+        font-size: 20px;
+        margin-top: 15px;
+        margin-left: 70px;
+    }
 }

@@ -10,12 +10,14 @@ let device;
 if (navigator.gpu) {
     const adapter = await navigator.gpu.requestAdapter();
     if (adapter) {
-        device = await adapter.requestDevice();
+      device = await adapter.requestDevice();
     } else {
-        warning = true;
+      console.log("error")
+      warning = true;
     }
 } else {
-    warning = true;    
+  console.log("error")
+  warning = true;    
 }
 
 createRoot(document.getElementById('root')!).render(

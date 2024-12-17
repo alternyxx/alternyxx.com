@@ -5,6 +5,11 @@ html, body {
     background-color: #000000;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+
 .App {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;

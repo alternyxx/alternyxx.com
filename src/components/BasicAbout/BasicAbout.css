@@ -3,21 +3,22 @@
     100% {color: #000000}
 }
 
+/* ~~~ For mobile phones ~~~ */
 .BasicAbout {
     position: absolute;
     color: #FFFFFF;
-    font-size: 34px;
-    left: 4%;
+    font-size: 18px;
+    margin-left: 3%;
     top: 33%;
+    left: 2px;
     animation: blend 1.5s ease 7s 1 normal forwards;
 }
 
-@media (width < 700) {
+@media only screen and (min-width: 768px) {
     .BasicAbout {
-        position: absolute;
-        color: #FFFFFF;
-        font-size: 22px;
-        margin-left: 3%;
-        top: 35%;
+        font-size: 34px;
+        left: 3%;
+        top: 33%;
+        animation: blend 1.5s ease 7s 1 normal forwards;
     }
 }

@@ -18,8 +18,11 @@ export default function App(props: any) {
   return (
     <div>
       <div className="App">
-        <Canvas stage={stage} device={props.device} />
-        <BasicAbout />
+        {!props.warning && <Canvas width={window.innerWidth}
+                height={stage > 0 ? window.innerHeight * 3 : window.innerHeight - 1}
+                stage={stage} 
+                device={props.device} />}
+        {stage === 0 && <BasicAbout />}
         {stage === 1 &&
           <>
             <About />

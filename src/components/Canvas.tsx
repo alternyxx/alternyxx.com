@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import BasicAboutShader from "./shaders/BasicAboutShader.wgsl?raw"
 
 interface Canvas {
+    width: number
+    height: number
     stage: number
     device: GPUDevice
 }
@@ -13,7 +15,7 @@ export default function Canvas(props: Canvas) {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
         const context = canvas.current.getContext("webgpu");
         if (!context) {
-            return
+            return;
         }
         const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
         context.configure({
@@ -32,7 +34,7 @@ export default function Canvas(props: Canvas) {
         ]);
 
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
-        const iResolution = new Float32Array([window.innerWidth, window.innerHeight]);
+        const iResolution = new Float32Array([props.width, props.height]);
         const iResolutionBuffer = props.device.createBuffer({
             label: "iResolution",
             size: iResolution.byteLength,
@@ -140,7 +142,11 @@ export default function Canvas(props: Canvas) {
         // let frameNum = 0;
         // let prevTime = 0;
         function frame(currentTime: number) {
+            // ~~~ Adjusting input values ~~~ //
             iTime[0] = currentTime;
+
+
+
             props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
     
             const encoder = props.device.createCommandEncoder();
@@ -171,8 +177,8 @@ export default function Canvas(props: Canvas) {
     
     // Return canvas
     return (
-        <canvas width={window.innerWidth}
-            height={window.innerHeight} 
+        <canvas width={props.width}
+            height={props.height} 
             ref={canvas}
             className="Canvas" >
         </canvas>
