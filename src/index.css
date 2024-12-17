@@ -21,3 +21,11 @@ html, body {
 .Canvas {
     position: absolute;
 }
+
+.Hyperlink:link {
+    color: #1DA8F2;
+}
+
+.Hyperlink:visited {
+    color: #1DA8F2;
+}

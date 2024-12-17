@@ -2,6 +2,10 @@ import { useState, useEffect } from "react"
 import Canvas from "./components/Canvas"
 import BasicAbout from "./components/BasicAbout/BasicAbout"
 import About from "./components/About/About"
+import Bio from "./components/Bio/Bio"
+import Socials from "./components/Socials/Socials"
+
+import discord from "../../assets/discord-mark-white.svg"
 
 interface App {
   device: GPUDevice,
@@ -26,6 +30,7 @@ export default function App(props: any) {
         {stage === 1 &&
           <>
             <About />
+            <Bio />
           </> }
       </div>
     </div>

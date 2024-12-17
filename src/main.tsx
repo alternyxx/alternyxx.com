@@ -16,7 +16,7 @@ if (navigator.gpu) {
       warning = true;
     }
 } else {
-  console.log("error")
+  console.log("here")
   warning = true;    
 }
 
