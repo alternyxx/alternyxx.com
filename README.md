@@ -1,2 +1,4 @@
-# [LINK text] (https://alternyxx.com)
-## MADE IN A WAY TO SCALE
+# [alternyxx.com] (https://alternyxx.com)
+A portfolio site utilising webgpu.
+Web-based components are made with vite + react + typescript.
+Feedback is much appreciated! ^^
