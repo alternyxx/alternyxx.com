@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import BasicAboutShader from "./shaders/BasicAboutShader.wgsl?raw"
+import Transitions from "./shaders/Transitions.wgsl?raw"
 
 interface Canvas {
     width: number
@@ -23,7 +24,7 @@ export default function Canvas(props: Canvas) {
                 format: canvasFormat
         });
 
-        const BasicAbout = new Float32Array([
+        const Screen = new Float32Array([
            -1, -1,
            -1,  1,
             1,  1,
@@ -56,22 +57,26 @@ export default function Canvas(props: Canvas) {
         // ~~~~~~~~~~ Vertex Buffer ~~~~~~~~~~ //
         const vertexBuffer = props.device.createBuffer({
             label: "Basic About",
-            size: BasicAbout.byteLength,
+            size: Screen.byteLength,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(vertexBuffer, 0, BasicAbout);
+        props.device.queue.writeBuffer(vertexBuffer, 0, Screen);
 
         var shaderCode;
         if (props.stage === 0) {
             shaderCode = BasicAboutShader;
         }
+        else if (props.stage > 0) {
+            console.log("please?")
+            shaderCode = Transitions;
+        }
         else {
             return;
         }
 
-        const BasicAboutShaderModule = props.device.createShaderModule({
-            label: "Basic About Shader",
+        const ShaderModule = props.device.createShaderModule({
+            label: "Shader Module",
             code: shaderCode
         });
 
@@ -87,7 +92,7 @@ export default function Canvas(props: Canvas) {
 
         // ~~~~~~~~~~ Bind Group Layout (also used in pipeline layout) ~~~~~~~~~~ //
         const iBindGroupLayout = props.device.createBindGroupLayout({
-            label: "Basic About Layout",
+            label: "Group Layouts",
             entries: [{
                 binding: 0,
                 visibility: GPUShaderStage.FRAGMENT,
@@ -101,21 +106,21 @@ export default function Canvas(props: Canvas) {
 
 
         // ~~~~~~~~~~ Pipelines ~~~~~~~~~~ //
-        const BasicAboutPipelineLayout = props.device.createPipelineLayout({
-            label: "Basi cAbout Pipeline Layout",
+        const pipelineLayout = props.device.createPipelineLayout({
+            label: "Pipeline Layout",
             bindGroupLayouts: [iBindGroupLayout]
         });
 
-        const BasicAboutPipeline = props.device.createRenderPipeline({
-            label: "Basic About Pipeline",
-            layout: BasicAboutPipelineLayout,
+        const Pipeline = props.device.createRenderPipeline({
+            label: "Pipeline",
+            layout: pipelineLayout,
             vertex: {
-                module: BasicAboutShaderModule,
+                module: ShaderModule,
                 entryPoint: "vertexMain",
                 buffers: [vertexBufferLayout]
             },
             fragment: {
-                module: BasicAboutShaderModule,
+                module: ShaderModule,
                 entryPoint: "fragmentMain",
                 targets: [{
                     format: canvasFormat
@@ -143,9 +148,7 @@ export default function Canvas(props: Canvas) {
         // let prevTime = 0;
         function frame(currentTime: number) {
             // ~~~ Adjusting input values ~~~ //
-            iTime[0] = currentTime;
-
-
+            iTime[0] = currentTime / 1000;
 
             props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
     
@@ -160,10 +163,10 @@ export default function Canvas(props: Canvas) {
                 }]
             });
             
-            pass.setPipeline(BasicAboutPipeline);
+            pass.setPipeline(Pipeline);
             pass.setVertexBuffer(0, vertexBuffer);
             pass.setBindGroup(0, iBindGroups);
-            pass.draw(BasicAbout.length / 2);
+            pass.draw(Screen.length / 2);
 
             pass.end();
 
