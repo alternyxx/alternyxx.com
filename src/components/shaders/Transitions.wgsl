@@ -13,16 +13,27 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     var uv = vec2f(fragCoord.x / iResolution.x, y / iResolution.y);
     
     // Some zoom and normalisation //
-    uv.x = ((uv.x * 2 - 1) * (iResolution.x / iResolution.y) * 10) - 4;
-    uv.y = ((uv.y * 2 - 1) * 8) + 1;
+    uv.x = (uv.x * 2 - 1) * (iResolution.x / iResolution.y);
+    uv.y = uv.y * 2 - 1;
 
-    // ~~~ The cool graph ~~~ //
-    var d = ((uv.y - uv.x * uv.x + 5.0) * (uv.y - 4.8) * (uv.y + cos(1.0 / 
-            (uv.x / 100.0))) + 100 + sin(iTime * 0.8) * 12.0 + max(0, iTime - 4) * 10000);
-    var color = (d - 10.0) / 20.0; 
-    color = 1.0 - color;
-    color = smoothstep(0.0, 0.15, color);
-    var fragColor = vec3f(color);
+    // ~~~~~~~~~~~ The cool stuff ~~~~~~~~~~~ //
+
+    // ~~~ Rings ~~~ //
+    var d = length(uv);
+
+    d = sin(d * 2 + iTime / 6) * 10;
+
+    d = 0.1 / d;
+
+    // d = 1 - d;
+
+    // ~~~ Diagonal black lines ~~~ //
+    var x = fract((uv.y - uv.x) * 0.5);
+    x = abs(x - 0.5);
+    var w = smoothstep(0.249, 0.251, x);
+
+    var color = vec3f(sin(iTime / 2));
+    var fragColor = color * d;
 
     return vec4f(fragColor, 1.0);
 }

@@ -19,8 +19,20 @@ html, body {
 }
 
 .Canvas {
-    position: absolute;
+    position: fixed;
+    z-index: -10;
 }
+
+/* .test {
+    background-color: #FF0000;
+    height: 20000px;
+    z-index: -12;
+}
+
+.h1 {
+    font-size: 48px;
+    color: #FF0000;
+} */
 
 .Hyperlink:link {
     color: #1DA8F2;
