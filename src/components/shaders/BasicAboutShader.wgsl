@@ -17,8 +17,9 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     uv.y = ((uv.y * 2 - 1) * 8) + 1;
 
     // ~~~ The cool graph ~~~ //
+    // This is from https://youtu.be/QhvzmskRiCk?si=oYKoBYtil_Wof8jH&t=115
     var d = ((uv.y - uv.x * uv.x + 5.0) * (uv.y - 4.8) * (uv.y + cos(1.0 / 
-            (uv.x / 100.0))) + 100 + sin(iTime * 0.8) * 12.0 + max(0, iTime - 4) * 10000);
+            (uv.x / 100.0))) + 100 + sin(iTime * 0.8) * 20.0 + max(0, iTime - 5) * 10000);
     var color = (d - 10.0) / 20.0; 
     color = 1.0 - color;
     color = smoothstep(0.0, 0.15, color);

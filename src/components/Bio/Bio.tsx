@@ -29,7 +29,7 @@ export default function Bio() {
             <motion.p variants={textVariant}
                       transition={{duration: 1.5, delay: 3.5}}
                       className="BioText" >
-                Name's Nyx! Just someone from the country of Myanmar.
+                Name's Nyx!
                 This site will mainly serve as a showcase of ongoing and finished projects.
                 I'll try my best to create dev logs as blogs here and finished showcases on Youtube!
                 If you really liked the entry, I kept it as a standalone
