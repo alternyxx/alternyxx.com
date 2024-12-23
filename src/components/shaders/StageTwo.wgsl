@@ -1,5 +1,6 @@
 @group(0) @binding(0) var<uniform> iResolution: vec2f;
 @group(0) @binding(1) var<uniform> iTime: f32;
+@group(0) @binding(2) var<uniform> iOpacity: f32;
 
 @vertex
 fn vertexMain(@location(0) pos: vec2f) ->
@@ -15,6 +16,21 @@ fn distanceToLine(p1: vec2f, p2: vec2f, point: vec2f) -> f32 {
     return abs(a * point.x + b * point.y + p1.x * p2.y - p2.x * p1.y) / sqrt( a * a + b * b);
 }
 
+fn shape(pixelCords: vec2f) -> vec3f {
+    var c = length(pixelCords);
+    c = 0.006 / c;
+
+    var l = 0.0;
+    if (pixelCords.y < 0.002 && pixelCords.y > -0.002 && pixelCords.x > -0.45 && pixelCords.x < 0) {
+        l = 1.0;
+    }
+
+    var s = mix(vec3f(0.0), vec3f(1.0, 1.0, 1.0), c);
+    s += l;
+    s *= abs(sin(iTime / 2));
+    return s;
+}
+
 @fragment
 fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     var y = iResolution.y - fragCoord.y;
@@ -25,22 +41,8 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     uv.y = uv.y * 2 - 1;
 
     // ~~~ The cool stuff ~~~ //
-    var uv1 = vec2f(uv.x - sin(iTime) * 2.4, uv.y); 
-    var one = length(uv1);
-    one = 0.003 / one;
+    let s1 = shape(vec2f(uv.x - tan(iTime / 20) * 2.4, uv.y)); 
 
-    if (cos(iTime) < 0) {
-        one = 0;
-    }
-
-    var line = 0.0;
-    if (uv.y < 0.002 && uv.y > -0.002 && uv1.x > -0.45 && uv1.x < 0) {
-        line = 1.0;
-    }
-
-    var color = mix(vec3f(0.0), vec3f(1.0, 1.0, 1.0), one);
-    // color += line;
-
-    let fragColor = color;
-    return vec4f(fragColor, 1);
+    let fragColor = s1;
+    return vec4f(fragColor * iOpacity, iOpacity);
 }

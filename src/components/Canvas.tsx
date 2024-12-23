@@ -27,7 +27,9 @@ export default function Canvas(props: Canvas) {
         const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
         context.configure({
             device: props.device,
-                format: canvasFormat
+            format: canvasFormat,
+            // this doesnt seem to work
+            alphaMode: 'premultiplied',
         });
 
         const Screen = new Float32Array([
@@ -59,7 +61,7 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(iTimeBuffer, 0, iTime);
 
-        const iOpacity = new Float32Array([1]);
+        const iOpacity = new Float32Array([0]);
         const iOpacityBuffer = props.device.createBuffer({
             label: "iOpacity",
             size: iOpacity.byteLength,
@@ -168,7 +170,6 @@ export default function Canvas(props: Canvas) {
 
         
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
-        let opacity = 0;
         function frame(currentTime: number) {
             // ~~~ Adjusting input values ~~~ //
             iTime[0] = currentTime / 1000;
@@ -195,7 +196,15 @@ export default function Canvas(props: Canvas) {
 
             props.device.queue.submit([encoder.finish()]);
             
-            opacity = (opacity >= 1) ? 1 : opacity + 0.0125;
+            if (iOpacity[0] < 1) {
+                if (iOpacity[0] > 0.95) {
+                    iOpacity[0] = 1;
+                }
+                else {
+                    iOpacity[0] += 0.0125;
+                }
+                props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
+            }
             loopRef.current = requestAnimationFrame(frame);
         }
         
