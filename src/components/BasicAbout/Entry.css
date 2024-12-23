@@ -1,24 +1,17 @@
-@keyframes blend {
-    0% {color: #FFFFFF}
-    100% {color: #000000}
-}
-
 /* ~~~ For mobile phones ~~~ */
-.BasicAbout {
+.Entry {
     position: absolute;
     color: #FFFFFF;
     font-size: 18px;
     margin-left: 3%;
     top: 33%;
     left: 2px;
-    animation: blend 1.5s ease 7s 1 normal forwards;
 }
 
 @media only screen and (min-width: 768px) {
-    .BasicAbout {
+    .Entry {
         font-size: 34px;
         left: 3%;
         top: 33%;
-        animation: blend 1.5s ease 7s 1 normal forwards;
     }
 }

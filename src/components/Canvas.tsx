@@ -1,16 +1,22 @@
 import { useEffect, useRef } from "react";
-import BasicAboutShader from "./shaders/BasicAboutShader.wgsl?raw"
-import Transitions from "./shaders/Transitions.wgsl?raw"
+import { MotionValue } from "motion/react"
+import Entry from "./shaders/Entry.wgsl?raw"
+import StageOne from "./shaders/StageOne.wgsl?raw"
+import StageTwo from "./shaders/StageTwo.wgsl?raw"
 
 interface Canvas {
     width: number
     height: number
     stage: number
+    scroll: MotionValue<number>
     device: GPUDevice
 }
 
 export default function Canvas(props: Canvas) {
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
+
+    const loopRef = useRef<number>(0);
+    // const opacity = useRef(0.0);
 
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
@@ -53,6 +59,15 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(iTimeBuffer, 0, iTime);
 
+        const iOpacity = new Float32Array([1]);
+        const iOpacityBuffer = props.device.createBuffer({
+            label: "iOpacity",
+            size: iOpacity.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+        });
+
+        props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
+
 
         // ~~~~~~~~~~ Vertex Buffer ~~~~~~~~~~ //
         const vertexBuffer = props.device.createBuffer({
@@ -65,11 +80,13 @@ export default function Canvas(props: Canvas) {
 
         var shaderCode;
         if (props.stage === 0) {
-            shaderCode = BasicAboutShader;
+            shaderCode = Entry;
         }
-        else if (props.stage > 0) {
-            console.log("please?")
-            shaderCode = Transitions;
+        else if (props.stage === 1) {
+            shaderCode = StageOne;
+        }
+        else if (props.stage === 2) {
+            shaderCode = StageTwo;
         }
         else {
             return;
@@ -99,6 +116,10 @@ export default function Canvas(props: Canvas) {
                 buffer: {}
             }, {
                 binding: 1,
+                visibility: GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 2,
                 visibility: GPUShaderStage.FRAGMENT,
                 buffer: {}
             }]
@@ -139,13 +160,15 @@ export default function Canvas(props: Canvas) {
             }, {
                 binding: 1,
                 resource: { buffer: iTimeBuffer }
+            }, {
+                binding: 2,
+                resource: { buffer: iOpacityBuffer }
             }]
         });
 
         
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
-        // let frameNum = 0;
-        // let prevTime = 0;
+        let opacity = 0;
         function frame(currentTime: number) {
             // ~~~ Adjusting input values ~~~ //
             iTime[0] = currentTime / 1000;
@@ -171,17 +194,22 @@ export default function Canvas(props: Canvas) {
             pass.end();
 
             props.device.queue.submit([encoder.finish()]);
-        
-            requestAnimationFrame(frame);
+            
+            opacity = (opacity >= 1) ? 1 : opacity + 0.0125;
+            loopRef.current = requestAnimationFrame(frame);
         }
         
-        requestAnimationFrame(frame)
-    }, [props.stage])
+        loopRef.current = requestAnimationFrame(frame);
+
+        return () => window.cancelAnimationFrame(loopRef.current);
+    }, [props.stage]);
     
+
     // Return canvas
     return (
-        <canvas width={props.width}
-            height={props.height} 
+        <canvas 
+            width={ props.width }
+            height={ props.height } 
             ref={canvas}
             className="Canvas" >
         </canvas>

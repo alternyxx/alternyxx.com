@@ -1,3 +1,4 @@
+/* ~~~ For mobile phones ~~~ */
 .Bio {
     position: absolute;
     color: #FFFFFF;
@@ -10,9 +11,18 @@
     font-size: 20px;
 }
 
+.BioColor {
+    color: #FFFFFF;
+}
+
 .BioText {
     font-size: 14px;
     margin-bottom: 0px;
+}
+
+.Youtube {
+    color: #FF4444;
+    /* text-decoration: none; */
 }
 
 .BioNote {
@@ -29,11 +39,12 @@
     }
 
     .BioHeader {
-        font-size: 28px;
+        font-weight: 800;
+        font-size: 32px;
     }
 
     .BioText {
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 0px;
     }
 

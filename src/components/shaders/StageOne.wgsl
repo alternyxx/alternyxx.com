@@ -15,7 +15,22 @@ fn diagonal(pixelCords: vec2f, colorA: vec3f, colorB: vec3f, thickness: f32)
                smoothstep(0.249, 0.251, abs(fract(pixelCords.y - pixelCords.x) / thickness) - 0.5));
 }
 
+fn palette(t: f32) -> vec3f {
+    let a = vec3f(0.5, 0.5, 0.5);
+    let b = vec3f(0.5, 0.5, 0.5);
+    let c = vec3f(2.0, 1.0, 0.0);
+    let d = vec3f(0.50, 0.20, 0.25);
+    return a + b * cos(6.28318 * (c * t + d));
+}
+
 // Function for rings
+fn rings(pixelCords: vec2f) -> vec3f {
+    var r = length(pixelCords);
+    r = sin(r * 2 + iTime / 6) * 10;
+    r = 6 / r;
+    let color = palette(r);
+    return vec3f(abs(sin(iTime / 2))) * color * r;
+}
 
 @fragment
 fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
@@ -29,12 +44,22 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     // ~~~~~~~~~~~ The cool stuff ~~~~~~~~~~~ //
 
     // ~~~ Rings ~~~ //
-    var uvr1 = vec2f(uv.x + 1, uv.y + 0.8);
-    var d = length(uvr1);
+    var c = length(vec2f(uv.x + 0.8, uv.y + 1.2));
+    var d = length(vec2f(uv.x - 1.2, uv.y - 1.2));
+    c = sin(c * 2 + iTime / 6) * 10;
     d = sin(d * 2 + iTime / 6) * 10;
-    d = 0.15 / d;
+    c = 1.2 / c;
+    d = 1.2 / d;
+    let c1 = palette(abs(c));
+    let d1 = palette(abs(d));
+    let color1 = vec3f(abs(sin(iTime / 2))) * diagonal(uv, d1, c1, 1.2) * d;
+    let color2 = vec3f(abs(sin(iTime / 2))) * diagonal(uv, c1, d1, 1.2) * c;
 
-    var fragColor = d * vec3f(sin(iTime / 2)) * diagonal(uv, vec3f(1.0), vec3f(0.2), 0.3);
+    // ~~~ More smaller rings :P ~~~ //
+    let color3 = rings(vec2f(uv.x - 0.4, uv.y + 0.2));
+    let color4 = rings(vec2f(uv.x - 2, uv.y + 2));
+
+    var fragColor = color1 * color2 * color3 * color4;
 
     return vec4f(fragColor, 1.0);
 }

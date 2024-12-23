@@ -1,0 +1,16 @@
+.Projects {
+    position: absolute;
+    top: 280%;
+    left: 12%;
+}
+
+.ProjectsHeading {
+    font-size: 32px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+.ProjectName {
+    font-size: 26px;
+    font-weight: 500;
+    color: #FFFFFF;
+}

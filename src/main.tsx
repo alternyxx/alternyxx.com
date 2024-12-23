@@ -23,5 +23,5 @@ if (navigator.gpu) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App device={device} warning={warning} />
-  </StrictMode>,
+  </StrictMode>
 );

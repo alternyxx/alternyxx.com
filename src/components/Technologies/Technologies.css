@@ -1,0 +1,65 @@
+/* ~~~ For mobile phones ~~~ */
+.Technologies {
+    position: absolute;
+    top: 123%;
+    left: 12%
+}
+
+.TechnologiesHeading {
+    font-size: 32px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.TechnologiesSubHeading {
+    font-size: 26px;
+    color: #FFFFFF;
+}
+
+.IndivTechnologies {
+    display: flex;
+    align-content: space-around;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 40px;
+    margin-bottom: 80px;
+}
+
+.IndivTechnology {
+    margin-left: 2px;
+    background: rgba(50, 50, 50, 0.18);
+    border-radius: 30px;
+    padding: 8px;
+    display: flex;
+    width: 320px;
+}
+
+.TechnologyImg {
+    background: rgba(20, 20, 40, 0.8);
+    padding: 10px;
+    border-radius: 15px;
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.TechnologyText {
+    margin-left: 0px;
+}
+
+.TechnologyName {
+    position: relative;
+    color: #FFFFFF;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.TechnologyDescription {
+    position: relative;
+    margin-top: 0px;
+    color: #555555;
+    font-weight: 600;
+}

@@ -1,11 +1,10 @@
-import "./Socials.css"
+import IndivSocial from "./IndivSocials";
 
-export default function Socials(props: any) {
-    return (
-        <span>
-            <img src={props.image}
-                    className="SocialsLogo" >
-            </img>
-        </span>
-    )
+import discord from "../../assets/discord-mark-white.svg"
+
+export default function Socials() {
+    <div className="Socials">
+        <IndivSocial text="alternyxx@gmail.com"/>
+        <IndivSocial image={discord} text="@alternyxx" />
+    </div>
 }

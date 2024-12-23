@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import "./BasicAbout.css"
+import { motion } from "motion/react"
+import "./Entry.css"
 
-export default function BasicAbout() {
+export default function Entry() {
     const [y, setY] = useState<string>('');
 
     useEffect(() => {
@@ -13,7 +14,7 @@ export default function BasicAbout() {
                 return prev + 'y';
             })
 
-            if (interval > 299) {
+            if (interval > 0) {
                 setTimeout(addingYs, interval);
             }
         }
@@ -25,8 +26,13 @@ export default function BasicAbout() {
     }, []);
 
     return (
-        <h1 className="BasicAbout">
+        <motion.h1 
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 1.5, delay: 7, ease: "linear" }}
+            className="Entry"
+        >
             A 15 year old with way{y} too much time.
-        </h1>
+        </motion.h1>
     )
 }

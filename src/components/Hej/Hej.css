@@ -1,14 +1,15 @@
-.About {
+/* ~~~ For mobile phones ~~~ */
+.Hej {
     position: absolute;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 140px 40px;
     top: 5%;
     width: 100%;
-    /* box-shadow: #222222 */
+    padding-bottom: 10px;
 }
 
-.AboutAvatar {
+.HejAvatar {
     border-radius: 150px;
     box-shadow: 5px 5px #111111;
     grid-column: 2 / 3;
@@ -16,37 +17,53 @@
     height: 140px;
 }
 
-.AboutText1 {
+.HejText {
     font-size: 14px;
+    font-weight: 600;
     grid-column: 3 / 6;
     padding-top: 0px;
     margin-top: 38px;
     color: #FFFFFF;
-    margin-left: 30px;;
+    margin-left: 30px;
 }
 
-.AboutHandle {
+.Winter {
+    color: #9bbdf8;
+}
+
+.HejHandle {
     font-size: 10px;
-    color: #555555;
+    font-weight: 500;
+    color: #444444;
     grid-column: 2;
     grid-row: 2;
     margin-left: 50px;
     margin-top: 8px;
 }
 
+/* .HejLine {
+    position: absolute;
+    margin-top: 295px;
+    left: 11%;
+    width: 75%;
+    height: 8px;
+    border-radius: 20px;
+    background-color: rgba(70, 70, 70, 0.2);
+} */
+
 @media only screen and (min-width: 768px) {
-    .About {
+    .Hej {
         grid-template-columns: repeat(8, 1fr);
         grid-template-rows: 240px 40px;
         top: 5%;
     }
     
-    .AboutAvatar {
+    .HejAvatar {
         width: 240px;
         height: 240px;
     }
     
-    .AboutText1 {
+    .HejText {
         font-size: 24px;
         grid-column: 3 / 8;
         margin-left: 50px;
@@ -54,7 +71,7 @@
         color: #FFFFFF;
     }
 
-    .AboutHandle {
+    .HejHandle {
         font-size: 20px;
         margin-top: 15px;
         margin-left: 70px;
