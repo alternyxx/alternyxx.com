@@ -15,36 +15,61 @@ import git from "../../assets/Techstack/Git-Icon-1788C.svg"
 import python from "../../assets/Techstack/Python_logo_01.svg"
 import c from "../../assets/Techstack/c-1.svg"
 
+
+const elementVarient = {
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0 },
+};
+
+
 export default function Technologies() {
     return (
         <motion.div 
-            variants={{ 
-                hidden: {opacity: 0, y: 50},
-                show: {
-                    opacity: 1,
-                    y: 0,
-                transition: {staggerChildren: 2}
-                } 
-            }}
+            variants={
+                { 
+                    hidden: {opacity: 0, y: 50},
+                    show: {
+                        opacity: 1,
+                        y: 0,
+                    transition: {staggerChildren: 0.5}
+                    } 
+                }
+            }
             initial="hidden"
             whileInView="show"
+            viewport={{ once: true }}
             className="Technologies"
         >
-            <p className="TechnologiesHeading">Current Technologies</p>
-            <p className="TechnologiesSubHeading">
+
+            {/* ~~~~~~~~ Heading of the whole section ~~~~~~~~ */}
+            <motion.p 
+                variants={elementVarient}
+                className="TechnologiesHeading"
+            >
+                Current Technologies
+            </motion.p>
+
+            {/* ~~~~~~~~ Sub-Heading ~~~~~~~~ */}
+            <motion.p 
+                variants={elementVarient}
+                className="TechnologiesSubHeading"
+            >
                 Frontend Developer With
-            </p>
+            </motion.p>
+
+            {/* ~~~~~~~~ Techstack ~~~~~~~~ */}
             <motion.div
                 variants={{
                     hidden: {opacity: 0, y: 50},
                     show: {
                         opacity: 1,
                         y: 0,
-                    transition: {staggerChildren: 2}
+                    transition: {staggerChildren: 0.3}
                     }
                 }}
                 initial="hidden"
                 whileInView="show"
+                viewport={{ once: true }}
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={react} text="React" description="UI/UX" />
@@ -56,13 +81,34 @@ export default function Technologies() {
                 <IndivTechnology img={opengl} text="WebGL" description="2D & 3D Graphics" />
                 <IndivTechnology img={git} text="Git" description="Version Control" />
             </motion.div>
-            <p className="TechnologiesSubHeading">
+
+            {/* ~~~~~~~~ Sub-Heading ~~~~~~~~ */}
+            <motion.p 
+                variants={elementVarient}
+                className="TechnologiesSubHeading"
+            >
                 Other Languages
-            </p>
-            <div className="IndivTechnologies">
+            </motion.p>
+
+             {/* ~~~~~~~~ Techstack ~~~~~~~~ */}
+            <motion.div 
+                variants={{
+                    hidden: {opacity: 0, y: 50},
+                    show: {
+                        opacity: 1,
+                        y: 0,
+                    transition: {staggerChildren: 0.3}
+                    }
+                }}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="IndivTechnologies"
+            >
                 <IndivTechnology img={python} text="Python" description="Two snakes" />
                 <IndivTechnology img={c} text="C" description="Segmentation Fault" />
-            </div>
+            </motion.div>
+
         </motion.div>
     )
 }

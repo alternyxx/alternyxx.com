@@ -7,7 +7,7 @@ const containerVarient = {
     show: {
         opacity: 1,
         y: 0,
-        transition: {staggerChildren: 1,}
+        transition: { staggerChildren: 0.4, }
     } 
 };
 
@@ -26,10 +26,8 @@ export default function Hej() {
 
             {/* ~~~~~~~~ Avatar Picture ~~~~~~~~ */}
             <motion.img 
-                initial={{ opacity: 0, rotate: "360deg", scale: 1.2 }}
-                animate={{ opacity: 1, rotate: ["360deg", "180deg", "90deg", "45deg", "0deg", "-10deg", "0deg", "0deg", "0deg", "0deg"], scale: 1 }}
-                transition={{ duration: 2, ease: "backIn" }}
-                layout
+                variants={elementVarient}
+                transition={{ duration: 2, }}
                 src={haj}
                 alt="Freedom yearning Blahaj"
                 className="HejAvatar" >

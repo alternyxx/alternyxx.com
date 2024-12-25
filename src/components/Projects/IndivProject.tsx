@@ -1,3 +1,5 @@
+import { motion } from "motion/react"
+
 interface IndivProject {
     projectName: string
     description: string
@@ -5,13 +7,14 @@ interface IndivProject {
 
 export default function IndivProject(props: IndivProject) {
     return (
-        <div className="IndivProject">
+        <motion.div className="IndivProject">
             <p className="ProjectName">
                 {props.projectName}
             </p>
             <p className="ProjectDescription">
                 {props.description}
             </p>
-        </div>
+            
+        </motion.div>
     )
 }

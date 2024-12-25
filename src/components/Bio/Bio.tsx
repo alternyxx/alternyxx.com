@@ -4,38 +4,44 @@ import "./Bio.css"
 const textVariant = { 
     hidden: {opacity: 0, y: 50},
     show: {
-    opacity: 1,
-    y: 0,
+        opacity: 1,
+        y: 0,
     }
 };
                     
 export default function Bio() {
     return (
-        <motion.div variants={{ 
-                            hidden: {opacity: 0, y: 50},
-                            show: {
-                                opacity: 1,
-                                y: 0,
-                            transition: {staggerChildren: 2}
-                            } 
-                    }}
-                    initial="hidden"
-                    animate="show" 
-                    className="Bio"
+        <motion.div 
+            variants={
+                { 
+                    hidden: {opacity: 0, y: 50},
+                    show: {
+                        opacity: 1,
+                        y: 0,
+                    transition: { staggerChildren: 0.5, delayChildren: 1.0, }
+                    } 
+                }
+            }
+            initial="hidden"
+            animate="show" 
+            className="Bio"
         >  
             {/* ~~~~~~~~ Header ~~~~~~~~ */}
-            <motion.p variants={textVariant}
-                      transition={{duration: 1.5, delay: 3}}
-                      className="BioHeader"
+            <motion.p 
+                variants={textVariant}
+                transition={{ duration: 1.5, }} 
+                className="BioHeader"
             >
                 A Quick <span className="BioColor">Bio </span>ツ
             </motion.p>
 
 
             {/* ~~~~~~~~ Paragraph One ~~~~~~~~ */}
-            <motion.p variants={textVariant}
-                      transition={{duration: 1.5, delay: 3.5}}
-                      className="BioText" >
+            <motion.p 
+                variants={textVariant}
+                transition={{ duration: 1.5, }} 
+                      className="BioText" 
+            >
                 I made the unfortunate decision to go down the path of computer science back in July of 2024.
                 Even though I do have experience with C and Python (even spending 2 months to develop a rhythm game), 
                 I dug myself a deeper hole by now investing my time in the world of Frontend Web Development.
@@ -45,7 +51,7 @@ export default function Bio() {
             {/* ~~~~~~~~ Paragraph Two ~~~~~~~~ */}
             <motion.p
                 variants={textVariant}
-                transition={{duration: 1.5, delay: 3.5}} 
+                transition={{ duration: 1.5, }} 
                 className="BioText"
             >
                 Anyhow, This site will mainly serve as a showcase of ongoing and finished projects.
@@ -54,7 +60,6 @@ export default function Bio() {
                 <motion.a 
                     whileHover={{ fontSize: "18.8px" }}
                     whileTap={{ fontSize: "17px" }}
-                    transition={{duration: 0.4}}
                     href="https://www.youtube.com/@alternyxx"
                     className="Youtube"
                 >
@@ -91,7 +96,7 @@ export default function Bio() {
                                     y: 0,
                                 }
                       }}
-                      transition={{duration: 1.5, delay: 4}}
+                      transition={{ duration: 1.5 }}
                       className="BioNote"
             >
                 (You can press ↵ Enter to skip entry :P)
