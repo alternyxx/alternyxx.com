@@ -8,6 +8,7 @@ export default function IndivTechnology(props: any) {
                                     y: 0,
                                 } 
                              }}
+                    whileHover={{ scale: 1.02 }}
                     initial="hidden"
                     whileInView="show"
                     className="IndivTechnology" >

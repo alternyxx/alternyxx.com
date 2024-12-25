@@ -8,28 +8,72 @@ fn vertexMain(@location(0) pos: vec2f) ->
     return vec4f(pos.x, pos.y, 0, 1);
 }
 
-// https://stackoverflow.com/questions/15276454/is-it-possible-to-draw-line-thickness-in-a-fragment-shader
-// sry im not smart enough to do basic things ;-;
-fn distanceToLine(p1: vec2f, p2: vec2f, point: vec2f) -> f32 {
-    let a = p1.y-p2.y;
-    let b = p2.x-p1.x;
-    return abs(a * point.x + b * point.y + p1.x * p2.y - p2.x * p1.y) / sqrt( a * a + b * b);
+fn palette(t: f32) -> vec3f { 
+    let a = vec3f(0.731, 1.098, 0.192); 
+    let b = vec3f(0.358, 1.090, 0.657); 
+    let c = vec3f(1.077, 0.360, 0.328); 
+    let d = vec3f(0.965, 2.265, 0.837); 
+    return a + b * cos(6.28318 * (c * t + d)); 
+} 
+
+fn rand(p: f32) -> f32 {
+    var a = fract(p * vec2f(247.6199, 146.69));
+    a += dot(a, a+ 37.191);
+    return fract(a.x*a.y);
+}
+
+fn rand2(p: f32) -> f32 {
+    var a = fract(p * vec2f(184.189, 196.09));
+    a += dot(a, a + 21.19);
+    return fract(a.x*a.y);
 }
 
 fn shape(pixelCords: vec2f) -> vec3f {
     var c = length(pixelCords);
-    c = 0.006 / c;
+    c = smoothstep(0.0, 0.4, 0.001 / c);
+    // c = 0.0015 / c;
 
-    var l = 0.0;
+    var l = vec3f(0.0, 0.0, 0.0);
     if (pixelCords.y < 0.002 && pixelCords.y > -0.002 && pixelCords.x > -0.45 && pixelCords.x < 0) {
-        l = 1.0;
+        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
     }
 
-    var s = mix(vec3f(0.0), vec3f(1.0, 1.0, 1.0), c);
+    let diag = vec2f(pixelCords.x + 0.45, pixelCords.y);
+    if (diag.x <= 0 && diag.x >= -0.2) {
+        var dy = diag.x * 0.8;
+        if (diag.y >= dy - 0.002 && diag.y <= dy + 0.002) {
+            l = palette(abs(fract(pixelCords.x * pixelCords.y * 20))) + diag.x * 8;
+        }
+    }
+
+    var s = mix(vec3f(0.0, 0.0, 0.002), vec3f(1.0), c);
     s += l;
-    s *= abs(sin(iTime / 2));
     return s;
 }
+
+fn shape2(pixelCords: vec2f) -> vec3f {
+    var c = length(pixelCords);
+    c = smoothstep(0.0, 0.8, 0.003 / c);
+    // c = 0.0015 / c;
+
+    var l = vec3f(0.0, 0.0, 0.0);
+    if (pixelCords.y < 0.2 && pixelCords.y > 0.01 && pixelCords.x > -0.45 && pixelCords.x < -0.1) {
+        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
+    }
+
+    let diag = vec2f(pixelCords.x, pixelCords.y);
+    if (diag.x <= 0 && diag.x >= -0.1) {
+        var dy = -diag.x * 0.8;
+        if (diag.y >= dy - 0.002 && diag.y <= dy + 0.002) {
+            l = palette(abs(fract(pixelCords.x * pixelCords.y * 20)));
+        }
+    }
+
+    var s = mix(vec3f(0.0, 0.0, 0.00), vec3f(1.0), c);
+    s += l;
+    return s;
+}
+
 
 @fragment
 fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
@@ -41,8 +85,29 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     uv.y = uv.y * 2 - 1;
 
     // ~~~ The cool stuff ~~~ //
-    let s1 = shape(vec2f(uv.x - tan(iTime / 20) * 2.4, uv.y)); 
+    var color = vec3f(0.0);
+    for (var i = 0.0; i < 1; i += 0.05) {
+        let randInt = rand(i);
+        let mov = iTime * randInt * 0.1;
+        let randY = randInt * 1.8 - 0.9;
+        let randX = fract(randInt * 31.8) * 4.0 - 2.0;
 
-    let fragColor = s1;
+        let wrappedX = (uv.x + randX - mov) % 4.0;
+
+        color += shape(vec2f(wrappedX, uv.y + randY));
+    }
+
+    // for (var i = 0.0; i < 1; i += 0.05) {
+    //     let randInt = rand2(i);
+    //     let mov = iTime * randInt * 0.1;
+    //     let randY = randInt * 1.8 - 0.9;
+    //     let randX = fract(randInt * 31.8) * 4.0 - 2.0;
+
+    //     let wrappedX = (uv.x + randX - mov) % 4.0;
+
+    //     color += shape2(vec2f(wrappedX, uv.y + randY));
+    // }
+
+    let fragColor = color;
     return vec4f(fragColor * iOpacity, iOpacity);
 }

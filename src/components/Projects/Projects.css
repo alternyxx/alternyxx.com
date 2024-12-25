@@ -2,15 +2,21 @@
     position: absolute;
     top: 280%;
     left: 12%;
+    right: 16%;
+    color: #FFFFFF;
 }
 
 .ProjectsHeading {
     font-size: 32px;
-    font-weight: 600;
-    color: #FFFFFF;
+    font-weight: 800;
 }
+
 .ProjectName {
-    font-size: 26px;
-    font-weight: 500;
-    color: #FFFFFF;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.ProjectDescription {
+    font-size: 18px;
+    margin-bottom: 0px;
 }

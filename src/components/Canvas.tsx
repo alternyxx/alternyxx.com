@@ -3,6 +3,9 @@ import { MotionValue } from "motion/react"
 import Entry from "./shaders/Entry.wgsl?raw"
 import StageOne from "./shaders/StageOne.wgsl?raw"
 import StageTwo from "./shaders/StageTwo.wgsl?raw"
+import StageThree from "./shaders/StageThree.wgsl?raw"
+
+const stages = [Entry, StageOne, StageTwo, StageThree];
 
 interface Canvas {
     width: number
@@ -16,7 +19,7 @@ export default function Canvas(props: Canvas) {
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
     const loopRef = useRef<number>(0);
-    // const opacity = useRef(0.0);
+    const prevStageTime = useRef<number>(0);
 
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
@@ -80,19 +83,7 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(vertexBuffer, 0, Screen);
 
-        var shaderCode;
-        if (props.stage === 0) {
-            shaderCode = Entry;
-        }
-        else if (props.stage === 1) {
-            shaderCode = StageOne;
-        }
-        else if (props.stage === 2) {
-            shaderCode = StageTwo;
-        }
-        else {
-            return;
-        }
+        var shaderCode = stages[props.stage];
 
         const ShaderModule = props.device.createShaderModule({
             label: "Shader Module",
@@ -168,14 +159,13 @@ export default function Canvas(props: Canvas) {
             }]
         });
 
-        
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
         function frame(currentTime: number) {
             // ~~~ Adjusting input values ~~~ //
-            iTime[0] = currentTime / 1000;
-
+            iTime[0] = currentTime / 1000 - prevStageTime.current;
+            
             props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
-    
+            
             const encoder = props.device.createCommandEncoder();
 
             const pass = encoder.beginRenderPass({
@@ -191,29 +181,35 @@ export default function Canvas(props: Canvas) {
             pass.setVertexBuffer(0, vertexBuffer);
             pass.setBindGroup(0, iBindGroups);
             pass.draw(Screen.length / 2);
-
+            
             pass.end();
-
+            
             props.device.queue.submit([encoder.finish()]);
             
             if (iOpacity[0] < 1) {
                 if (iOpacity[0] > 0.95) {
                     iOpacity[0] = 1;
                 }
+                else if (iOpacity[0] == 0) {
+                    prevStageTime.current = currentTime / 1000;
+                    console.log(prevStageTime.current);
+                    iOpacity[0] += 0.0125;
+                }
                 else {
                     iOpacity[0] += 0.0125;
                 }
                 props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
             }
+            
             loopRef.current = requestAnimationFrame(frame);
         }
-        
-        loopRef.current = requestAnimationFrame(frame);
 
+        loopRef.current = requestAnimationFrame(frame);
+        
         return () => window.cancelAnimationFrame(loopRef.current);
     }, [props.stage]);
     
-
+    
     // Return canvas
     return (
         <canvas 

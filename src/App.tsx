@@ -32,7 +32,7 @@ export default function App(props: App) {
 				(scrollY < 0.25) ? 1 :
 				(scrollY < 0.70) ? 2 :
 				(scrollY < 0.90) ? 3 : 
-				4
+				3
 			);
 		}
 		// console.log(stage);

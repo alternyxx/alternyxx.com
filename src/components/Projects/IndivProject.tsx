@@ -1,12 +1,16 @@
 interface IndivProject {
-    ProjectName: string
+    projectName: string
+    description: string
 }
 
 export default function IndivProject(props: IndivProject) {
     return (
         <div className="IndivProject">
             <p className="ProjectName">
-                {props.ProjectName}
+                {props.projectName}
+            </p>
+            <p className="ProjectDescription">
+                {props.description}
             </p>
         </div>
     )

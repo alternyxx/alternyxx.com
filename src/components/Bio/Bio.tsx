@@ -36,7 +36,7 @@ export default function Bio() {
             <motion.p variants={textVariant}
                       transition={{duration: 1.5, delay: 3.5}}
                       className="BioText" >
-                Name's Nyx! I made the unfortunate decision to go down the path of computer science back in July of 2024.
+                I made the unfortunate decision to go down the path of computer science back in July of 2024.
                 Even though I do have experience with C and Python (even spending 2 months to develop a rhythm game), 
                 I dug myself a deeper hole by now investing my time in the world of Frontend Web Development.
             </motion.p>
