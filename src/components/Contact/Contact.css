@@ -1,3 +1,4 @@
+/* ~~~ For mobile phones ~~~ */
 .Contact {
     position: absolute;
     /* top: 260%; */
@@ -34,5 +35,12 @@
     margin-top: 50px;
     color: #FFFFFF;
     font-size: 20px;
-    margin-left: 900px;
+    margin-left: 100px;
+}
+
+/* ~~~ For PC devices ~~~ */
+@media only screen and (min-width: 768px) {
+    .Email {
+        margin-left: 900px;
+    }
 }

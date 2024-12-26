@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { isMobile } from "react-device-detect"
 import "./Bio.css"
 
 const textVariant = { 
@@ -10,6 +11,19 @@ const textVariant = {
 };
                     
 export default function Bio() {
+    // This should probably be in a useEffect?
+    // But this should never be getting rerendered
+    let fontSizes = {whileHoverFontSize: "", whileTapFontSize: ""};
+    if (isMobile) {
+        // this literally doesnt seem to matter
+        fontSizes.whileHoverFontSize = "13px";
+        fontSizes.whileTapFontSize = "13px";
+    }
+    else {
+        fontSizes.whileHoverFontSize = "18.8px";
+        fontSizes.whileTapFontSize = "17px";
+    }
+
     return (
         <motion.div 
             variants={
@@ -58,8 +72,8 @@ export default function Bio() {
                 I'll try my best to create dev logs as blogs here and finished showcases on&nbsp;
 
                 <motion.a 
-                    whileHover={{ fontSize: "18.8px" }}
-                    whileTap={{ fontSize: "17px" }}
+                    whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
+                    whileTap={{ fontSize: fontSizes.whileTapFontSize }}
                     href="https://www.youtube.com/@alternyxx"
                     className="Youtube"
                 >
@@ -69,8 +83,8 @@ export default function Bio() {
                 If you really liked the entry, I kept it as a standalone at&nbsp;
                 
                 <motion.a 
-                    whileHover={{ fontSize: "18.8px" }}
-                    whileTap={{ fontSize: "17.2px" }}
+                    whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
+                    whileTap={{ fontSize: fontSizes.whileTapFontSize }}
                     href="https://static.alternyxx.com"
                     className="Hyperlink"
                 >
@@ -80,8 +94,8 @@ export default function Bio() {
                 . And finally, the source code for the entirety of this site can be found on my github at&nbsp;
 
                 <motion.a 
-                    whileHover={{ fontSize: "18.8px" }}
-                    whileTap={{ fontSize: "17px" }}
+                    whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
+                    whileTap={{ fontSize: fontSizes.whileTapFontSize }}
                     href="https://github.com/alternyxx/alternyxx.com"
                     className="Hyperlink"
                 >

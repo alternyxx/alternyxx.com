@@ -8,6 +8,7 @@
     left: 2px;
 }
 
+/* ~~~ For PC devices ~~~ */
 @media only screen and (min-width: 768px) {
     .Entry {
         font-size: 34px;

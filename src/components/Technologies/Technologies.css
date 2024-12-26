@@ -2,17 +2,17 @@
 .Technologies {
     position: absolute;
     top: 123%;
-    left: 12%
+    left: 6%
 }
 
 .TechnologiesHeading {
-    font-size: 32px;
+    font-size: 20px;
     font-weight: 600;
     color: #FFFFFF;
 }
 
 .TechnologiesSubHeading {
-    font-size: 26px;
+    font-size: 16px;
     color: #FFFFFF;
 }
 
@@ -21,27 +21,27 @@
     align-content: space-around;
     flex-wrap: wrap;
     row-gap: 20px;
-    column-gap: 40px;
+    column-gap: 10px;
     margin-bottom: 80px;
 }
 
 .IndivTechnology {
     margin-left: 2px;
     background: rgba(50, 50, 50, 0.18);
-    border-radius: 30px;
-    padding: 8px;
+    border-radius: 20px;
+    padding: 4px;
     display: flex;
-    width: 320px;
+    width: 170px;
 }
 
 .TechnologyImg {
     background: rgba(20, 20, 40, 0.8);
-    padding: 10px;
+    padding: 8px;
     border-radius: 15px;
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 5px;
 }
 
 .TechnologyText {
@@ -51,15 +51,78 @@
 .TechnologyName {
     position: relative;
     color: #FFFFFF;
-    margin-top: 20px;
+    margin-top: 12px;
     margin-bottom: 0px;
-    font-size: 32px;
+    font-size: 16px;
     font-weight: 600;
 }
 
 .TechnologyDescription {
     position: relative;
+    font-size: 9px;
     margin-top: 0px;
     color: #555555;
     font-weight: 600;
+}
+
+
+/* ~~~ For PC devices ~~~ */
+@media only screen and (min-width: 768px) {
+    .Technologies {
+        top: 123%;
+        left: 12%
+    }
+
+    .TechnologiesHeading {
+        font-size: 32px;
+    }
+
+    .TechnologiesSubHeading {
+        font-size: 26px;
+    }
+
+    .IndivTechnologies {
+        display: flex;
+        align-content: space-around;
+        flex-wrap: wrap;
+        row-gap: 20px;
+        column-gap: 40px;
+        margin-bottom: 120px;
+    }
+    
+    .IndivTechnology {
+        margin-left: 2px;
+        background: rgba(50, 50, 50, 0.18);
+        border-radius: 30px;
+        padding: 8px;
+        display: flex;
+        width: 320px;
+    }
+    
+    .TechnologyImg {
+        background: rgba(20, 20, 40, 0.8);
+        padding: 10px;
+        border-radius: 15px;
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+
+    .TechnologyText {
+        margin-left: 0px;
+    }
+    
+    .TechnologyName {
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        font-size: 32px;
+    }
+    
+    .TechnologyDescription {
+        font-size: 16px;
+        position: relative;
+        margin-top: 0px;
+    }
 }
