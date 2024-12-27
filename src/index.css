@@ -7,9 +7,10 @@ html, body {
 ::-webkit-scrollbar {
     width: 10px;
 }
-  
 
 .App {
+    position: absolute;
+    color: #FFFFFF;
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;

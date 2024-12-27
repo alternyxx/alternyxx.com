@@ -35,11 +35,12 @@ export default function App(props: App) {
 				3
 			);
 		}
-		// console.log(stage);
-	})
+	});
 
 	// Custom hook to skip entry if enter is pressed
 	useSkip(stage, setStage);
+
+	console.log(window.innerWidth);
 
 	return (
 		<>

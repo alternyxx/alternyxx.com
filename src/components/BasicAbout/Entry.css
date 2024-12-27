@@ -1,18 +1,17 @@
 /* ~~~ For mobile phones ~~~ */
 .Entry {
-    position: absolute;
+    position: fixed;
     color: #FFFFFF;
     font-size: 18px;
     margin-left: 3%;
-    top: 33%;
-    left: 2px;
+    top: 30%;
 }
 
 /* ~~~ For PC devices ~~~ */
 @media only screen and (min-width: 768px) {
     .Entry {
-        font-size: 34px;
-        left: 3%;
-        top: 33%;
+        font-size: 20px;
+        margin-left: 3%;
+        top: 30%;
     }
 }

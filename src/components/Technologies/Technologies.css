@@ -1,8 +1,8 @@
 /* ~~~ For mobile phones ~~~ */
 .Technologies {
-    position: absolute;
-    top: 123%;
-    left: 6%
+    position: relative;
+    margin-top: 20%;
+    margin-left: 6%
 }
 
 .TechnologiesHeading {
@@ -69,8 +69,8 @@
 /* ~~~ For PC devices ~~~ */
 @media only screen and (min-width: 768px) {
     .Technologies {
-        top: 123%;
-        left: 12%
+        margin-top: 20%;
+        margin-left: 12%
     }
 
     .TechnologiesHeading {
