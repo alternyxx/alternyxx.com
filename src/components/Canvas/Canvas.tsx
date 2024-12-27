@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MotionValue } from "motion/react"
 
 import Entry from "./shaders/Entry.wgsl?raw"
@@ -10,8 +10,6 @@ const stages = [Entry, StageOne, StageTwo, StageThree];
 
 
 interface Canvas {
-    width: number,
-    height: number,
     stage: number
     scroll: MotionValue<number>
     device: GPUDevice
@@ -20,9 +18,13 @@ interface Canvas {
 export default function Canvas(props: Canvas) {
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
+    const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
+
     const loopRef = useRef<number>(0);
     const prevStageTime = useRef<number>(0);
 
+
+    // Canvas hook
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
         const context = canvas.current.getContext("webgpu");
@@ -48,7 +50,8 @@ export default function Canvas(props: Canvas) {
         ]);
 
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
-        const iResolution = new Float32Array([props.width, props.height]);
+        // ~~~ Resolution ~~~ //
+        const iResolution = new Float32Array([windowWidthHeight[0], windowWidthHeight[1]]);
         const iResolutionBuffer = props.device.createBuffer({
             label: "iResolution",
             size: iResolution.byteLength,
@@ -57,6 +60,17 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(iResolutionBuffer, 0, iResolution);
 
+        // ~~~ Browser Resize Event ~~~ //
+		const handleResize = () => {
+            props.device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
+                window.innerWidth, window.innerHeight
+            ]));
+			setWindowWidthHeight([window.innerWidth, window.innerHeight]);
+		};
+
+		window.addEventListener("resize", handleResize);
+
+        // ~~~ Time passed ~~~ //
         const iTime = new Float32Array([0]);
         const iTimeBuffer = props.device.createBuffer({
             label: "iTIme",
@@ -65,7 +79,8 @@ export default function Canvas(props: Canvas) {
         });
 
         props.device.queue.writeBuffer(iTimeBuffer, 0, iTime);
-
+    
+        // ~~~ Opacity ~~~ //
         const iOpacity = new Float32Array([0]);
         const iOpacityBuffer = props.device.createBuffer({
             label: "iOpacity",
@@ -162,7 +177,7 @@ export default function Canvas(props: Canvas) {
         });
 
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
-        function frame(currentTime: number) {
+        const frame = (currentTime: number) => {
             // ~~~ Adjusting input values ~~~ //
             iTime[0] = currentTime / 1000 - prevStageTime.current;
             
@@ -208,15 +223,21 @@ export default function Canvas(props: Canvas) {
 
         loopRef.current = requestAnimationFrame(frame);
         
-        return () => window.cancelAnimationFrame(loopRef.current);
-    }, [props.width, props.height, props.stage]);
-    
+        return () => {
+            // Unmount event listeners
+            window.removeEventListener("resize", handleResize);
+
+            // Cancel animation from previous render
+            window.cancelAnimationFrame(loopRef.current);
+        };
+    }, [props.stage]);    
     
     // Return canvas
     return (
         <canvas 
-            width={ props.width }
-            height={ props.height } 
+            width={ windowWidthHeight[0] }
+            // - 1 is to disable scroll in entry
+            height={ windowWidthHeight[1] - 1 } 
             ref={canvas}
             className="Canvas" >
         </canvas>

@@ -17,7 +17,6 @@ interface App {
 
 export default function App(props: App) {
 	const [stage, setStage] = useState(0);
-	const [windowWidthHeight, setWidthHeight] = useState([window.innerWidth, window.innerHeight]);
 	const [darkMode, setDarkMode] = useState(false);
 
   	const { scrollYProgress } = useScroll();
@@ -36,14 +35,6 @@ export default function App(props: App) {
         }
 
         document.addEventListener("keydown", keyDown);
-
-
-		// ~~~ Browser Resize Event ~~~ //
-		const handleResize = () => {
-			setWidthHeight([window.innerWidth, window.innerHeight]);
-		};
-
-		window.addEventListener("resize", handleResize);
 
 
 		// ~~~ Browser light mode/dark mode change ~~~ //
@@ -73,8 +64,6 @@ export default function App(props: App) {
 			// Entry skip 
 			document.removeEventListener("keydown", keyDown);
 
-			// Resize events
-			window.removeEventListener("resize", handleResize);
 			// You may realise there's no dark mode, its not necessary for unmounting i think
 		};
 
@@ -95,11 +84,10 @@ export default function App(props: App) {
 	return (
 		<>
 			{!props.warning && props.device && 
-			<Canvas width={ windowWidthHeight[0] }
-					height={ windowWidthHeight[1] - 1 }
-					scroll={ scrollYProgress }
-					stage={ stage } 
-					device={ props.device } />
+			<Canvas 
+				scroll={ scrollYProgress }
+				stage={ stage } 
+				device={ props.device } />
 			}
 
 			<div className="App">
