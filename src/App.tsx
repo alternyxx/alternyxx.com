@@ -11,7 +11,7 @@ import Contact from "./components/Contact/Contact"
 import Projects from "./components/Projects/Projects"
 
 interface App {
-  	device: GPUDevice | undefined,
+  	device: GPUDevice | undefined
   	warning: boolean
 }
 
@@ -64,7 +64,7 @@ export default function App(props: App) {
 			// Entry skip 
 			document.removeEventListener("keydown", keyDown);
 
-			// You may realise there's no dark mode, its not necessary for unmounting i think
+			// You may realise there's no unmount for media query, its not necessary for unmounting i think
 		};
 
 	}, []);
@@ -85,12 +85,13 @@ export default function App(props: App) {
 		<>
 			{!props.warning && props.device && 
 			<Canvas 
-				scroll={ scrollYProgress }
-				stage={ stage } 
-				device={ props.device } />
+				scroll={scrollYProgress}
+				darkMode={darkMode}
+				stage={stage} 
+				device={props.device} />
 			}
 
-			<div className="App">
+			<div className="App" style={{color: darkMode ? "#F6F7F9" : "#23272F"}}>
 				{ stage === 0 && <Entry /> }
 				{ stage > 0 &&
 				<>

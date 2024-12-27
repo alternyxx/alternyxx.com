@@ -1,6 +1,7 @@
 @group(0) @binding(0) var<uniform> iResolution: vec2f; 
 @group(0) @binding(1) var<uniform> iTime: f32; 
 @group(0) @binding(2) var<uniform> iOpacity: f32;
+@group(0) @binding(3) var<uniform> iLightDark: f32;
  
 @vertex 
 fn vertexMain(@location(0) pos: vec2f) -> 
@@ -28,7 +29,7 @@ fn palette(t: f32) -> vec3f {
 fn rings(pixelCords: vec2f) -> vec3f { 
     var r = length(pixelCords); 
     r = sin(r * 2 + iTime / 6) * 10; 
-    r = 5 / r; 
+    r = (5.0 + iLightDark * 4) / r;
     let color = palette(r); 
     return vec3f(abs(sin(iTime / 2))) * color * r; 
 } 
@@ -51,8 +52,8 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     var d = length(uvr1); 
     c = sin(c * 2 + iTime / 6) * 10; 
     d = sin(d * 2 + iTime / 6) * 10; 
-    c = 1.2 / c; 
-    d = 1.2 / d; 
+    c = 1.2 / c;
+    d = 1.2 / d;
     let c1 = palette(abs(c)); 
     let d1 = palette(abs(d)); 
     let color1 = vec3f(abs(sin(iTime / 2))) * diagonal(uv, d1, c1, 1.2) * d; 
@@ -64,6 +65,7 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     let color5 = rings(vec2f(uv.x + 3, uv.y + 2)); 
  
     var fragColor = color1 * color2 * color3 * color4; 
+    fragColor = iLightDark - fragColor;
 
     return vec4f(fragColor * iOpacity, iOpacity); 
 }

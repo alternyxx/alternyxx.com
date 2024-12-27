@@ -8,9 +8,9 @@ import StageThree from "./shaders/StageThree.wgsl?raw"
 
 const stages = [Entry, StageOne, StageTwo, StageThree];
 
-
 interface Canvas {
     stage: number
+    darkMode: boolean
     scroll: MotionValue<number>
     device: GPUDevice
 }
@@ -22,8 +22,6 @@ export default function Canvas(props: Canvas) {
 
     const loopRef = useRef<number>(0);
     const prevStageTime = useRef<number>(0);
-
-
     // Canvas hook
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
@@ -69,6 +67,17 @@ export default function Canvas(props: Canvas) {
 		};
 
 		window.addEventListener("resize", handleResize);
+
+        // ~~~ Light Mode / Dark Mode ~~~ //
+        const iLightDark = new Float32Array(props.darkMode ? [0.0] : [1.0]);
+        const iLightDarkBuffer = props.device.createBuffer({
+            label: "iLightDark",
+            size: iLightDark.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+        });
+
+        props.device.queue.writeBuffer(iLightDarkBuffer, 0, iLightDark);
+
 
         // ~~~ Time passed ~~~ //
         const iTime = new Float32Array([0]);
@@ -132,6 +141,10 @@ export default function Canvas(props: Canvas) {
                 binding: 2,
                 visibility: GPUShaderStage.FRAGMENT,
                 buffer: {}
+            }, {
+                binding: 3,
+                visibility: GPUShaderStage.FRAGMENT,
+                buffer: {}
             }]
         });
 
@@ -173,6 +186,9 @@ export default function Canvas(props: Canvas) {
             }, {
                 binding: 2,
                 resource: { buffer: iOpacityBuffer }
+            }, {
+                binding: 3,
+                resource: { buffer: iLightDarkBuffer }
             }]
         });
 
@@ -203,6 +219,8 @@ export default function Canvas(props: Canvas) {
             
             props.device.queue.submit([encoder.finish()]);
             
+            // I could prob ultra optimise this and put this is 
+            // a seperate custom event but i aint getting paid at all
             if (iOpacity[0] < 1) {
                 if (iOpacity[0] > 0.95) {
                     iOpacity[0] = 1;
@@ -230,7 +248,7 @@ export default function Canvas(props: Canvas) {
             // Cancel animation from previous render
             window.cancelAnimationFrame(loopRef.current);
         };
-    }, [props.stage]);    
+    }, [props.stage, props.darkMode]);    
     
     // Return canvas
     return (

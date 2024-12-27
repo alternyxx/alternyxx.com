@@ -10,7 +10,7 @@ html, body {
 
 .App {
     position: absolute;
-    color: #FFFFFF;
+    color: #F6F7F9;
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -22,21 +22,6 @@ html, body {
     z-index: -10;
 }
 
-/* .test {
-    background-color: #FF0000;
-    height: 20000px;
-    z-index: -12;
-}
-
-.h1 {
-    font-size: 48px;
-    color: #FF0000;
-} */
-
-.Hyperlink:link {
+.Hyperlink {
     color: #1da8f2;
-}
-
-.Hyperlink:visited {
-    color: #1DA8F2;
 }

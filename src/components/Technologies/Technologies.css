@@ -8,12 +8,10 @@
 .TechnologiesHeading {
     font-size: 20px;
     font-weight: 600;
-    color: #FFFFFF;
 }
 
 .TechnologiesSubHeading {
     font-size: 16px;
-    color: #FFFFFF;
 }
 
 .IndivTechnologies {
@@ -50,7 +48,6 @@
 
 .TechnologyName {
     position: relative;
-    color: #FFFFFF;
     margin-top: 12px;
     margin-bottom: 0px;
     font-size: 16px;

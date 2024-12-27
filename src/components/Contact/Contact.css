@@ -8,13 +8,11 @@
 }
 
 .ContactHeading {
-    color: #FFFFFF;
     font-size: 32px;
     font-weight: 600;
 }
 
 .ContactText {
-    color: #FFFFFF;
     font-size: 20px;
     margin-bottom: 0px;
     margin-top: 0px;
@@ -33,7 +31,6 @@
 
 .Email {
     margin-top: 50px;
-    color: #FFFFFF;
     font-size: 20px;
     margin-left: 100px;
 }

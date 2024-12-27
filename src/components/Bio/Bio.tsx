@@ -46,7 +46,7 @@ export default function Bio() {
                 transition={{ duration: 1.5, }} 
                 className="BioHeader"
             >
-                A Quick <span className="BioColor">Bio </span>ツ
+                A Quick Bio ツ
             </motion.p>
 
 
