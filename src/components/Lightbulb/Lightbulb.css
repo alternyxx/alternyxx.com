@@ -1,0 +1,10 @@
+.Lightbulb {
+    position: absolute;
+    z-index: 10;
+    left: 86%;
+}
+
+.LightbulbImg {
+    width: 120px;
+    height: 120px;
+}

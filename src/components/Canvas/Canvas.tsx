@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { MotionValue } from "motion/react"
+
 import Entry from "./shaders/Entry.wgsl?raw"
 import StageOne from "./shaders/StageOne.wgsl?raw"
 import StageTwo from "./shaders/StageTwo.wgsl?raw"
@@ -7,9 +8,10 @@ import StageThree from "./shaders/StageThree.wgsl?raw"
 
 const stages = [Entry, StageOne, StageTwo, StageThree];
 
+
 interface Canvas {
-    width: number
-    height: number
+    width: number,
+    height: number,
     stage: number
     scroll: MotionValue<number>
     device: GPUDevice
@@ -207,7 +209,7 @@ export default function Canvas(props: Canvas) {
         loopRef.current = requestAnimationFrame(frame);
         
         return () => window.cancelAnimationFrame(loopRef.current);
-    }, [props.stage]);
+    }, [props.width, props.height, props.stage]);
     
     
     // Return canvas

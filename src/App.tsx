@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { useSkip } from "./components/useSkip"
 import { useScroll, useMotionValueEvent } from "motion/react"
 
-import Canvas from "./components/Canvas"
-import Entry from "./components/BasicAbout/Entry"
+import Canvas from "./components/Canvas/Canvas"
+import Entry from "./components/Entry/Entry"
+import Lightbulb from "./components/Lightbulb/Lightbulb"
 import Hej from "./components/Hej/Hej"
 import Bio from "./components/Bio/Bio"
 import Technologies from "./components/Technologies/Technologies"
@@ -17,13 +17,68 @@ interface App {
 
 export default function App(props: App) {
 	const [stage, setStage] = useState(0);
+	const [windowWidthHeight, setWidthHeight] = useState([window.innerWidth, window.innerHeight]);
+	const [darkMode, setDarkMode] = useState(false);
 
   	const { scrollYProgress } = useScroll();
 
-  	// This hook is entirely for entry and to transition
   	useEffect(() => {
-    	setTimeout(() => setStage(1), 10000);
-  	}, []);
+		// ~~~ For entry transition ~~~ //
+    	const timeOut = setTimeout(() => setStage(1), 10000);
+		
+
+		// ~~~ Enter button to skip entry ~~~ //
+		const keyDown = (key: KeyboardEvent) => {
+            if (stage === 0 && key.key === "Enter") {
+                key.preventDefault();
+                setStage(1);
+            }
+        }
+
+        document.addEventListener("keydown", keyDown);
+
+
+		// ~~~ Browser Resize Event ~~~ //
+		const handleResize = () => {
+			setWidthHeight([window.innerWidth, window.innerHeight]);
+		};
+
+		window.addEventListener("resize", handleResize);
+
+
+		// ~~~ Browser light mode/dark mode change ~~~ //
+		// https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/change_event
+		let darkMediaQuery;
+		if (window.matchMedia) {
+			darkMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+			if (darkMediaQuery.matches) {
+				setDarkMode(true);
+			}
+
+			darkMediaQuery.onchange = (mode) => {
+				if (mode.matches) {
+					setDarkMode(true);
+				} else {
+					setDarkMode(false);
+				}
+			};
+		}
+
+
+		// ~~~ Clean up ~~~ //
+		return () => {
+			// Entry transition
+			clearTimeout(timeOut);
+			
+			// Entry skip 
+			document.removeEventListener("keydown", keyDown);
+
+			// Resize events
+			window.removeEventListener("resize", handleResize);
+			// You may realise there's no dark mode, its not necessary for unmounting i think
+		};
+
+	}, []);
 
 	// Hook to set stage depending on scrollYProgress
 	useMotionValueEvent(scrollYProgress, "change", (scrollY) => {
@@ -37,23 +92,24 @@ export default function App(props: App) {
 		}
 	});
 
-	// Custom hook to skip entry if enter is pressed
-	useSkip(stage, setStage);
-
-	console.log(window.innerWidth);
-
 	return (
 		<>
 			{!props.warning && props.device && 
-			<Canvas width={ window.innerWidth }
-					height={ window.innerHeight - 1 }
+			<Canvas width={ windowWidthHeight[0] }
+					height={ windowWidthHeight[1] - 1 }
 					scroll={ scrollYProgress }
 					stage={ stage } 
-					device={ props.device } />}
+					device={ props.device } />
+			}
+
 			<div className="App">
 				{ stage === 0 && <Entry /> }
 				{ stage > 0 &&
 				<>
+					<Lightbulb 
+						darkMode={darkMode}
+						setDarkMode={setDarkMode}
+					/>
 					<Hej />
 					<Bio />
 					<Technologies />
