@@ -1,40 +1,56 @@
-import { useState, useEffect } from "react"
+import { ReactElement, useState, useEffect, useRef } from "react"
 import { motion } from "motion/react"
 import "./Entry.css"
 
 export default function Entry() {
-    const [y, setY] = useState<string>('');
+    const [typewriterPos, setTypewriterPos] = useState<number>(1);
 
+    const [text, setText] = useState<Array<string | ReactElement>>("A 15 year old with way too much time.".split(''));
+    
+    const typewriterTimer = useRef<number>(0);
+    const yTimer = useRef<number>(0);
+
+    // Adding Ys to the text
     useEffect(() => {
-        var interval = 1800;
-
-        function addingYs() {
-            interval -= 300;
-            setY(prev => {
-                return prev + 'y';
+        const twInterval = 500;
+        var yInterval = 1800;
+        
+        const typeWriter = () => {
+            setText(prev => {
+                var prevText = [...prev]; 
             })
+        };
 
-            if (interval > 0) {
-                setTimeout(addingYs, interval);
+
+        const addingYs = () => {
+            yInterval *= 0.75;
+            setText(prev => {
+                var prevText = [...prev];
+                prevText[21] += 'y';
+                return prevText;
+            });
+
+            if (yInterval > 70) {
+                yTimer.current = setTimeout(addingYs, yInterval);
             }
-        }
-        const timer = setTimeout(addingYs, interval)
+        };
+        yTimer.current = setTimeout(addingYs, yInterval);
 
         return () => {
-            clearTimeout(timer);
-        }
+            clearTimeout(yTimer.current);
+        };
     }, []);
 
     return (
         <motion.div className="Entry">
             <motion.h1 
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 0 }}
-                transition={{ duration: 1.5, delay: 7, ease: "linear" }}
-                className="EntryText"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 1.5, delay: 7, ease: "linear" }}
+            className="EntryText"
             >
-                A 15 year old with way{y} too much time.
+                {text}
             </motion.h1>
         </motion.div>
-    )
+    );
 }
