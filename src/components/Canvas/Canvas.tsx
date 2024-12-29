@@ -20,8 +20,14 @@ export default function Canvas(props: Canvas) {
 
     const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
 
+    const lightDarkTransition = useRef<number>(0);
     const loopRef = useRef<number>(0);
     const prevStageTime = useRef<number>(0);
+
+    // Custom events
+    const lightDark = new Event("lightDark");
+
+
     // Canvas hook
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
@@ -69,7 +75,8 @@ export default function Canvas(props: Canvas) {
 		window.addEventListener("resize", handleResize);
 
         // ~~~ Light Mode / Dark Mode ~~~ //
-        const iLightDark = new Float32Array(props.darkMode ? [0.0] : [1.0]);
+        var ldVal = props.darkMode ? 0.0 : 1.0
+        const iLightDark = new Float32Array([ldVal]);
         const iLightDarkBuffer = props.device.createBuffer({
             label: "iLightDark",
             size: iLightDark.byteLength,
@@ -77,6 +84,30 @@ export default function Canvas(props: Canvas) {
         });
 
         props.device.queue.writeBuffer(iLightDarkBuffer, 0, iLightDark);
+
+        // ~~~ Light Mode / Dark Mode Switch ~~~ //
+        const handleLightDark = () => {
+            var ld: number;
+            if (ldVal >= 1.0) {
+                ld = -0.1
+            } else {
+                ld = 0.1;
+            }
+            const write = () => {
+                ldVal += ld;
+                props.device.queue.writeBuffer(iLightDarkBuffer, 0, new Float32Array([
+                    ldVal
+                ]));
+
+                if (ldVal < 1 && ldVal > 0) {
+                    lightDarkTransition.current = setTimeout(write, 80);
+                }
+            };
+
+            lightDarkTransition.current = setTimeout(write, 80); 
+        };
+
+        document.addEventListener("lightDark", handleLightDark);
 
 
         // ~~~ Time passed ~~~ //
@@ -194,7 +225,7 @@ export default function Canvas(props: Canvas) {
 
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
         const frame = (currentTime: number) => {
-            // ~~~ Adjusting input values ~~~ //
+            // ~~~ Adjusting input time ~~~ //
             iTime[0] = currentTime / 1000 - prevStageTime.current;
             
             props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
@@ -221,13 +252,12 @@ export default function Canvas(props: Canvas) {
             
             // I could prob ultra optimise this and put this is 
             // a seperate custom event but i aint getting paid at all
-            if (iOpacity[0] < 1) {
+            if (iOpacity[0] < 1.0) {
                 if (iOpacity[0] > 0.95) {
-                    iOpacity[0] = 1;
+                    iOpacity[0] = 1.0;
                 }
-                else if (iOpacity[0] == 0) {
+                else if (iOpacity[0] == 0.0) {
                     prevStageTime.current = currentTime / 1000;
-                    console.log(prevStageTime.current);
                     iOpacity[0] += 0.0125;
                 }
                 else {
@@ -244,11 +274,19 @@ export default function Canvas(props: Canvas) {
         return () => {
             // Unmount event listeners
             window.removeEventListener("resize", handleResize);
+            document.removeEventListener("lightDark", handleLightDark);
+
+            // Cancel some things
+            clearTimeout(lightDarkTransition.current);
 
             // Cancel animation from previous render
             window.cancelAnimationFrame(loopRef.current);
         };
-    }, [props.stage, props.darkMode]);    
+    }, [props.stage]);
+    
+    useEffect(() => {
+        document.dispatchEvent(lightDark);
+    }, [props.darkMode]);
     
     // Return canvas
     return (

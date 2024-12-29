@@ -47,6 +47,7 @@ export default function App(props: App) {
 			}
 
 			darkMediaQuery.onchange = (mode) => {
+				console.log("this should not be logged")
 				if (mode.matches) {
 					setDarkMode(true);
 				} else {

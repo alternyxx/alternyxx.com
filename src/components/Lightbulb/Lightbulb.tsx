@@ -1,8 +1,10 @@
+import { useState, useEffect, MouseEvent } from "react";
 import { motion } from "motion/react"
 
-import svg from "../../assets/haj.jpg"
+import Handle from "../../assets/DarkHandle.png"
+import Bulb from "../../assets/DarkBulb.png"
+
 import "./Lightbulb.css"
-import { MouseEvent } from "react";
 
 interface LightDark {
     darkMode: boolean,
@@ -10,12 +12,12 @@ interface LightDark {
 }
 
 export default function LightDark(props: LightDark) {
+    const [inversion, setInversion] = useState(100);
+    
     const handleClick = (event: MouseEvent) => {
         event.preventDefault();
         props.setDarkMode((prev: boolean) => !prev);
-        console.log(props.darkMode);
     };
-
 
     return (
         <motion.div className="Lightbulb">
@@ -23,8 +25,14 @@ export default function LightDark(props: LightDark) {
                 href="#"
                 onClick={handleClick}
             >
+                <motion.img
+                    src={Handle}
+                    className="LightbulbImg"
+                />
                 <motion.img 
-                    src={svg} 
+                    whileHover={{scale: 1.05}}
+                    whileTap={{scale: 0.96}}
+                    src={Bulb} 
                     alt="Lightbulb"
                     aria-label="Lightbulb to change light mode and dark mode"
                     className="LightbulbImg"
