@@ -47,7 +47,6 @@ export default function App(props: App) {
 			}
 
 			darkMediaQuery.onchange = (mode) => {
-				console.log("this should not be logged")
 				if (mode.matches) {
 					setDarkMode(true);
 				} else {
@@ -92,7 +91,10 @@ export default function App(props: App) {
 				device={props.device} />
 			}
 
-			<div className="App" style={{color: darkMode ? "#F6F7F9" : "#23272F"}}>
+			<div className="App" style={{
+				backgroundColor: darkMode ? "#000000" : "#FFFFFF",
+				color: darkMode ? "#F6F7F9" : "#23272F"
+			}}>
 				{ stage === 0 && <Entry /> }
 				{ stage > 0 &&
 				<>
