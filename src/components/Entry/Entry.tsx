@@ -12,31 +12,61 @@ export default function Entry() {
 
     // Adding Ys to the text
     useEffect(() => {
+        const typewriter = (
+            <>
+                <motion.span 
+                    animate={{
+                        opacity: [0, 0, 1, 1],
+                        transition: {
+                            duration: 1,
+                            repeat: 4,
+                            repeatDelay: 0,
+                            ease: "linear",
+                            times: [0, 0.5, 0.5, 1]
+                        }
+                    }}
+                    className="Typewriter"
+                >
+                    &nbsp;
+                </motion.span>
+                &nbsp;        
+            </>
+        );
+
         const twInterval = 500;
         var yInterval = 1800;
         
         const typeWriter = () => {
             setText(prev => {
-                var prevText = [...prev]; 
-            })
+                var update = [...prev];
+                update[22] = typewriter;
+                return update;
+            });
         };
+        typewriterTimer.current = setTimeout(typeWriter, twInterval);
 
 
+        // ~~~ Add Ys ~~~ //
         const addingYs = () => {
+            if (yInterval == 1800) {
+                clearTimeout(typewriterTimer.current);
+            }
             yInterval *= 0.75;
             setText(prev => {
-                var prevText = [...prev];
-                prevText[21] += 'y';
-                return prevText;
+                var update = [...prev];
+                update[21] += 'y';
+                return update;
             });
 
             if (yInterval > 70) {
                 yTimer.current = setTimeout(addingYs, yInterval);
             }
         };
-        yTimer.current = setTimeout(addingYs, yInterval);
+        yTimer.current = setTimeout(addingYs, 5000);
 
+        // ~~~ Clean up ~~~ //
         return () => {
+            clearTimeout(typewriterTimer.current)
             clearTimeout(yTimer.current);
         };
     }, []);
@@ -46,7 +76,7 @@ export default function Entry() {
             <motion.h1 
             initial={{ opacity: 1 }}
             animate={{ opacity: 0 }}
-            transition={{ duration: 1.5, delay: 7, ease: "linear" }}
+            transition={{ duration: 1.5, delay: 11.2, ease: "linear" }}
             className="EntryText"
             >
                 {text}

@@ -1,11 +1,93 @@
+/* ~~~~~~~~~~~~ For mobile phones ~~~~~~~~~~~~ */
+.LightbulbText {
+    position: absolute;
+    z-index: 8;
+    margin-top: 205px;
+    left: 64%;
+    opacity: 20%;
+}
+
+.LightbulbMainText {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 0px;
+    padding: 0
+}
+
+.LightbulbNote {
+    margin-top: 0px;
+    margin-right: 20px;
+    font-size: 8px;
+}
+
+.LightbulbHandle {
+    position: absolute;
+    z-index: 9;
+    left: 80%;
+    width: 56px;
+}
+
 .Lightbulb {
     position: absolute;
     z-index: 10;
-    left: 86%;
+    left: 80%;
 }
+
 
 .LightbulbImg {
     position: absolute;
-    width: 84px;
-    height: 450px;
+    width: 56px;
+}
+
+
+/* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
+@media only screen and (min-width: 768px) {
+    .Lightbulb {
+        top: -5%;
+    }
+
+    .LightbulbText {
+        position: absolute;
+        z-index: 8;
+        margin-top: 290px;
+        left: 82%;
+        opacity: 20%;
+    }
+    
+    .LightbulbMainText {
+        margin-top: 0px;
+        font-size: 38px;
+        font-weight: 800;
+        margin-bottom: 0px;
+        padding: 0
+    }
+    
+    .LightbulbNote {
+        margin-top: 0px;
+        margin-right: 20px;
+        margin-bottom: 0px;
+        font-size: 16px;
+    }
+    
+    .LightbulbHandle {
+        position: absolute;
+        z-index: 9;
+        left: 91%;
+        width: 84px;
+        height: 450px
+    }
+    
+    .Lightbulb {
+        position: absolute;
+        z-index: 10;
+        left: 91%;
+    }
+    
+    
+    .LightbulbImg {
+        position: absolute;
+        width: 84px;
+        height: 450px;
+    }    
 }

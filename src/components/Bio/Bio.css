@@ -1,16 +1,14 @@
-/* ~~~ For mobile phones ~~~ */
+/* ~~~~~~~~~~~~ For mobile phones ~~~~~~~~~~~~ */
 .Bio {
     position: relative;
-    margin-left: 12%;
-    margin-right: 16%;
+    margin-left: 4%;
+    margin-right: 6%;
 }
 
 .BioHeader {
+    font-weight: 800;
     font-size: 20px;
-}
-
-.BioColor {
-    color: #FFFFFF;
+    margin-left: 20px;
 }
 
 .BioText {
@@ -24,21 +22,26 @@
     /* text-decoration: none; */
 }
 
+.Youtube:hover {
+    color: #DD3333;
+}
+
 .BioNote {
     font-size: 8px;
     text-align: center;
     color: #555555;
 }
 
-/* ~~~ For PC devices ~~~ */
+/* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
 @media only screen and (min-width: 768px) {
     .Bio {
-        top: 45%;
+        margin-left: 10.3%;
+        margin-right: 7%;
     }
 
     .BioHeader {
-        font-weight: 800;
         font-size: 32px;
+        margin-left: 0px;
     }
 
     .BioText {

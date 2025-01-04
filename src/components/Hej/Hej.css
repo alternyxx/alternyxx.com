@@ -1,27 +1,26 @@
-/* ~~~ For mobile phones ~~~ */
+/* ~~~~~~~~~~~~ For mobile phones ~~~~~~~~~~~~ */
 .Hej {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 140px 40px;
-    margin-top: 5%;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 160px 40px;
+    margin-top: 7%;
     width: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
 }
 
 .HejAvatar {
     border-radius: 150px;
-    box-shadow: 5px 5px #111111;
     grid-column: 2 / 3;
-    width: 140px;
-    height: 140px;
+    width: 150px;
+    height: 150px;
 }
 
 .HejText {
     font-size: 14px;
     font-weight: 600;
-    grid-column: 3 / 6;
-    padding-top: 0px;
+    grid-column: 3 / 8;
+    padding-top: 10px;
     margin-top: 38px;
     margin-left: 30px;
 }
@@ -31,32 +30,35 @@
 }
 
 .HejHandle {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 500;
     color: #444444;
     grid-column: 2;
     grid-row: 2;
-    margin-left: 50px;
+    margin-left: 40px;
     margin-top: 8px;
 }
 
+/* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
 @media only screen and (min-width: 768px) {
     .Hej {
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(9, 1fr);
         grid-template-rows: 240px 40px;
-        margin-top: 2%;
+        margin-top: 2.5%;
+        padding-bottom: 10px;
     }
     
     .HejAvatar {
+        grid-column: 2 / 3;
         width: 240px;
         height: 240px;
     }
     
     .HejText {
         font-size: 24px;
-        grid-column: 3 / 8;
+        grid-column: 3 / 9;
         margin-left: 50px;
-        margin-top: 100px;
+        margin-top: 100px;  
     }
 
     .HejHandle {

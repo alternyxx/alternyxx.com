@@ -1,15 +1,13 @@
 /* ~~~ For mobile phones ~~~ */
 .Entry {
     position: fixed;
-    color: #FFFFFF;
-    font-size: 18px;
+    font-size: 14px;
     margin-left: 3%;
-    top: 30%;
+    top: 27%;
 }
 
 .Typewriter {
-    font-size: 16px;
-    font-weight: 100;
+    background-color: #F6F7F9;
 }
 
 /* ~~~ For PC devices ~~~ */
@@ -18,10 +16,5 @@
         font-size: 20px;
         margin-left: 2%;
         top: 30%;
-    }
-
-    .Typewriter {
-        font-size: 52px;
-        font-weight: 100;
     }
 }

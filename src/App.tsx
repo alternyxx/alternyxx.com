@@ -23,7 +23,7 @@ export default function App(props: App) {
 
   	useEffect(() => {
 		// ~~~ For entry transition ~~~ //
-    	const timeOut = setTimeout(() => setStage(1), 10000);
+    	const timeOut = setTimeout(() => setStage(1), 13200);
 		
 
 		// ~~~ Enter button to skip entry ~~~ //
@@ -32,7 +32,7 @@ export default function App(props: App) {
                 key.preventDefault();
                 setStage(1);
             }
-        }
+        };
 
         document.addEventListener("keydown", keyDown);
 
@@ -66,7 +66,6 @@ export default function App(props: App) {
 
 			// You may realise there's no unmount for media query, its not necessary for unmounting i think
 		};
-
 	}, []);
 
 	// Hook to set stage depending on scrollYProgress
@@ -92,7 +91,6 @@ export default function App(props: App) {
 			}
 
 			<div className="App" style={{
-				backgroundColor: darkMode ? "#000000" : "#FFFFFF",
 				color: darkMode ? "#F6F7F9" : "#23272F"
 			}}>
 				{ stage === 0 && <Entry /> }
@@ -102,12 +100,15 @@ export default function App(props: App) {
 						darkMode={darkMode}
 						setDarkMode={setDarkMode}
 					/>
-					<Hej />
-					<Bio />
-					<Technologies />
-					{/* <Socials /> */}
+					{ stage === 1 && 
+					<>
+						<Hej />
+						<Bio />
+					</>
+					}
 					<Projects />
-					<Contact />
+					<Technologies />
+					{/* <Contact /> */}
 				</> }
 			</div>
 		</>

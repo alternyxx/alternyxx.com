@@ -25,7 +25,7 @@ export default function Bio() {
     }
 
     return (
-        <motion.div 
+        <motion.section
             variants={
                 { 
                     hidden: {opacity: 0, y: 50},
@@ -49,7 +49,7 @@ export default function Bio() {
                 A Quick Bio ツ
             </motion.p>
 
-
+            
             {/* ~~~~~~~~ Paragraph One ~~~~~~~~ */}
             <motion.p 
                 variants={textVariant}
@@ -58,7 +58,7 @@ export default function Bio() {
             >
                 I made the unfortunate decision to go down the path of computer science back in July of 2024.
                 Even though I do have experience with C and Python (even spending 2 months to develop a rhythm game), 
-                I dug myself a deeper hole by now investing my time in the world of Frontend Web Development.
+                I dug myself a deeper hole by investing my time in the world of web development starting from November.
             </motion.p>
 
 
@@ -91,6 +91,7 @@ export default function Bio() {
                     https://static.alternyxx.com
                 </motion.a>
 
+                {/* two spaces here for linebreak on my device, i know, i am a shitty dev */}
                 . And finally, the source code for the entirety of this site can be found on my github at&nbsp;
 
                 <motion.a 
@@ -115,6 +116,6 @@ export default function Bio() {
             >
                 (You can press ↵ Enter to skip entry :P)
             </motion.p>
-        </motion.div>
+        </motion.section>
     );
 }

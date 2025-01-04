@@ -17,9 +17,9 @@ fn palette(t: f32) -> vec3f {
 } 
 
 fn rand(p: f32) -> f32 {
-    var a = fract(p * vec2f(247.6199, 146.69));
-    a += dot(a, a+ 37.191);
-    return fract(a.x*a.y);
+    // var a = fract(p * vec2f(247.6199, 146.69));
+    // a += dot(a, a+ 37.191);
+    return fract(p * 1348.1);
 }
 
 fn shape(pixelCords: vec2f) -> vec3f {
@@ -86,7 +86,7 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
         let randY = randInt * 1.8 - 0.9;
         let randX = fract(randInt * 31.8) * 4.0 - 2.0;
 
-        let wrappedX = (uv.x + randX - mov) % 4.0;
+        let wrappedX = (uv.x + randX - iTime * rand(i)) % 4.0;
 
         color += shape(vec2f(wrappedX, uv.y + randY));
     }
