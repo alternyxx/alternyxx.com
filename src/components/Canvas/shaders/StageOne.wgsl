@@ -65,6 +65,8 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     let color5 = rings(vec2f(uv.x + 3, uv.y + 2)); 
  
     var fragColor = color1 * color2 * color3 * color4; 
+    
+    // pls think of a better way
     fragColor = iLightDark - fragColor;
 
     return vec4f(fragColor * iOpacity, iOpacity); 

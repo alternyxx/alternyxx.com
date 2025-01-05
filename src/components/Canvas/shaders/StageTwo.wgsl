@@ -1,6 +1,7 @@
 @group(0) @binding(0) var<uniform> iResolution: vec2f;
 @group(0) @binding(1) var<uniform> iTime: f32;
 @group(0) @binding(2) var<uniform> iOpacity: f32;
+@group(0) @binding(3) var<uniform> iLightDark: f32;
 
 @vertex
 fn vertexMain(@location(0) pos: vec2f) ->
@@ -108,6 +109,7 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     //     color += shape2(vec2f(wrappedX, uv.y + randY));
     // }
 
-    let fragColor = color;
+    var fragColor = color;
+    fragColor = iLightDark - fragColor;
     return vec4f(fragColor * iOpacity, iOpacity);
 }

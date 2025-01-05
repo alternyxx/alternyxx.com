@@ -1,5 +1,6 @@
-import { useState, MouseEvent, ReactElement } from "react"
+import { useState, useEffect, useRef, MouseEvent, ReactElement } from "react"
 import { motion } from "motion/react"
+import haj from "../../assets/haj.jpg"
 
 import ProjectMedia from "./ProjectMedia"
 
@@ -10,30 +11,35 @@ interface IndivProject {
 }
 
 export default function IndivProject(props: IndivProject) {
-    const [currentImages, setCurrentImages] = useState([0, 1]);
+    const [currentImages, setCurrentImages] = useState(0);
+
+    const lastImage = useRef<HTMLDivElement>(null);
+    const nextImage = useRef<HTMLDivElement>(null);
 
     const images: ReactElement[] = props.images.map<ReactElement>((image, index) => {
-        console.log(currentImages)
-        console.log("bruv")
-        console.log(currentImages)
         return (
             <ProjectMedia
                 media={image}
-                type="ProjectImage"
+                type="ProjectSideElement"
+                reference={
+                    index === currentImages + 1 ? nextImage 
+                    : index === currentImages - 1 ? lastImage
+                    : null}
             />
         );
     });
 
     const topArrow = (e: MouseEvent) => {
         e.preventDefault();
-        console.log(currentImages)
-        setCurrentImages(prev => prev.map(num => num - 1));
+        setCurrentImages(prev => prev - 1);
+        lastImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
     };
 
     const bottomArrow = (e: MouseEvent) => {
         e.preventDefault();
-        setCurrentImages(prev => prev.map(num => num + 1));
-    }
+        setCurrentImages(prev => prev + 1);
+        nextImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+    };
 
     return (
         <motion.div className="IndivProject">
@@ -47,30 +53,28 @@ export default function IndivProject(props: IndivProject) {
             { /* ~~~~~~~~ Media ~~~~~~~~ */ }
             <motion.div className="ProjectShowcase">
                 { /* ~~~~~~~~ Video ~~~~~~~~ */ }
-                <motion.img
-                    src={props.images[0]}
-                    className="ProjectVideo"
+                <ProjectMedia
+                    media={props.images[0]}
+                    type="ProjectMainElement"
                 />
                 { /* ~~~~~~~~ Arrows ~~~~~~~~ */ }
-                <motion.div className="ProjectArrows">
-                        <a href="#" onClick={topArrow} className="ProjectTopArrow">
-                            <motion.img
-                                src={props.images[0]}
-                                className="ProjectTopArrowImage"
-                            />
-                        </a>
-                        <a href="#" onClick={bottomArrow} className="ProjectBottomArrow">
-                            <motion.img
-                                src={props.images[0]}
-                                className="ProjectBottomArrowImage"
-                            />
-                        </a>
-                </motion.div>
+                {/* <motion.div className="ProjectArrows"> */}
+                <a href="#" onClick={topArrow} className="ProjectTopArrow">
+                    <motion.img
+                        src={props.images[0]}
+                        className="ProjectArrowImage"
+                    />
+                </a>
+                <a href="#" onClick={bottomArrow} className="ProjectBottomArrow">
+                    <motion.img
+                        src={props.images[0]}
+                        className="ProjectArrowImage"
+                    />
+                </a>
                 { /* ~~~~~~~~ Images ~~~~~~~~ */ }
-                <motion.div className="ProjectShowcaseLeft" 
-
-                    
-
+                <motion.div className="ProjectSideElements" >
+                    {images}
+                </motion.div>
             </motion.div>
         </motion.div>
     );

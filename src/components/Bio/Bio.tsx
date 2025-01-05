@@ -2,8 +2,25 @@ import { motion } from "motion/react"
 import { isMobile } from "react-device-detect"
 import "./Bio.css"
 
-const textVariant = { 
+const sectionVariants = { 
     hidden: {opacity: 0, y: 50},
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { staggerChildren: 0.5, delayChildren: 1.0, }
+    } 
+};
+
+const textVariants = { 
+    hidden: {opacity: 0, y: 50},
+    show: {
+        opacity: 1,
+        y: 0,
+    }
+};
+
+const noteVarients = {
+    hidden: {opacity: 0, y: 30},
     show: {
         opacity: 1,
         y: 0,
@@ -12,7 +29,6 @@ const textVariant = {
                     
 export default function Bio() {
     // This should probably be in a useEffect?
-    // But this should never be getting rerendered
     let fontSizes = {whileHoverFontSize: "", whileTapFontSize: ""};
     if (isMobile) {
         // this literally doesnt seem to matter
@@ -26,23 +42,14 @@ export default function Bio() {
 
     return (
         <motion.section
-            variants={
-                { 
-                    hidden: {opacity: 0, y: 50},
-                    show: {
-                        opacity: 1,
-                        y: 0,
-                    transition: { staggerChildren: 0.5, delayChildren: 1.0, }
-                    } 
-                }
-            }
+            variants={sectionVariants}
             initial="hidden"
             animate="show" 
             className="Bio"
         >  
             {/* ~~~~~~~~ Header ~~~~~~~~ */}
             <motion.p 
-                variants={textVariant}
+                variants={textVariants}
                 transition={{ duration: 1.5, }} 
                 className="BioHeader"
             >
@@ -52,19 +59,23 @@ export default function Bio() {
             
             {/* ~~~~~~~~ Paragraph One ~~~~~~~~ */}
             <motion.p 
-                variants={textVariant}
+                variants={textVariants}
                 transition={{ duration: 1.5, }} 
                       className="BioText" 
-            >
-                I made the unfortunate decision to go down the path of computer science back in July of 2024.
-                Even though I do have experience with C and Python (even spending 2 months to develop a rhythm game), 
-                I dug myself a deeper hole by investing my time in the world of web development starting from November.
+            >   
+                    Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
+                I started my journey by learning C and Python. I spent hours a day, working on various problem sets
+                during my free time, balancing my life with my studies and this newfound 'hobby'. 
+                    Then in November, I stumbled upon web development. Though, this site isn't quite traditional.
+                You may have noticed the background is quite special. A site called <span>shadertoy</span> had piqued 
+                my interest. While I'm of nowhere near as creative nor talented as those people, I still tried to create 
+                this site as a showcase of all my abilities and a culmination of my interests!
             </motion.p>
 
 
             {/* ~~~~~~~~ Paragraph Two ~~~~~~~~ */}
             <motion.p
-                variants={textVariant}
+                variants={textVariants}
                 transition={{ duration: 1.5, }} 
                 className="BioText"
             >
@@ -80,7 +91,7 @@ export default function Bio() {
                     Youtube
                 </motion.a>. 
 
-                If you really liked the entry, I kept it as a standalone at&nbsp;
+                If you really like any of the 'shaders', I kept them as a standalone without any html at&nbsp;
                 
                 <motion.a 
                     whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
@@ -91,7 +102,6 @@ export default function Bio() {
                     https://static.alternyxx.com
                 </motion.a>
 
-                {/* two spaces here for linebreak on my device, i know, i am a shitty dev */}
                 . And finally, the source code for the entirety of this site can be found on my github at&nbsp;
 
                 <motion.a 
@@ -101,18 +111,16 @@ export default function Bio() {
                     className="Hyperlink"
                 >
                     https://github.com/alternyxx/alternyxx.com
-                </motion.a>.
+                </motion.a>
+                
+                . Thanks for the visit!
             </motion.p>
             
             {/* ~~~~~~~~ Note ~~~~~~~~ */}
-            <motion.p variants={{ hidden: {opacity: 0, y: 30},
-                                  show: {
-                                    opacity: 1,
-                                    y: 0,
-                                }
-                      }}
-                      transition={{ duration: 1.5 }}
-                      className="BioNote"
+            <motion.p 
+                variants={noteVarients}
+                transition={{ duration: 1.5 }}
+                className="BioNote"
             >
                 (You can press ↵ Enter to skip entry :P)
             </motion.p>

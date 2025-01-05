@@ -94,6 +94,7 @@ export default function App(props: App) {
 				color: darkMode ? "#F6F7F9" : "#23272F"
 			}}>
 				{ stage === 0 && <Entry /> }
+				{/* why is this conditionally rendered and not whileInView?, idk */}
 				{ stage > 0 &&
 				<>
 					<Lightbulb 

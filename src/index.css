@@ -30,3 +30,11 @@ html, body {
 .Hyperlink:hover {
     color: #1d77c9;
 }
+
+.Youtube {
+    color: #FF4444;
+}
+
+.Youtube:hover {
+    color: #DD3333;
+}
