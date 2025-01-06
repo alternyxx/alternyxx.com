@@ -11,34 +11,39 @@ interface IndivProject {
 }
 
 export default function IndivProject(props: IndivProject) {
-    const [currentImages, setCurrentImages] = useState(0);
+    const [images, setImages] = useState<ReactElement[]>();
+    const [currentImage, setCurrentImages] = useState(0);
 
     const lastImage = useRef<HTMLDivElement>(null);
     const nextImage = useRef<HTMLDivElement>(null);
 
-    const images: ReactElement[] = props.images.map<ReactElement>((image, index) => {
-        return (
-            <ProjectMedia
-                media={image}
-                type="ProjectSideElement"
-                reference={
-                    index === currentImages + 1 ? nextImage 
-                    : index === currentImages - 1 ? lastImage
-                    : null}
-            />
-        );
-    });
+    useEffect(() => {
+        setImages(props.images.map<ReactElement>((image, index) => {
+            return (
+                <ProjectMedia
+                    media={image}
+                    key={index}
+                    type="ProjectSideElement"
+                    reference={
+                        index === currentImage + 2 ? nextImage 
+                        : index === currentImage - 1 ? lastImage
+                        : null}
+                    last={lastImage}
+                />
+            );
+        }));
+    }, [currentImage])
 
     const topArrow = (e: MouseEvent) => {
         e.preventDefault();
-        setCurrentImages(prev => prev - 1);
         lastImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+        setCurrentImages(prev => prev - 1);
     };
 
     const bottomArrow = (e: MouseEvent) => {
         e.preventDefault();
-        setCurrentImages(prev => prev + 1);
         nextImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+        setCurrentImages(prev => prev + 1);
     };
 
     return (
@@ -54,7 +59,8 @@ export default function IndivProject(props: IndivProject) {
             <motion.div className="ProjectShowcase">
                 { /* ~~~~~~~~ Video ~~~~~~~~ */ }
                 <ProjectMedia
-                    media={props.images[0]}
+                    media={props.images[currentImage]}
+                    key={-1}
                     type="ProjectMainElement"
                 />
                 { /* ~~~~~~~~ Arrows ~~~~~~~~ */ }
