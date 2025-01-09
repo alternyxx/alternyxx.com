@@ -1,5 +1,7 @@
-import { useState, MouseEvent } from "react";
+import { useContext, useState, MouseEvent } from "react";
 import { motion, useScroll, useSpring, useMotionValueEvent } from "motion/react"
+
+import { DarkModeContext } from "../../common/context";
 
 import Handle from "../../assets/DarkHandle.png"
 import Bulb from "../../assets/DarkBulb.png"
@@ -7,18 +9,19 @@ import Bulb from "../../assets/DarkBulb.png"
 import "./Lightbulb.css"
 
 interface LightDark {
-    darkMode: boolean
-    setDarkMode: any
+    setDarkMode: Function
 }
 
 export default function LightDark(props: LightDark) {
+    const darkMode = useContext(DarkModeContext);
+
     const [handle, setHandle] = useState<number>(0);
     const { scrollY } = useScroll();
 
     const scroll = useSpring(scrollY);
 
     useMotionValueEvent(scrollY, "change", current => {
-        if (current > window.innerHeight) {
+        if (current === window.innerHeight) {
             // set to window height
             scroll.set(window.innerHeight);
         } else {
@@ -36,7 +39,7 @@ export default function LightDark(props: LightDark) {
         <>
             <motion.div
                 className="LightbulbText"
-                style={{ color: props.darkMode ? "#777777" : "#888888"}}
+                style={{ color: darkMode ? "#777777" : "#888888"}}
             >
                 <motion.p className="LightbulbMainText">
                     | Lighting
@@ -53,7 +56,7 @@ export default function LightDark(props: LightDark) {
                 src={Handle}
                 className="LightbulbHandle"
                 style={{
-                    filter: `invert(${props.darkMode ? 0 : 100}%)`,
+                    filter: `invert(${darkMode ? 0 : 100}%)`,
                     top: handle
                 }}
             />
@@ -69,7 +72,7 @@ export default function LightDark(props: LightDark) {
                     <motion.img
                         src={Handle}
                         className="LightbulbImg"
-                        style={{filter: `invert(${props.darkMode ? 0 : 100}%)`}}
+                        style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
                     />
                     <motion.img 
                         whileHover={{scale: 1.05}}
@@ -78,7 +81,7 @@ export default function LightDark(props: LightDark) {
                         alt="Lightbulb"
                         aria-label="Lightbulb to change light mode and dark mode"
                         className="LightbulbImg"
-                        style={{filter: `invert(${props.darkMode ? 0 : 100}%)`}}
+                        style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
                     />
                 </motion.a>
             </motion.div>

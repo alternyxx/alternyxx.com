@@ -11,6 +11,7 @@ html, body {
 .App {
     position: absolute;
     color: #F6F7F9;
+    height: 350vh;
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;

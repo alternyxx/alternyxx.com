@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react"
 import { useScroll, useMotionValueEvent } from "motion/react"
 
+import { DarkModeContext } from "./common/context"
+
 import Canvas from "./components/Canvas/Canvas"
 import Entry from "./components/Entry/Entry"
 import Lightbulb from "./components/Lightbulb/Lightbulb"
 import Hej from "./components/Hej/Hej"
 import Bio from "./components/Bio/Bio"
-import Technologies from "./components/Technologies/Technologies"
-import Contact from "./components/Contact/Contact"
 import Projects from "./components/Projects/Projects"
+import Technologies from "./components/Technologies/Technologies"
+import Footer from "./components/Footer/Footer"
 
 interface App {
   	device: GPUDevice | undefined
@@ -22,23 +24,7 @@ export default function App(props: App) {
   	const { scrollYProgress } = useScroll();
 
   	useEffect(() => {
-		// ~~~ For entry transition ~~~ //
-    	const timeOut = setTimeout(() => setStage(1), 13200);
-		
-
-		// ~~~ Enter button to skip entry ~~~ //
-		const keyDown = (key: KeyboardEvent) => {
-            if (stage === 0 && key.key === "Enter") {
-                key.preventDefault();
-                setStage(1);
-            }
-        };
-
-        document.addEventListener("keydown", keyDown);
-
-
 		// ~~~ Browser light mode/dark mode change ~~~ //
-		// https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/change_event
 		let darkMediaQuery;
 		if (window.matchMedia) {
 			darkMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -54,18 +40,7 @@ export default function App(props: App) {
 				}
 			};
 		}
-
-
-		// ~~~ Clean up ~~~ //
-		return () => {
-			// Entry transition
-			clearTimeout(timeOut);
-			
-			// Entry skip 
-			document.removeEventListener("keydown", keyDown);
-
-			// You may realise there's no unmount for media query, its not necessary for unmounting i think
-		};
+		// You may realise there's no unmount for media query, its not necessary for unmounting i think
 	}, []);
 
 	// Hook to set stage depending on scrollYProgress
@@ -87,31 +62,31 @@ export default function App(props: App) {
 				scroll={scrollYProgress}
 				darkMode={darkMode}
 				stage={stage} 
-				device={props.device} />
+				device={props.device} 
+			/>
 			}
 
-			<div className="App" style={{
-				color: darkMode ? "#F6F7F9" : "#23272F"
-			}}>
-				{ stage === 0 && <Entry /> }
-				{/* why is this conditionally rendered and not whileInView?, idk */}
-				{ stage > 0 &&
-				<>
-					<Lightbulb 
-						darkMode={darkMode}
-						setDarkMode={setDarkMode}
-					/>
+			<DarkModeContext.Provider value={darkMode} >
+				{/* plz use conditional styling and not this */}
+				<div className="App" style={{
+					color: darkMode ? "#F6F7F9" : "#23272F",
+					textShadow: darkMode ? "1px 1px 2px #23272F" : "1px 1px 2px #F6F7F9",
+				}}>
+					{ stage === 0 && <Entry stage={stage} setStage={setStage} /> }
+					{/* why is this conditionally rendered and not whileInView?, idk */}
+					{ stage > 0 && <Lightbulb setDarkMode={setDarkMode} /> }
 					{ stage === 1 && 
 					<>
 						<Hej />
 						<Bio />
 					</>
 					}
-					<Projects />
-					<Technologies />
+					{ stage === 2 && <Projects /> }
+					{ stage === 3 && <Technologies /> }
 					{/* <Contact /> */}
-				</> }
-			</div>
+					<Footer />
+				</div>
+			</DarkModeContext.Provider>
 		</>
 	);
 	}

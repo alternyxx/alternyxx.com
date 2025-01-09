@@ -67,9 +67,16 @@ export default function Bio() {
                 I started my journey by learning C and Python. I spent hours a day, working on various problem sets
                 during my free time, balancing my life with my studies and this newfound 'hobby'. 
                     Then in November, I stumbled upon web development. Though, this site isn't quite traditional.
-                You may have noticed the background is quite special. A site called <span>shadertoy</span> had piqued 
-                my interest. While I'm of nowhere near as creative nor talented as those people, I still tried to create 
-                this site as a showcase of all my abilities and a culmination of my interests!
+                You may have noticed the background is quite special. A site called&nbsp;
+                <motion.a 
+                    href="https://shadertoy.com"
+                    className="Shadertoy"
+                >
+                    shadertoy
+                </motion.a> 
+                &nbsp;had piqued my interest. While I'm of nowhere near as
+                creative nor talented as those people, I still tried to create this site as a showcase of all my
+                abilities and a culmination of my interests!
             </motion.p>
 
 

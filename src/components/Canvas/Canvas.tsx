@@ -1,6 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { MotionValue } from "motion/react"
 
+// import { DarkModeContext } from "../../common/context";
+
+// vertices
+import { Screen } from "./vertices/Screen";
+import { Cube } from "./vertices/Cube";
+
+const vertices = [Screen, Screen, Cube, Screen];
+const verticesInfo = [2, 2, 3, 2];
+
+// shaders
 import Entry from "./shaders/Entry.wgsl?raw"
 import StageOne from "./shaders/StageOne.wgsl?raw"
 import StageTwo from "./shaders/StageTwo.wgsl?raw"
@@ -16,6 +26,8 @@ interface Canvas {
 }
 
 export default function Canvas(props: Canvas) {
+    // useContext will rerender the whole thing which is not what i want
+    // const darkMode = useContext(DarkModeContext);
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
     const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
@@ -42,16 +54,6 @@ export default function Canvas(props: Canvas) {
             // this doesnt seem to work
             alphaMode: 'premultiplied',
         });
-
-        const Screen = new Float32Array([
-           -1, -1,
-           -1,  1,
-            1,  1,
-
-           -1, -1,
-            1,  1,
-            1, -1,
-        ]);
 
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
         // ~~~ Resolution ~~~ //
@@ -133,12 +135,12 @@ export default function Canvas(props: Canvas) {
 
         // ~~~~~~~~~~ Vertex Buffer ~~~~~~~~~~ //
         const vertexBuffer = props.device.createBuffer({
-            label: "Basic About",
-            size: Screen.byteLength,
+            label: "Vertex Buffer",
+            size: vertices[props.stage].byteLength,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(vertexBuffer, 0, Screen);
+        props.device.queue.writeBuffer(vertexBuffer, 0, vertices[props.stage]);
 
         var shaderCode = stages[props.stage];
 
@@ -148,9 +150,9 @@ export default function Canvas(props: Canvas) {
         });
 
         const vertexBufferLayout: GPUVertexBufferLayout = {
-            arrayStride: 8,
+            arrayStride: verticesInfo[props.stage] * 4,
             attributes: [{
-                format: "float32x2",
+                format: `float32x${props.stage != 2 ? 2 : 3}`,
                 offset: 0,
                 shaderLocation: 0,
             }],
@@ -162,19 +164,19 @@ export default function Canvas(props: Canvas) {
             label: "Group Layouts",
             entries: [{
                 binding: 0,
-                visibility: GPUShaderStage.FRAGMENT,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
                 buffer: {}
             }, {
                 binding: 1,
-                visibility: GPUShaderStage.FRAGMENT,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
                 buffer: {}
             }, {
                 binding: 2,
-                visibility: GPUShaderStage.FRAGMENT,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
                 buffer: {}
             }, {
                 binding: 3,
-                visibility: GPUShaderStage.FRAGMENT,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
                 buffer: {}
             }]
         });
@@ -236,7 +238,7 @@ export default function Canvas(props: Canvas) {
                 colorAttachments: [{
                     view: context!.getCurrentTexture().createView(),
                     loadOp: "clear",
-                    clearValue: {r: 0, g: 0.7, b: 0.9, a: 1.0},
+                    clearValue: {r: ldVal, g: ldVal, b: ldVal, a: 1.0},
                     storeOp: "store",
                 }]
             });
@@ -244,7 +246,7 @@ export default function Canvas(props: Canvas) {
             pass.setPipeline(Pipeline);
             pass.setVertexBuffer(0, vertexBuffer);
             pass.setBindGroup(0, iBindGroups);
-            pass.draw(Screen.length / 2);
+            pass.draw(vertices[props.stage].length / verticesInfo[props.stage]);
             
             pass.end();
             

@@ -3,113 +3,46 @@
 @group(0) @binding(2) var<uniform> iOpacity: f32;
 @group(0) @binding(3) var<uniform> iLightDark: f32;
 
+const fNear = 0.1;
+const fFar = 1000.0;
+const fFov = 90.0;
+const fFovRad = 1.0 / tan(radians(fFov * 0.5));
+
 @vertex
-fn vertexMain(@location(0) pos: vec2f) ->
+fn vertexMain(@location(0) pos: vec3f) ->
     @builtin(position) vec4f {
-    return vec4f(pos.x, pos.y, 0, 1);
+    let fAspectRatio = iResolution.y / iResolution.x;
+
+    // Projection Matrix
+    let matProj = mat4x4f(vec4f(fAspectRatio * fFovRad, 0.0, 0.0, 0.0),
+                            vec4f(0.0, fFovRad, 0.0, 0.0),
+                            vec4f(0.0, 0.0, fFar / (fFar - fNear), (-fFar * fNear) / (fFar - fNear)),
+                            vec4f(0.0, 0.0, 1.0, 0.0));
+    // Rotate on the Z axis
+    let triRotatedZ = vec4f(pos.x, pos.y, pos.z, 1.0) * 
+                    mat4x4f(vec4f(cos(iTime * 0.4), -sin(iTime * 0.4), 0.0, 0.0),
+                            vec4f(sin(iTime * 0.4), cos(iTime * 0.4), 0.0, 0.0),
+                            vec4f(0.0, 0.0, 1.0, 0.0),
+                            vec4f(0.0, 0.0, 0.0, 1.0));
+    
+    // Rotate on the X axis
+    let triRotatedZX = triRotatedZ * 
+                        mat4x4f(vec4f(1.0, 0.0, 0.0, 0.0),
+                                vec4f(0.0, cos(iTime * 0.2), -sin(iTime * 0.2), 0.0),
+                                vec4f(0.0, sin(iTime * 0.2), cos(iTime * 0.2), 0.0),
+                                vec4f(0.0, 0.0, 0.0, 1.0));
+    
+    var triTranslated = triRotatedZX;
+    triTranslated.x += 1.0;
+    triTranslated.z += 1.0;
+    var triProjected = vec4f(triTranslated.x, triTranslated.y, triTranslated.z, 1.0) * matProj;
+
+    return triProjected;
 }
-
-fn palette(t: f32) -> vec3f { 
-    let a = vec3f(0.731, 1.098, 0.192); 
-    let b = vec3f(0.358, 1.090, 0.657); 
-    let c = vec3f(1.077, 0.360, 0.328); 
-    let d = vec3f(0.965, 2.265, 0.837); 
-    return a + b * cos(6.28318 * (c * t + d)); 
-} 
-
-fn rand(p: f32) -> f32 {
-    var a = fract(p * vec2f(247.6199, 146.69));
-    a += dot(a, a+ 37.191);
-    return fract(a.x*a.y);
-}
-
-fn rand2(p: f32) -> f32 {
-    var a = fract(p * vec2f(184.189, 196.09));
-    a += dot(a, a + 21.19);
-    return fract(a.x*a.y);
-}
-
-fn shape(pixelCords: vec2f) -> vec3f {
-    var c = length(pixelCords);
-    c = smoothstep(0.0, 0.4, 0.001 / c);
-    // c = 0.0015 / c;
-
-    var l = vec3f(0.0, 0.0, 0.0);
-    if (pixelCords.y < 0.002 && pixelCords.y > -0.002 && pixelCords.x > -0.45 && pixelCords.x < 0) {
-        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
-    }
-
-    let diag = vec2f(pixelCords.x + 0.45, pixelCords.y);
-    if (diag.x <= 0 && diag.x >= -0.2) {
-        var dy = diag.x * 0.8;
-        if (diag.y >= dy - 0.002 && diag.y <= dy + 0.002) {
-            l = palette(abs(fract(pixelCords.x * pixelCords.y * 20))) + diag.x * 8;
-        }
-    }
-
-    var s = mix(vec3f(0.0, 0.0, 0.002), vec3f(1.0), c);
-    s += l;
-    return s;
-}
-
-fn shape2(pixelCords: vec2f) -> vec3f {
-    var c = length(pixelCords);
-    c = smoothstep(0.0, 0.8, 0.003 / c);
-    // c = 0.0015 / c;
-
-    var l = vec3f(0.0, 0.0, 0.0);
-    if (pixelCords.y < 0.2 && pixelCords.y > 0.01 && pixelCords.x > -0.45 && pixelCords.x < -0.1) {
-        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
-    }
-
-    let diag = vec2f(pixelCords.x, pixelCords.y);
-    if (diag.x <= 0 && diag.x >= -0.1) {
-        var dy = -diag.x * 0.8;
-        if (diag.y >= dy - 0.002 && diag.y <= dy + 0.002) {
-            l = palette(abs(fract(pixelCords.x * pixelCords.y * 20)));
-        }
-    }
-
-    var s = mix(vec3f(0.0, 0.0, 0.00), vec3f(1.0), c);
-    s += l;
-    return s;
-}
-
 
 @fragment
-fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
-    var y = iResolution.y - fragCoord.y;
-    var uv = vec2f(fragCoord.x / iResolution.x, y / iResolution.y);
-    
-    // Some zoom and normalisation //
-    uv.x = (uv.x * 2 - 1) * (iResolution.x / iResolution.y);
-    uv.y = uv.y * 2 - 1;
-
-    // ~~~ The cool stuff ~~~ //
-    var color = vec3f(0.0);
-    for (var i = 0.0; i < 1; i += 0.05) {
-        let randInt = rand(i);
-        let mov = iTime * randInt * 0.1;
-        let randY = randInt * 1.8 - 0.9;
-        let randX = fract(randInt * 31.8) * 4.0 - 2.0;
-
-        let wrappedX = (uv.x + randX - mov) % 4.0;
-
-        color += shape(vec2f(wrappedX, uv.y + randY));
-    }
-
-    // for (var i = 0.0; i < 1; i += 0.05) {
-    //     let randInt = rand2(i);
-    //     let mov = iTime * randInt * 0.1;
-    //     let randY = randInt * 1.8 - 0.9;
-    //     let randX = fract(randInt * 31.8) * 4.0 - 2.0;
-
-    //     let wrappedX = (uv.x + randX - mov) % 4.0;
-
-    //     color += shape2(vec2f(wrappedX, uv.y + randY));
-    // }
-
-    var fragColor = color;
-    fragColor = iLightDark - fragColor;
+fn fragmentMain(@builtin(position) pos: vec4f) -> @location(0) vec4f {
+    let ld = 1 - iLightDark;
+    var fragColor = vec3f(ld);
     return vec4f(fragColor * iOpacity, iOpacity);
 }

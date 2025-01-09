@@ -2,7 +2,12 @@ import { ReactElement, useState, useEffect, useRef } from "react"
 import { motion } from "motion/react"
 import "./Entry.css"
 
-export default function Entry() {
+interface Entry {
+    stage: number
+    setStage: Function
+}
+
+export default function Entry(props: any) {
     const [typewriterPos, setTypewriterPos] = useState<number>(1);
 
     const [text, setText] = useState<Array<string | ReactElement>>("A 15 year old with way too much time.".split(''));
@@ -12,6 +17,19 @@ export default function Entry() {
 
     // Adding Ys to the text
     useEffect(() => {
+        const timeOut = setTimeout(() => props.setStage(1), 13200);
+
+        // ~~~ Enter button to skip entry ~~~ //
+		const keyDown = (key: KeyboardEvent) => {
+            // it doesnt hurt to check stage is 0
+            if (props.stage === 0 && key.key === "Enter") {
+                key.preventDefault();
+                props.setStage(1);
+            }
+        };
+
+        document.addEventListener("keydown", keyDown);
+
         const typewriter = (
             <>
                 <motion.span 
@@ -66,6 +84,14 @@ export default function Entry() {
 
         // ~~~ Clean up ~~~ //
         return () => {
+            // ~~~ Clean up ~~~ //
+			// Entry transition
+			clearTimeout(timeOut);
+
+            // Entry skip 
+			document.removeEventListener("keydown", keyDown);
+
+            // other animations
             clearTimeout(typewriterTimer.current)
             clearTimeout(yTimer.current);
         };

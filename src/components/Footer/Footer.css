@@ -1,0 +1,14 @@
+/* ~~~ For mobile phones ~~~ */
+.Footer {
+    position: absolute;
+    top: 350vh;
+    width: 100%;
+    background-color: #070707;
+}
+
+.FooterText {
+    margin-top: 20px;
+    margin-left: 11%;
+    font-size: 32px;
+    font-weight: 600;
+}

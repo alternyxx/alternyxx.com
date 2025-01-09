@@ -1,12 +1,12 @@
-import { useState, MouseEvent, RefObject } from "react";
+import { useState, MouseEvent } from "react";
 import { motion } from "motion/react";
 
 interface ProjectMedia {
     media: string
     key: number
     type: string
-    reference?: RefObject<HTMLDivElement> | null
-    last?: any
+    // im way too tired
+    reference?: any
 }
 
 export default function ProjectMedia(props: ProjectMedia) {
@@ -38,11 +38,24 @@ export default function ProjectMedia(props: ProjectMedia) {
                 </motion.div>
             }
             <motion.div
+                initial={{scale: 0}}
+                animate={{scale: 1}}
+                transition={{duration: 0.6}}
                 className="ProjectMedia" 
-                ref={props.reference} 
+                ref={props.reference ? props.reference : null} 
             >
-                <a href="#" onClick={handleClick} className={props.type}>
+                <a href="#" onClick={handleClick} >
                     <motion.img 
+                        whileHover={{
+                            scale: 1.01, 
+                            transition: {duration: 0.2},
+                            borderRadius: "20px",
+                        }}
+                        whileTap={{
+                            scale: 0.99,
+                            transition: {duration: 0.2},
+                            borderRadius: "45px",
+                        }}
                         src={props.media}
                         className={props.type}
                     />  

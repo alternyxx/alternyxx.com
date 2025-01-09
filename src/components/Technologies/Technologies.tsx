@@ -54,7 +54,7 @@ export default function Technologies() {
                 variants={elementVarient}
                 className="TechnologiesSubHeading"
             >
-                Frontend Developer With
+                Web development with
             </motion.p>
 
             {/* ~~~~~~~~ Techstack ~~~~~~~~ */}

@@ -5,39 +5,22 @@ import haj from "../../assets/haj.jpg"
 import "./Projects.css"
 import img from "../../assets/image.png"
 
-const sectionVariants = { 
-    hidden: {opacity: 0, y: 50},
-    show: {
-        opacity: 1,
-        y: 0,
-    transition: { staggerChildren: 0.5, }
-    } 
-};
-
-const textVariants = {
-    hidden: {opacity: 0, y: 50},
-    show: {
-        opacity: 1,
-        y: 0,
-    } 
-};
-
+// i'll make these a seperate folder down the line
 const Rhythm50Description = `
 Rhythm50 is a VSRG (Vertically Scrolling Rhythm Game) developed solely by me.
 It is developed in pygame-ce and was my submission for the final project of CS50P.
+Later down the line, when I have more free time, I plan to repurpose the game as
+a more fleshed-out rhythm game with my own custom music.
 `
 
 export default function Projects() {
     return (
         <motion.section 
-            variants={sectionVariants}
-            initial="hidden"
-            whileInView="show"
-            transition={{ duration: 1.5, }}
             className="Projects"
         >
             <motion.p 
-                variants={textVariants}
+                initial={{opacity: 0, y: 50}}
+                animate={{opacity: 1, y: 0,}}
                 transition={{ duration: 1.5, }}
                 className="ProjectsHeading"
             >

@@ -1,8 +1,36 @@
-import { useState, useEffect, useRef, MouseEvent, ReactElement } from "react"
+import { 
+    useContext, 
+    useState, 
+    useEffect, 
+    useRef, 
+    MouseEvent, 
+    ReactElement, 
+    RefObject 
+} from "react"
+
 import { motion } from "motion/react"
-import haj from "../../assets/haj.jpg"
+
+import { DarkModeContext } from "../../common/context"
 
 import ProjectMedia from "./ProjectMedia"
+import Arrow from "../../assets/Arrow.png"
+
+const mainVariants = { 
+    hidden: {opacity: 0, y: 50},
+    show: {
+        opacity: 1,
+        y: 0,
+    transition: { staggerChildren: 0.5, }
+    } 
+};
+
+const textVariants = {
+    hidden: {opacity: 0, y: 200},
+    show: {
+        opacity: 1,
+        y: 0,
+    } 
+};
 
 interface IndivProject {
     projectName: string
@@ -11,11 +39,15 @@ interface IndivProject {
 }
 
 export default function IndivProject(props: IndivProject) {
+    const darkMode = useContext(DarkModeContext);
+
     const [images, setImages] = useState<ReactElement[]>();
     const [currentImage, setCurrentImages] = useState(0);
-
-    const lastImage = useRef<HTMLDivElement>(null);
-    const nextImage = useRef<HTMLDivElement>(null);
+    
+    // i literally cant update the RefObjects otherwise so this is the only choice
+    // and i just cant be bothered anymore
+    const imagesRef = useRef<RefObject<HTMLDivElement>[]>(Array(props.images.length)
+        .fill(null).map(() => useRef<HTMLDivElement>(null)));
 
     useEffect(() => {
         setImages(props.images.map<ReactElement>((image, index) => {
@@ -24,36 +56,51 @@ export default function IndivProject(props: IndivProject) {
                     media={image}
                     key={index}
                     type="ProjectSideElement"
-                    reference={
-                        index === currentImage + 2 ? nextImage 
-                        : index === currentImage - 1 ? lastImage
-                        : null}
-                    last={lastImage}
+                    reference={imagesRef.current[index] ? imagesRef.current[index] : null}
                 />
             );
         }));
-    }, [currentImage])
+    }, []);
 
     const topArrow = (e: MouseEvent) => {
         e.preventDefault();
-        lastImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
-        setCurrentImages(prev => prev - 1);
+        // ugly nested ternaries
+        setCurrentImages(prev => prev > 0 ? prev - 1 : props.images.length - 2);
+        imagesRef.current[currentImage].current!.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
     };
 
     const bottomArrow = (e: MouseEvent) => {
         e.preventDefault();
-        nextImage.current?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
-        setCurrentImages(prev => prev + 1);
+        // ugly nested ternaries
+        setCurrentImages(prev => 
+            prev < props.images.length - 3
+            ? prev + 1 
+            : 0
+        );
+        imagesRef.current[currentImage + 2].current!.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
     };
 
     return (
-        <motion.div className="IndivProject">
-            <p className="ProjectName">
+        <motion.div 
+            className="IndivProject"
+        >
+            <motion.p 
+                initial={{opacity: 0, y: 50}}
+                animate={{opacity: 1, y: 0,}}
+                transition={{ duration: 1.5, }}
+                className="ProjectName"
+            >
                 {props.projectName}
-            </p>
-            <p className="ProjectDescription">
+            </motion.p>
+
+            <motion.p 
+                initial={{opacity: 0, y: 50}}
+                animate={{opacity: 1, y: 0,}}
+                transition={{ duration: 1.5, }}
+                className="ProjectDescription"
+            >
                 {props.description}
-            </p>
+            </motion.p>
 
             { /* ~~~~~~~~ Media ~~~~~~~~ */ }
             <motion.div className="ProjectShowcase">
@@ -62,21 +109,34 @@ export default function IndivProject(props: IndivProject) {
                     media={props.images[currentImage]}
                     key={-1}
                     type="ProjectMainElement"
+                    reference={null}
                 />
                 { /* ~~~~~~~~ Arrows ~~~~~~~~ */ }
-                {/* <motion.div className="ProjectArrows"> */}
-                <a href="#" onClick={topArrow} className="ProjectTopArrow">
+                <motion.a 
+                    href="#" 
+                    onClick={topArrow} 
+                    className="ProjectTopArrow"
+                    style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
+                >
                     <motion.img
-                        src={props.images[0]}
+                        whileHover={{backgroundColor: "#000000", scale: 1.1}}
+                        src={Arrow}
+                        className="ProjectArrowImage"
+                        />
+                </motion.a>
+
+                <motion.a 
+                    href="#" 
+                    onClick={bottomArrow} 
+                    className="ProjectBottomArrow"
+                    style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
+                    >
+                    <motion.img
+                        whileHover={{scale: 1.1}}
+                        src={Arrow}
                         className="ProjectArrowImage"
                     />
-                </a>
-                <a href="#" onClick={bottomArrow} className="ProjectBottomArrow">
-                    <motion.img
-                        src={props.images[0]}
-                        className="ProjectArrowImage"
-                    />
-                </a>
+                </motion.a>
                 { /* ~~~~~~~~ Images ~~~~~~~~ */ }
                 <motion.div className="ProjectSideElements" >
                     {images}
