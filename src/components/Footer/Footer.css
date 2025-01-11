@@ -1,14 +1,39 @@
 /* ~~~ For mobile phones ~~~ */
 .Footer {
     position: absolute;
-    top: 350vh;
+    top: 1000vh;
     width: 100%;
     background-color: #070707;
 }
 
-.FooterText {
+.FooterHeading {
     margin-top: 20px;
     margin-left: 11%;
     font-size: 32px;
     font-weight: 600;
+}
+
+.FooterText {
+
+}
+
+/* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
+@media only screen and (min-width: 768px) {
+    .Footer {
+        top: 350vh;
+    }
+    
+    .FooterHeading {
+        margin-top: 20px;
+        margin-left: 10%;
+        font-size: 32px;
+        font-weight: 600;
+    }    
+
+    .FooterText {
+        margin-top: 2%;
+        margin-left: 10%;
+        font-size: 18px;
+        margin-bottom: 60px;
+    }
 }

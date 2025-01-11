@@ -69,7 +69,9 @@ export default function Bio() {
                     Then in November, I stumbled upon web development. Though, this site isn't quite traditional.
                 You may have noticed the background is quite special. A site called&nbsp;
                 <motion.a 
-                    href="https://shadertoy.com"
+                    whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
+                    whileTap={{ fontSize: fontSizes.whileTapFontSize }}
+                    href="https://www.shadertoy.com"
                     className="Shadertoy"
                 >
                     shadertoy

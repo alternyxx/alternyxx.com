@@ -3,10 +3,10 @@ import { motion } from "motion/react"
 import "./Technologies.css"
 import IndivTechnology from "./IndivTechnology"
 
+/* i should prob use devicons but the load time is insane */
 import react from "../../assets/Techstack/react-2.svg"
 // import tailwind from "../../assets/tailwind-css-2.svg"
-// import figma from "../../assets/Figma Icon (Full-color).svg"
-import framermotion from "../../assets/Techstack/framer-motion.svg"
+import figma from "../../assets/Techstack/Figma Icon (Full-color).svg"
 import typescript from "../../assets/Techstack/typescript.svg"
 import webgpu from "../../assets/Techstack/webgpu.svg"
 import opengl from "../../assets/Techstack/webgl-logo.svg"
@@ -75,7 +75,7 @@ export default function Technologies() {
                 <IndivTechnology img={react} text="React" description="UI/UX" />
                 {/* <IndivTechnology img={tailwind} text="Tailwind" description="UI/UX" /> I am lazy to learn tailwind LMFAO
                  and i think pure css is better so :P */}
-                <IndivTechnology img={framermotion} text="Motion" description="Animations" />
+                <IndivTechnology img={figma} text="Figma" description="UI/UX" />
                 <IndivTechnology img={typescript} text="Typescript" description="Javascript but better" />
                 <IndivTechnology img={webgpu} text="Webgpu" description="2D & 3D Graphics" />
                 <IndivTechnology img={opengl} text="WebGL" description="2D & 3D Graphics" />

@@ -12,16 +12,15 @@ interface ProjectMedia {
 export default function ProjectMedia(props: ProjectMedia) {
     const [active, setActive] = useState(false);
     
+    // two functions for this is unnecessary but dont fix whats not broken
     const handleClick = (e: MouseEvent) => {
         e.preventDefault();
-
         document.body.style.overflow = "hidden";
         setActive(true);
     };
 
     const unfocus = (e: MouseEvent) => {
         e.preventDefault();
-        
         document.body.style.overflow = "visible";
         setActive(false);
     }

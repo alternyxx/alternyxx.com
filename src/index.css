@@ -4,11 +4,17 @@ html, body {
     background-color: #000000;
 }
 
+/* works for chrome, chrome scroll is ugly */ 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 12px;
+    background-color: #424242;
 }
 
-.App {
+::-webkit-scrollbar-thumb {
+    background: #686868;
+}
+
+.Home {
     position: absolute;
     color: #F6F7F9;
     height: 350vh;
@@ -30,6 +36,14 @@ html, body {
 
 .Hyperlink:hover {
     color: #1d77c9;
+}
+
+.Shadertoy {
+    color: #FF8020;
+}
+
+.Shadertoy:hover {
+    color: #DF6010;
 }
 
 .Youtube {

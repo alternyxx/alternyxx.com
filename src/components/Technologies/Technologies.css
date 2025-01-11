@@ -1,7 +1,7 @@
 /* ~~~ For mobile phones ~~~ */
 .Technologies {
     position: relative;
-    margin-top: 100%;
+    margin-top: 500%;
     margin-left: 6%
 }
 
@@ -19,8 +19,9 @@
     align-content: space-around;
     flex-wrap: wrap;
     row-gap: 20px;
-    column-gap: 10px;
+    column-gap: 15px;
     margin-bottom: 80px;
+    margin-left: -20px;
 }
 
 .IndivTechnology {

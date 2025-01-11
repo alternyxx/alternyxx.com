@@ -29,7 +29,7 @@ export default function Projects() {
             <IndivProject 
                 projectName="Rhythm50"
                 description={Rhythm50Description}
-                images={[img, haj, img, haj, img, haj, img]}
+                images={[haj, haj, haj]}
             />
         </motion.section>
     )

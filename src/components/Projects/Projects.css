@@ -1,9 +1,9 @@
 /* ~~~ For mobile phones ~~~ */
 .Projects {
     position: relative;
-    margin-top: 20%;
-    margin-left: 6%;
-    margin-right: 16%;
+    margin-top: 250%;
+    margin-left: 4%;
+    margin-right: 6%;
 }
 
 .ProjectsHeading {
@@ -23,43 +23,33 @@
 
 .ProjectShowcase {
     margin: 15px;
+    margin-top: 30px;
     display: grid;
-    grid-template-columns: 800px 400px;
-    grid-template-rows: 15px 450px 15px;
-    justify-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 200px 120px;
 }
 
 .ProjectMainElement {
-    height: 450px;
-    border-radius: 60px;
-    padding-top: 15px;
-    grid-column: 1 / 2;
-    grid-row: 2;
-}
-
-.ProjectArrows {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    grid-column: 2 / 3;
-    grid-row: 1 / 4;
-    display: flex;
-    justify-content: center;
+    grid-column: 1 / 4;
+    width: 300%;
 }
 
 .ProjectTopArrow {
-    display: inline-block;
-    justify-self: center; 
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;   
+    position: relative;
+    margin-left: -10px;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    transform: rotate(270deg);
+    justify-self: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .ProjectBottomArrow {
-    display: inline-block;
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+    transform: rotate(90deg);
     justify-self: center;
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
-    transform: rotate(180deg);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .ProjectArrowImage {
@@ -68,18 +58,20 @@
 }
 
 .ProjectSideElements {
-    margin-left: 40px;
-    grid-column: 2;
+    margin: 15px;
+    grid-column: 1 / 5;
+    grid-column-start: 1;
     overflow: hidden;
-    height: 450px;
     grid-row: 2 / 3;
-    justify-items: center;
+    display: flex;
 }
 
 .ProjectSideElement {
-    border-radius: 45px;
-    padding: 20px;
-    height: 180px;
+    float: left;
+    padding: 5px;
+    margin-right: 15px;
+    border-radius: 15px;
+    height: 75px;
 }
 
 .ProjectMedia {
@@ -117,7 +109,7 @@
     border-radius: 30px;
     z-index: 1000;
     width: max(55%, 1000px);
-}
+}    
 
 /* ~~~ For PC devices ~~~ */
 @media only screen and (min-width: 768px) {
@@ -141,4 +133,110 @@
         font-size: 18px;
         margin-bottom: 40px;
     }
+
+    .ProjectShowcase {
+        margin: 15px;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-template-rows: 15px 450px 15px;
+        justify-items: center;
+    }
+    
+    .ProjectMainElement {
+        display: block;
+        width: auto;
+        height: 450px;
+        max-height: 60vh;
+        border-radius: 60px;
+        padding-top: 15px;
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+    }
+    
+    .ProjectArrows {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        grid-column: 2 / 3;
+        grid-row: 1 / 4;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .ProjectTopArrow {
+        display: inline-block;
+        justify-self: center; 
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;   
+        transform: rotate(0deg);
+    }
+    
+    .ProjectBottomArrow {
+        justify-self: center;
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        transform: rotate(180deg);
+    }
+    
+    .ProjectArrowImage {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .ProjectSideElements {
+        display: inline-block;
+        margin-left: 40px;
+        grid-column: 2 / 3;
+        overflow: hidden;
+        height: 450px;
+        max-height: 60vh;
+        grid-row: 2 / 3;
+        justify-items: center;
+    }
+    
+    .ProjectSideElement {
+        float: none;
+        margin: 0px;
+        border-radius: 45px;
+        padding: 20px;
+        height: 180px;
+        max-height: 23vh;
+    }
+    
+    .ProjectMedia {
+        z-index: 99;
+    }
+    
+    .backdrop {
+        visibility: visible;
+        /* backdrop filter breaks position fixed? */
+        /* https://stackoverflow.com/questions/16879737/position-fixed-is-not-working */
+        /* so im doing it manually here */
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* following is for image alignment */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .ProjectMediaFocus {
+        position: absolute;
+        z-index: 1001;
+        opacity: 0%;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .ProjectMediaActive {
+        position: fixed;
+        border-radius: 30px;
+        z-index: 1000;
+        width: max(55%, 1000px);
+    }    
 }

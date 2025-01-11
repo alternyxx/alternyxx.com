@@ -39,6 +39,11 @@ export default function Canvas(props: Canvas) {
     // Custom events
     const lightDark = new Event("lightDark");
 
+    // fire event when lightbulb is pulled
+    // no ref exists check since i cheekily make this render first before canvas c:
+    useEffect(() => {
+        document.dispatchEvent(lightDark);
+    }, [props.darkMode]);
 
     // Canvas hook
     useEffect(() => {
@@ -285,10 +290,6 @@ export default function Canvas(props: Canvas) {
             window.cancelAnimationFrame(loopRef.current);
         };
     }, [props.stage]);
-    
-    useEffect(() => {
-        document.dispatchEvent(lightDark);
-    }, [props.darkMode]);
     
     // Return canvas
     return (

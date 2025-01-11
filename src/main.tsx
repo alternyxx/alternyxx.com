@@ -1,27 +1,26 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router'
 import './index.css'
-import App from './App.tsx'
+import Home from './pages/Home.tsx'
 
-let warning = false;
-let device;
-
-// Checks
+// Checks, GPU setup
+// why not do this in an async component
+let device: GPUDevice | undefined;
 if (navigator.gpu) {
     const adapter = await navigator.gpu.requestAdapter();
-    if (adapter) {
-      device = await adapter.requestDevice();
-    } else {
-      console.log("error")
-      warning = true;
+	if (adapter) {
+    	device = await adapter.requestDevice();
     }
-} else {
-  console.log("here")
-  warning = true;    
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App device={device} warning={warning} />
-  </StrictMode>
+	<BrowserRouter>
+		<Routes>
+			{/* Path with entry... */}
+			<Route index element={ <Home device={device} stage={0} /> } />
+
+			{/* Path without entry... some people dont like it :c */}
+			<Route path="home" element={ <Home device={device} stage={1} /> }/>
+		</Routes>
+	</BrowserRouter>
 );
