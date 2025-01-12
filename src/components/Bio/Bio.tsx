@@ -30,8 +30,9 @@ const noteVarients = {
 export default function Bio() {
     // This should probably be in a useEffect?
     let fontSizes = {whileHoverFontSize: "", whileTapFontSize: ""};
+
+    // make this a media query
     if (isMobile) {
-        // this literally doesnt seem to matter
         fontSizes.whileHoverFontSize = "13px";
         fontSizes.whileTapFontSize = "13px";
     }

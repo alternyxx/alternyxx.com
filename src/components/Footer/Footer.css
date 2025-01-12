@@ -1,7 +1,7 @@
 /* ~~~ For mobile phones ~~~ */
 .Footer {
     position: absolute;
-    top: 1000vh;
+    top: 300vh;
     width: 100%;
     background-color: #070707;
 }
@@ -9,12 +9,13 @@
 .FooterHeading {
     margin-top: 20px;
     margin-left: 11%;
-    font-size: 32px;
+    font-size: 20px;
     font-weight: 600;
 }
 
 .FooterText {
-
+    font-size: 13px;
+    margin-left: 11%;
 }
 
 /* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
