@@ -5,6 +5,8 @@ import haj from "../../assets/haj.jpg"
 import "./Projects.css"
 import img from "../../assets/image.png"
 
+import vid from "../../assets/Rhythm50.mp4"
+
 // i'll make these a seperate folder down the line
 const Rhythm50Description = `
 Rhythm50 is a VSRG (Vertically Scrolling Rhythm Game) developed solely by me.
@@ -13,14 +15,21 @@ Later down the line, when I have more free time, I plan to repurpose the game as
 a more fleshed-out rhythm game with my own custom music.
 `
 
-export default function Projects() {
+interface Projects {
+    setStage: Function
+}
+
+export default function Projects({setStage}: Projects) {
     return (
-        <motion.section 
+        <motion.section
             className="Projects"
+            viewport={{amount: 0.25}}
+            onViewportEnter={() => {setStage(2)}}
         >
             <motion.p 
                 initial={{opacity: 0, y: 50}}
-                animate={{opacity: 1, y: 0,}}
+                whileInView={{opacity: 1, y: 0,}}
+                viewport={{margin: "200px 0px 0px 0px"}}
                 transition={{ duration: 1.5, }}
                 className="ProjectsHeading"
             >
@@ -29,7 +38,7 @@ export default function Projects() {
             <IndivProject 
                 projectName="Rhythm50"
                 description={Rhythm50Description}
-                images={[haj, haj, haj]}
+                media={[haj, vid, haj, haj]}
             />
         </motion.section>
     )

@@ -8,6 +8,16 @@ import Bulb from "../../assets/DarkBulb.png"
 
 import "./Lightbulb.css"
 
+const textVariants = {
+    hidden: {opacity: 0},
+    show: {opacity: 0.2, transition: {delay: 4, duration: 2}},
+}
+
+const lightbulbVariants = {
+    hidden: {y: -430},
+    pop: {y: -20, transition: {type: "spring", duration: 2, delay: 3},},
+}
+
 interface LightDark {
     setDarkMode: Function
 }
@@ -38,6 +48,9 @@ export default function LightDark(props: LightDark) {
     return (
         <>
             <motion.div
+                variants={textVariants}
+                initial="hidden"
+                animate="show"
                 className="LightbulbText"
                 style={{ color: darkMode ? "#777777" : "#888888"}}
             >
@@ -53,6 +66,9 @@ export default function LightDark(props: LightDark) {
             </motion.div>
 
             <motion.img
+                variants={lightbulbVariants}
+                initial="hidden"
+                animate="pop"
                 src={Handle}
                 className="LightbulbHandle"
                 style={{
@@ -61,7 +77,10 @@ export default function LightDark(props: LightDark) {
                 }}
             />
 
-            <motion.div 
+            <motion.div
+                variants={lightbulbVariants}
+                initial="hidden"
+                animate="pop"
                 className="Lightbulb"
                 style={{ top: scroll }}
             >   

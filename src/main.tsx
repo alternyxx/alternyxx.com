@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import './index.css'
 import Home from './pages/Home.tsx'

@@ -21,7 +21,6 @@ const stages = [Entry, StageOne, StageTwo, StageThree];
 interface Canvas {
     stage: number
     darkMode: boolean
-    scroll: MotionValue<number>
     device: GPUDevice
 }
 

@@ -10,6 +10,7 @@ interface Menu {
     bgShow: boolean
     setBgShow: Function
 }
+
 export default function Menu(props: Menu) {
     const darkMode = useContext(DarkModeContext);
 
@@ -61,7 +62,7 @@ export default function Menu(props: Menu) {
                                 }}
                                 className="BackgroundDisable"
                             >
-                                Disable Background
+                                {props.bgShow ? "Disable" : "Enable"} Background
                             </a>
                         </div>
                     </div>

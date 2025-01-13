@@ -21,8 +21,11 @@ const elementVarient = {
     show: { opacity: 1, y: 0 },
 };
 
+interface Technologies {
+    setStage: Function
+}
 
-export default function Technologies() {
+export default function Technologies({setStage}: Technologies) {
     return (
         <motion.div 
             variants={
@@ -37,7 +40,8 @@ export default function Technologies() {
             }
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true }}
+            viewport={{amount: 0.5}}
+            onViewportEnter={() => {setStage(3)}}
             className="Technologies"
         >
 
@@ -69,7 +73,6 @@ export default function Technologies() {
                 }}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true }}
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={react} text="React" description="UI/UX" />
@@ -102,7 +105,6 @@ export default function Technologies() {
                 }}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true }}
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={python} text="Python" description="Two snakes" />

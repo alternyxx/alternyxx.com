@@ -35,8 +35,8 @@ const textVariants = {
 interface IndivProject {
     projectName: string
     description: string
-    images: Array<string>
-}
+    media: Array<string>
+};
 
 export default function IndivProject(props: IndivProject) {
     const darkMode = useContext(DarkModeContext);
@@ -46,11 +46,11 @@ export default function IndivProject(props: IndivProject) {
     
     // i literally cant update the RefObjects otherwise so this is the only choice
     // and i just cant be bothered anymore
-    const imagesRef = useRef<RefObject<HTMLDivElement>[]>(Array(props.images.length)
+    const imagesRef = useRef<RefObject<HTMLDivElement>[]>(Array(props.media.length)
         .fill(null).map(() => useRef<HTMLDivElement>(null)));
 
     useEffect(() => {
-        setImages(props.images.map<ReactElement>((image, index) => {
+        setImages(props.media.map<ReactElement>((image, index) => {
             return (
                 <ProjectMedia
                     media={image}
@@ -65,19 +65,27 @@ export default function IndivProject(props: IndivProject) {
     const topArrow = (e: MouseEvent) => {
         e.preventDefault();
         // ugly nested ternaries
-        setCurrentImages(prev => prev > 0 ? prev - 1 : props.images.length - 2);
-        imagesRef.current[currentImage].current!.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+        setCurrentImages(prev => 
+            prev != 0 ? 
+            prev - 1 
+            : props.media.length - 1
+        );
+        imagesRef.current[currentImage != 0 ? currentImage - 1 : props.media.length - 1].current!.scrollIntoView(
+            {behavior: "smooth", block: "nearest", inline: "nearest"}
+        );
     };
 
     const bottomArrow = (e: MouseEvent) => {
         e.preventDefault();
-        // ugly nested ternaries
+        imagesRef.current[currentImage != props.media.length - 1 ? currentImage + 1 : 0].current!.scrollIntoView(
+            {behavior: "smooth", block: "nearest", inline: "nearest"}
+        );
+        // ugly nested ternaries and state is so weird
         setCurrentImages(prev => 
-            prev < props.images.length - 3
-            ? prev + 1 
+            prev != props.media.length - 1
+            ? prev + 1
             : 0
         );
-        imagesRef.current[currentImage + 2].current!.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
     };
 
     return (
@@ -86,7 +94,8 @@ export default function IndivProject(props: IndivProject) {
         >
             <motion.p 
                 initial={{opacity: 0, y: 50}}
-                animate={{opacity: 1, y: 0,}}
+                whileInView={{opacity: 1, y: 0,}}
+                viewport={{margin: "200px 0px 0px 0px"}}
                 transition={{ duration: 1.5, }}
                 className="ProjectName"
             >
@@ -95,7 +104,8 @@ export default function IndivProject(props: IndivProject) {
 
             <motion.p 
                 initial={{opacity: 0, y: 50}}
-                animate={{opacity: 1, y: 0,}}
+                whileInView={{opacity: 1, y: 0,}}
+                viewport={{margin: "200px 0px 0px 0px"}}
                 transition={{ duration: 1.5, }}
                 className="ProjectDescription"
             >
@@ -106,7 +116,7 @@ export default function IndivProject(props: IndivProject) {
             <motion.div className="ProjectShowcase">
                 { /* ~~~~~~~~ Video ~~~~~~~~ */ }
                 <ProjectMedia
-                    media={props.images[currentImage]}
+                    media={props.media[currentImage]}
                     key={-1}
                     type="ProjectMainElement"
                     reference={null}
