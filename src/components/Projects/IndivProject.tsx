@@ -15,23 +15,6 @@ import { DarkModeContext } from "../../common/context"
 import ProjectMedia from "./ProjectMedia"
 import Arrow from "../../assets/Arrow.png"
 
-const mainVariants = { 
-    hidden: {opacity: 0, y: 50},
-    show: {
-        opacity: 1,
-        y: 0,
-    transition: { staggerChildren: 0.5, }
-    } 
-};
-
-const textVariants = {
-    hidden: {opacity: 0, y: 200},
-    show: {
-        opacity: 1,
-        y: 0,
-    } 
-};
-
 interface IndivProject {
     projectName: string
     description: string
@@ -126,25 +109,53 @@ export default function IndivProject(props: IndivProject) {
                     href="#" 
                     onClick={topArrow} 
                     className="ProjectTopArrow"
-                    style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
                 >
                     <motion.img
-                        whileHover={{backgroundColor: "#000000", scale: 1.1}}
+                        initial={{
+                            backgroundColor: "transparent",
+                            scale: 1,
+                            filter: `invert(${darkMode ? 30 : 80}%)`
+                        }}
+                        whileHover={{
+                            backgroundColor: "#000000", 
+                            scale: 1.1, 
+                            filter: `invert(${darkMode ? 100 : 0}%)`,
+                        }}
+                        whileTap={{
+                            backgroundColor: "#000000",
+                            scale: 0.95,
+                            filter: `invert(${darkMode ? 100 : 0}%)`,
+                        }}
                         src={Arrow}
                         className="ProjectArrowImage"
-                        />
+                        style={{filter: `invert(${darkMode ? 30 : 80}%)`}}
+                    />
                 </motion.a>
 
                 <motion.a 
                     href="#" 
                     onClick={bottomArrow} 
                     className="ProjectBottomArrow"
-                    style={{filter: `invert(${darkMode ? 0 : 100}%)`}}
                     >
                     <motion.img
-                        whileHover={{scale: 1.1}}
+                        initial={{
+                            backgroundColor: "transparent",
+                            scale: 1,
+                            filter: `invert(${darkMode ? 30 : 80}%)`
+                        }}
+                        whileHover={{
+                            backgroundColor: "#000000", 
+                            scale: 1.1, 
+                            filter: `invert(${darkMode ? 100 : 0}%)`,
+                        }}
+                        whileTap={{
+                            backgroundColor: "#000000",
+                            scale: 0.95,
+                            filter: `invert(${darkMode ? 100 : 0}%)`,
+                        }}
                         src={Arrow}
                         className="ProjectArrowImage"
+                        style={{filter: `invert(${darkMode ? 30 : 80}%)`}}
                     />
                 </motion.a>
                 { /* ~~~~~~~~ Images ~~~~~~~~ */ }

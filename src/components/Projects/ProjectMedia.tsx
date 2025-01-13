@@ -59,7 +59,7 @@ export default function ProjectMedia(props: ProjectMedia) {
                         whileHover={{
                             scale: 1.01, 
                             transition: {duration: 0.2},
-                            borderRadius: "20px",
+                            borderRadius: "0px",
                         }}
                         whileTap={{
                             scale: 0.99,
@@ -70,19 +70,28 @@ export default function ProjectMedia(props: ProjectMedia) {
                         className={props.type}
                     />
                     :
-                    props.type == "ProjectMainElement" ? 
+                    props.type === "ProjectMainElement" ? 
                     <video
                         src={props.media}
                         className={props.type}
                         controls
                         controlsList="nodownload nofullscreen noremoteplayback"
-                        muted
                         disablePictureInPicture
                         disableRemotePlayback
                         preload=""
                     />
                     :
-                    <video
+                    <motion.video
+                        whileHover={{
+                            scale: 1.01, 
+                            transition: {duration: 0.2},
+                            borderRadius: "0px",
+                        }}
+                        whileTap={{
+                            scale: 0.99,
+                            transition: {duration: 0.2},
+                            borderRadius: "45px",
+                        }}
                         src={props.media}
                         className={props.type}
                     />

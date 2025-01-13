@@ -8,7 +8,7 @@ interface Entry {
 }
 
 export default function Entry(props: any) {
-    const [typewriterPos, setTypewriterPos] = useState<number>(1);
+    // const [typewriterPos, setTypewriterPos] = useState<number>(1);
 
     const [text, setText] = useState<Array<string | ReactElement>>("A 15 year old with way too much time.".split(''));
     

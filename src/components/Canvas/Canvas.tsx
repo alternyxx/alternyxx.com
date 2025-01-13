@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { MotionValue } from "motion/react"
 
 // import { DarkModeContext } from "../../common/context";
 

@@ -122,7 +122,7 @@ export default function Bio({setStage}: Bio) {
                     transition={{ duration: 1.5, }} 
                         className="BioText" 
                 >   
-                        Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
+                        My name's Nyx and I'm from Myanmar! Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
                     I started my journey by learning C and Python. I spent hours a day, working on various problem sets
                     during my free time, balancing my life with my studies and this newfound 'hobby'. 
                         Then in November, I stumbled upon web development. Though, this site isn't quite traditional.

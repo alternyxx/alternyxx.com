@@ -1,6 +1,6 @@
 /* ~~~ For mobile phones ~~~ */
 .Footer {
-    top: 320vh;
+    margin-top: 20vh;
     width: 100%;
     padding-top: 20px;
     background-color: #070707;
@@ -8,17 +8,16 @@
 
 .FooterHeading {
     margin-top: 20px;
-    margin-left: 4%;
     font-size: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
 .FooterText {
     font-size: 13px;
-    margin-right: 20px;
     margin-top: 20px;
-    margin-left: 4%;
     padding-bottom: 40px;
+    text-align: center;
 }
 
 /* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
@@ -29,14 +28,12 @@
     }
     
     .FooterHeading {
-        margin-left: 10%;
         font-size: 32px;
         font-weight: 600;
     }    
     
     .FooterText {
-        margin-top: 40px;
-        margin-left: 10%;
+        margin-top: 30px;
         font-size: 18px;
         padding-bottom: 100px;
     }

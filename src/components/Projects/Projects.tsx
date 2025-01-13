@@ -1,11 +1,10 @@
 import { motion } from "motion/react"
 import IndivProject from "./IndivProject"
-import haj from "../../assets/haj.jpg"
 
 import "./Projects.css"
-import img from "../../assets/image.png"
 
-import vid from "../../assets/Rhythm50.mp4"
+import MainGameplayShowcase from "../../assets/NacreousSnowmelt.mp4"
+import PauseMenu from "../../assets/PauseMenu.png"
 
 // i'll make these a seperate folder down the line
 const Rhythm50Description = `
@@ -38,8 +37,8 @@ export default function Projects({setStage}: Projects) {
             <IndivProject 
                 projectName="Rhythm50"
                 description={Rhythm50Description}
-                media={[haj, vid, haj, haj]}
+                media={[MainGameplayShowcase, PauseMenu]}
             />
         </motion.section>
-    )
+    );
 }

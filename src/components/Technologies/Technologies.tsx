@@ -40,7 +40,7 @@ export default function Technologies({setStage}: Technologies) {
             }
             initial="hidden"
             whileInView="show"
-            viewport={{amount: 0.5}}
+            viewport={{amount: 0.5, margin: "0px 0px 100px"}}
             onViewportEnter={() => {setStage(3)}}
             className="Technologies"
         >
