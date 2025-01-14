@@ -34,13 +34,13 @@ export default function Technologies({setStage}: Technologies) {
                     show: {
                         opacity: 1,
                         y: 0,
-                    transition: {staggerChildren: 0.5}
+                    transition: {delay: 0, staggerChildren: 0.5}
                     } 
                 }
             }
             initial="hidden"
             whileInView="show"
-            viewport={{amount: 0.5, margin: "0px 0px 100px"}}
+            viewport={{margin: "100px 0px 0px 10000px"}}
             onViewportEnter={() => {setStage(3)}}
             className="Technologies"
         >
@@ -73,6 +73,7 @@ export default function Technologies({setStage}: Technologies) {
                 }}
                 initial="hidden"
                 whileInView="show"
+                viewport={{margin: "100px 0px 0px 10000px"}}
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={react} text="React" description="UI/UX" />
@@ -105,6 +106,7 @@ export default function Technologies({setStage}: Technologies) {
                 }}
                 initial="hidden"
                 whileInView="show"
+                viewport={{margin: "100px 0px 0px 10000px"}}
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={python} text="Python" description="Two snakes" />

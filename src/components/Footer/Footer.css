@@ -1,8 +1,10 @@
 /* ~~~ For mobile phones ~~~ */
 .Footer {
+    position: relative;
     margin-top: 20vh;
     width: 100%;
     padding-top: 20px;
+    z-index: 20;
     background-color: #070707;
 }
 
@@ -16,8 +18,21 @@
 .FooterText {
     font-size: 13px;
     margin-top: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
     padding-bottom: 40px;
     text-align: center;
+}
+
+.Patreon {
+    width: 25px;
+    height: 25px;
+}
+
+.Wordmark {
+    margin-left: 10px;
+    width: 100px;
+    height: 25px;
 }
 
 /* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
