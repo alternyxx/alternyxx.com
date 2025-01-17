@@ -33,8 +33,8 @@ fn vertexMain(@location(0) pos: vec3f) ->
                                 vec4f(0.0, 0.0, 0.0, 1.0));
     
     var triTranslated = triRotatedZX;
-    triTranslated.x += 1.0;
-    triTranslated.z += 1.0;
+    triTranslated.x += 3.0;
+    triTranslated.z += 4.0;
     var triProjected = vec4f(triTranslated.x, triTranslated.y, triTranslated.z, 1.0) * matProj;
 
     return triProjected;

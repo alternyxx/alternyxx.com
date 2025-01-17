@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from "react";
 
 // vertices
 import { Screen } from "./vertices/Screen";
-import { Cube } from "./vertices/Cube";
+import { Blahaj } from "./vertices/Blahaj"
+// import { Cube } from "./vertices/Cube";
 
-const vertices = [Screen, Screen, Cube, Screen];
+const vertices = [Screen, Screen, Blahaj, Screen];
 const verticesInfo = [2, 2, 3, 2];
 
 // shaders

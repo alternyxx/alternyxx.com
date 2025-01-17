@@ -24,6 +24,7 @@ export default function Projects({setStage}: Projects) {
             className="Projects"
             viewport={{amount: 0.25}}
             onViewportEnter={() => {setStage(2)}}
+            style={{opacity: 0}}
         >
             <motion.p 
                 initial={{opacity: 0, y: 50}}

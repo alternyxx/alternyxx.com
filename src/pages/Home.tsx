@@ -64,12 +64,12 @@ export default function Home(props: Home) {
 				<DarkModeContext.Provider value={darkMode} >
 					{ stage === 0 ? <Entry stage={stage} setStage={setStage} /> :
 					<>
-						<Menu bgShow={bgShow} setBgShow={setBgShow}/>
-						<Lightbulb setDarkMode={setDarkMode} /> 
-							<Bio setStage={setStage} />
-							<Projects setStage={setStage} />
-							<Technologies setStage={setStage} />
-							<Footer />
+						{/* <Menu bgShow={bgShow} setBgShow={setBgShow}/>
+						<Lightbulb setDarkMode={setDarkMode} />  */}
+						<Bio setStage={setStage} />
+						<Projects setStage={setStage} />
+						<Technologies setStage={setStage} />
+						<Footer />
 						</> 
 					}
 				</DarkModeContext.Provider>
