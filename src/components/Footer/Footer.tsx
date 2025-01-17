@@ -27,6 +27,9 @@ export default function Footer() {
                     It would mean the world to me if you could support me! 
                     A single $USD can get me 5 coffees where i live :D.
                 </p>
+                <p>
+                    And, feel free to reach out to me via alternyxx@gmail.com for any questions or inqueries!
+                </p><br/>
                 <a href="https://www.patreon.com/c/alternyxx">
                     <img 
                         src={darkMode ? PatreonWhite : PatreonBlack}
@@ -36,8 +39,7 @@ export default function Footer() {
                         src={darkMode ? WordmarkWhite : WordmarkBlack}
                         className="Wordmark"
                     />
-                </a><br /><br /><br />
-                Feel free to reach out to me via alternyxx@gmail.com for any questions or inqueries!
+                </a>
             </div>
         </div>
     );

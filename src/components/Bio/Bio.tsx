@@ -159,18 +159,9 @@ export default function Bio({setStage}: Bio) {
                         Youtube
                     </motion.a>. 
 
-                    If you really like any of the 'shaders', I kept them as a standalone without any html at&nbsp;
-                    
-                    <motion.a 
-                        whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
-                        whileTap={{ fontSize: fontSizes.whileTapFontSize }}
-                        href="https://static.alternyxx.com"
-                        className="Hyperlink"
-                    >
-                        https://static.alternyxx.com
-                    </motion.a>
-
-                    . And finally, the source code for the entirety of this site can be found on my github at&nbsp;
+                    If you really like any of the 'shaders', you can disable the html elements by clicking 'Disable
+                    HTML' option in the menu in the top left! And finally, the source code for the entirety of this
+                    site can be found on my github at&nbsp;
 
                     <motion.a 
                         whileHover={{ fontSize: fontSizes.whileHoverFontSize }}

@@ -16,15 +16,16 @@ a more fleshed-out rhythm game with my own custom music.
 
 interface Projects {
     setStage: Function
+    reference: any 
 }
 
-export default function Projects({setStage}: Projects) {
+export default function Projects({setStage, reference}: Projects) {
     return (
         <motion.section
             className="Projects"
             viewport={{amount: 0.25}}
             onViewportEnter={() => {setStage(2)}}
-            style={{opacity: 0}}
+            ref={reference}
         >
             <motion.p 
                 initial={{opacity: 0, y: 50}}

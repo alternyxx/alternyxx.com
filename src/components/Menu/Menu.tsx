@@ -9,6 +9,8 @@ import "./Menu.css"
 interface Menu {
     bgShow: boolean
     setBgShow: Function
+    htmlShow: boolean
+    setHtmlShow: Function
 }
 
 export default function Menu(props: Menu) {
@@ -39,7 +41,11 @@ export default function Menu(props: Menu) {
                     exit={{x: -320}}
                     transition={{duration: 0.2}}
                     className="MenuExpanded"
-                    style={{backgroundColor: darkMode ? "rgba(0, 0, 0, 0.92)" : "rgba(225, 225, 225, 0.92)"}}
+                    style={{
+                        color: darkMode ? "#F6F7F9" : "#23272F",
+					    textShadow: darkMode ? "1px 1px 2px #23272F" : "1px 1px 2px #F6F7F9",
+                        backgroundColor: darkMode ? "rgba(0, 0, 0, 0.92)" : "rgba(225, 225, 225, 0.92)"
+                    }}
                 >
                     <div className="MenuText">
                         <div className="MenuHeader">
@@ -60,9 +66,19 @@ export default function Menu(props: Menu) {
                                     e.preventDefault();
                                     props.setBgShow((prev: boolean) => !prev);
                                 }}
-                                className="BackgroundDisable"
+                                className="MenuToggle"
                             >
                                 {props.bgShow ? "Disable" : "Enable"} Background
+                            </a><br/>
+                            <a 
+                                href="#" 
+                                onClick={(e: MouseEvent) => {
+                                    e.preventDefault();
+                                    props.setHtmlShow((prev: boolean) => !prev);
+                                }}
+                                className="MenuToggle"
+                            >
+                                {props.htmlShow ? "Disable" : "Enable"} HTML
                             </a>
                         </div>
                     </div>
