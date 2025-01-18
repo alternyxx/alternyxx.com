@@ -10,7 +10,7 @@ import "./Lightbulb.css"
 
 const textVariants = {
     hidden: {opacity: 0},
-    show: {opacity: 0.2, transition: {delay: 4, duration: 2}},
+    show: {opacity: 0.2, transition: {delay: 3.8, duration: 2}},
 }
 
 const lightbulbVariants = {

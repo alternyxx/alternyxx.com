@@ -9,6 +9,7 @@ export default function IndivTechnology(props: any) {
                                 } 
                              }}
                     whileHover={{ scale: 1.05, }}
+                    whileTap={{ scale: 1.02, }}
                     className="IndivTechnology" >
                     
             <img src={props.img} 

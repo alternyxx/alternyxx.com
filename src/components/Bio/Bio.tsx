@@ -160,8 +160,9 @@ export default function Bio({setStage}: Bio) {
                     </motion.a>. 
 
                     If you really like any of the 'shaders', you can disable the html elements by clicking 'Disable
-                    HTML' option in the menu in the top left! And finally, the source code for the entirety of this
-                    site can be found on my github at&nbsp;
+                    HTML' option in the menu in the top left! Likewise, you can also disable the shaders in case 
+                    they're too annoying. And finally, the source code for the entirety of this site can be found on 
+                    my github at&nbsp;
 
                     <motion.a 
                         whileHover={{ fontSize: fontSizes.whileHoverFontSize }}

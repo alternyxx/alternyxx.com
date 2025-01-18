@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 
 interface ProjectMedia {
     media: string
+    thumbnail?: string
     key: number
     type: string
     // im way too tired
@@ -40,6 +41,9 @@ export default function ProjectMedia(props: ProjectMedia) {
                         src={props.media}
                         className="ProjectMediaActive"
                         controls
+                        controlsList="nodownload nofullscreen noremoteplayback"
+                        disablePictureInPicture
+                        disableRemotePlayback
                     />
                 }
                     <button className="ProjectMediaFocus" onClick={unfocus} />
@@ -53,7 +57,7 @@ export default function ProjectMedia(props: ProjectMedia) {
                 className="ProjectMedia" 
                 ref={props.reference ? props.reference : null} 
             >
-                <a href="#" onClick={handleClick} >
+                <a href="#" onClick={handleClick} draggable="false" >
                     { !props.media.endsWith(".mp4") ?
                     <motion.img 
                         whileHover={{
@@ -74,12 +78,13 @@ export default function ProjectMedia(props: ProjectMedia) {
                     <video
                         src={props.media}
                         className={props.type}
+                        poster={props.thumbnail}
                         controls
                         controlsList="nodownload nofullscreen noremoteplayback"
                         disablePictureInPicture
                         disableRemotePlayback
                         preload=""
-                    />
+                        />
                     :
                     <motion.video
                         whileHover={{
@@ -94,6 +99,7 @@ export default function ProjectMedia(props: ProjectMedia) {
                         }}
                         src={props.media}
                         className={props.type}
+                        poster={props.thumbnail}
                     />
                     }
                 </a>

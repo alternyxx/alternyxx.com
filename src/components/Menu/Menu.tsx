@@ -55,9 +55,6 @@ export default function Menu(props: Menu) {
                             <p>
                                 <b><u>Home</u></b> •<br />
                             </p>
-                            <p>
-                                <u>Projects</u>
-                            </p>
                         </div>
                         <div className="MenuFooter">
                             <a 
@@ -68,7 +65,7 @@ export default function Menu(props: Menu) {
                                 }}
                                 className="MenuToggle"
                             >
-                                {props.bgShow ? "Disable" : "Enable"} Background
+                                {props.bgShow ? "Disable" : "Enable"} shaders
                             </a><br/>
                             <a 
                                 href="#" 
@@ -86,7 +83,7 @@ export default function Menu(props: Menu) {
             </div>
             }
             </AnimatePresence>
-            <a href="#">
+            <motion.a href="#">
                 <motion.img 
                     variants={{
                         initial: {x: 0},
@@ -99,7 +96,7 @@ export default function Menu(props: Menu) {
                     onClick={handleClick}
                     style={{filter: `invert(${darkMode ? 0 : 92}%)`}}
                     />
-            </a>
+            </motion.a>
         </div>
     );
 }

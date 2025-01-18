@@ -3,9 +3,6 @@ import IndivProject from "./IndivProject"
 
 import "./Projects.css"
 
-import MainGameplayShowcase from "../../assets/NacreousSnowmelt.mp4"
-import PauseMenu from "../../assets/PauseMenu.png"
-
 // i'll make these a seperate folder down the line
 const Rhythm50Description = `
 Rhythm50 is a VSRG (Vertically Scrolling Rhythm Game) developed solely by me.
@@ -39,7 +36,12 @@ export default function Projects({setStage, reference}: Projects) {
             <IndivProject 
                 projectName="Rhythm50"
                 description={Rhythm50Description}
-                media={[MainGameplayShowcase, PauseMenu]}
+                media={
+                    ["https://static.alternyxx.com/ByYourSide.mp4", "https://static.alternyxx.com/NacreousSnowmelt.mp4"]
+                }
+                thumbnails={
+                    ["https://static.alternyxx.com/ByYourSide.png", "https://static.alternyxx.com/NacreousSnowmelt.png"]
+                }
             />
         </motion.section>
     );
