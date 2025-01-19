@@ -110,6 +110,6 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     // }
 
     var fragColor = color;
-    fragColor = iLightDark - fragColor;
+    fragColor = fragColor * (1 - iLightDark) + (1 - fragColor) * iLightDark;
     return vec4f(fragColor * iOpacity, iOpacity);
 }

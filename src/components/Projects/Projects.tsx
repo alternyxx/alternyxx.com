@@ -36,12 +36,16 @@ export default function Projects({setStage, reference}: Projects) {
             <IndivProject 
                 projectName="Rhythm50"
                 description={Rhythm50Description}
-                media={
-                    ["https://static.alternyxx.com/ByYourSide.mp4", "https://static.alternyxx.com/NacreousSnowmelt.mp4"]
-                }
-                thumbnails={
-                    ["https://static.alternyxx.com/ByYourSide.png", "https://static.alternyxx.com/NacreousSnowmelt.png"]
-                }
+                media={[
+                    "https://static.alternyxx.com/ByYourSideUpdated.mp4", 
+                    "https://static.alternyxx.com/NacreousSnowmelt.mp4",
+                    "https://static.alternyxx.com/ByYourSidePaused.png",
+                    "https://static.alternyxx.com/NacreousSnowmeltPaused.png"
+                ]}
+                thumbnails={[
+                    "https://static.alternyxx.com/ByYourSide.png", 
+                    "https://static.alternyxx.com/NacreousSnowmelt.png"
+                ]}
             />
         </motion.section>
     );

@@ -56,14 +56,14 @@ export default function IndivProject(props: IndivProject) {
             : props.media.length - 1
         );
         imagesRef.current[currentImage != 0 ? currentImage - 1 : props.media.length - 1].current!.scrollIntoView(
-            {behavior: "smooth", block: "nearest", inline: "nearest"}
+            {behavior: "smooth", block: "center", inline: "nearest"}
         );
     };
 
     const bottomArrow = (e: MouseEvent) => {
         e.preventDefault();
         imagesRef.current[currentImage != props.media.length - 1 ? currentImage + 1 : 0].current!.scrollIntoView(
-            {behavior: "smooth", block: "nearest", inline: "nearest"}
+            {behavior: "smooth", block: "center", inline: "nearest"}
         );
         // ugly nested ternaries and state is so weird
         setCurrentImages(prev => 

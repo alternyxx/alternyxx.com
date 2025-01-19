@@ -1,6 +1,6 @@
 import { motion } from "motion/react"
 import { isMobile } from "react-device-detect"
-import haj from "../../assets/haj.jpg"
+import haj from "../../assets/haj.webp"
 import "./Bio.css"
 
 const sectionVariants = { 
@@ -122,7 +122,8 @@ export default function Bio({setStage}: Bio) {
                     transition={{ duration: 1.5, }} 
                         className="BioText" 
                 >   
-                        My name's Nyx and I'm from Myanmar! Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
+                        My name's Nyx and I'm from Myanmar! I'm your average 15 year old with a bit of time in their hands.
+                    Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
                     I started my journey by learning C and Python. I spent hours a day, working on various problem sets
                     during my free time, balancing my life with my studies and this newfound 'hobby'. 
                         Then in November, I stumbled upon web development. Though, this site isn't quite traditional.
@@ -182,7 +183,7 @@ export default function Bio({setStage}: Bio) {
                     transition={{ duration: 1.5 }}
                     className="BioNote"
                 >
-                    (You can press ↵ Enter to skip entry :P)
+                    (I recommend not seeing the source code cuz its a mess :P)
                 </motion.p>
             </motion.section>
         </>
