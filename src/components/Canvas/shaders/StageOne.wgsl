@@ -2,9 +2,9 @@
 @group(0) @binding(1) var<uniform> iTime: f32; 
 @group(0) @binding(2) var<uniform> iOpacity: f32;
 @group(0) @binding(3) var<uniform> iLightDark: f32;
- 
+
 @vertex 
-fn vertexMain(@location(0) pos: vec2f) -> 
+fn vertexMain(@location(0) pos: vec2f, @location(1) normal: vec2f) -> 
     @builtin(position) vec4f { 
     return vec4f(pos.x, pos.y, 0, 1); 
 } 
@@ -66,7 +66,6 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
  
     var fragColor = color1 * color2 * color3 * color4; 
     
-    // pls think of a better way
     fragColor = iLightDark - fragColor;
 
     return vec4f(fragColor * iOpacity, iOpacity); 

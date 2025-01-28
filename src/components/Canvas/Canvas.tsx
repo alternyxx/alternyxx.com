@@ -136,11 +136,20 @@ export default function Canvas(props: Canvas) {
 
         props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
 
+        // ~~~ Mobile ~~~ //
+        const iMobile = new Float32Array([0]);
+        const iMobileBuffer = props.device.createBuffer({
+            label: "iMobile",
+            size: iMobile.byteLength,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+        });
 
-        // ~~~~~~~~~~ Vertex Buffer ~~~~~~~~~~ //
+        props.device.queue.writeBuffer(iMobileBuffer, 0, iMobile);
+
+        // ~~~~~~~~~~ Vertex and Shader Buffer ~~~~~~~~~~ //
         const vertexBuffer = props.device.createBuffer({
             label: "Vertex Buffer",
-            size: vertices[props.stage].byteLength,
+            size: vertices[props.stage].byteLength * 2,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
         });
 
@@ -154,11 +163,17 @@ export default function Canvas(props: Canvas) {
         });
 
         const vertexBufferLayout: GPUVertexBufferLayout = {
-            arrayStride: verticesInfo[props.stage] * 4,
+            arrayStride: verticesInfo[props.stage] * 8, // bytes is 4, multiplied by 2 for normals
             attributes: [{
+                // typescript doesnt like any other way
+                // and i dont like typescript enough to figure it out
                 format: `float32x${props.stage != 2 ? 2 : 3}`,
                 offset: 0,
                 shaderLocation: 0,
+            }, {
+                format: `float32x${props.stage != 2 ? 2 : 3}`,
+                offset: verticesInfo[props.stage] * 4,
+                shaderLocation: 1,
             }],
         };
 
@@ -180,6 +195,10 @@ export default function Canvas(props: Canvas) {
                 buffer: {}
             }, {
                 binding: 3,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 4,
                 visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
                 buffer: {}
             }]
@@ -226,6 +245,9 @@ export default function Canvas(props: Canvas) {
             }, {
                 binding: 3,
                 resource: { buffer: iLightDarkBuffer }
+            }, {
+                binding: 4,
+                resource: { buffer: iMobileBuffer }
             }]
         });
 

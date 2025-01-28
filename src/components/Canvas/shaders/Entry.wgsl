@@ -1,5 +1,6 @@
 @group(0) @binding(0) var<uniform> iResolution: vec2f;
 @group(0) @binding(1) var<uniform> iTime: f32;
+@group(0) @binding(3) var<uniform> iLightDark: f32;
 
 @vertex
 fn vertexMain(@location(0) pos: vec2f) ->
@@ -26,5 +27,6 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     color = smoothstep(0.0, 0.15, color);
     var fragColor = vec3f(color);
 
+    fragColor = 1 - fragColor;
     return vec4f(fragColor, 1.0);
 }
