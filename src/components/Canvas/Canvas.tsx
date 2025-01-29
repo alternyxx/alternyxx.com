@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 // vertices
 import { Screen } from "./vertices/Screen";
 import { Blahaj } from "./vertices/Blahaj"
-// import { Cube } from "./vertices/Cube";
 
 const vertices = [Screen, Screen, Blahaj, Screen];
 const verticesInfo = [2, 2, 3, 2];
@@ -214,6 +213,9 @@ export default function Canvas(props: Canvas) {
         const Pipeline = props.device.createRenderPipeline({
             label: "Pipeline",
             layout: pipelineLayout,
+            primitive: {
+                cullMode: "front"
+            },
             vertex: {
                 module: ShaderModule,
                 entryPoint: "vertexMain",

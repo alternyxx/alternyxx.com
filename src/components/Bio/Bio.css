@@ -4,7 +4,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: 160px 40px;
-    margin-top: 14%;
+    margin-top: 8vh;
     width: 100%;
     padding-bottom: 0px;
 }
@@ -41,7 +41,7 @@
 
 .Bio {
     position: relative;
-    margin-top: 33px;
+    margin-top: -5px;
     margin-left: 4%;
     margin-right: 6%;
 }
@@ -69,7 +69,7 @@
     .Hej {
         grid-template-columns: repeat(9, 1fr);
         grid-template-rows: 240px 40px;
-        margin-top: 2.5%;
+        margin-top: 7vh;
         padding-bottom: 10px;
     }
     

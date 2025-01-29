@@ -124,8 +124,7 @@ export default function Bio({setStage}: Bio) {
                 >   
                         My name's Nyx and I'm from Myanmar! I'm your average 15 year old with a bit of time in their hands.
                     Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
-                    I started my journey by learning C and Python. I spent hours a day, working on various problem sets
-                    during my free time, balancing my life with my studies and this newfound 'hobby'. 
+                    I started my journey by learning C and Python and worked on a few projects.
                         Then in November, I stumbled upon web development. Though, this site isn't quite traditional.
                     You may have noticed the background is quite special. A site called&nbsp;
                     <motion.a 
@@ -160,10 +159,8 @@ export default function Bio({setStage}: Bio) {
                         Youtube
                     </motion.a>. 
 
-                    If you really like any of the 'shaders', you can disable the html elements by clicking 'Disable
-                    HTML' option in the menu in the top left! Likewise, you can also disable the shaders in case 
-                    they're too annoying. And finally, the source code for the entirety of this site can be found on 
-                    my github at&nbsp;
+                    The source code for the entirety of this site can be found on 
+                    my github&nbsp;
 
                     <motion.a 
                         whileHover={{ fontSize: fontSizes.whileHoverFontSize }}
@@ -171,7 +168,7 @@ export default function Bio({setStage}: Bio) {
                         href="https://github.com/alternyxx/alternyxx.com"
                         className="Hyperlink"
                     >
-                        https://github.com/alternyxx/alternyxx.com
+                        here
                     </motion.a>
                     
                     . Thanks for the visit!

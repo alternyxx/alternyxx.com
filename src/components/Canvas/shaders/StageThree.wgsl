@@ -18,14 +18,14 @@ fn palette(t: f32) -> vec3f {
 } 
 
 fn rand(p: f32) -> f32 {
-    var a = fract(p * vec2f(247.6199, 146.69));
+    var a = fract(p * vec2f(248.6199, 146.69));
     a += dot(a, a+ 37.191);
     return fract(a.x*a.y);
 }
 
 fn rand2(p: f32) -> f32 {
-    var a = fract(p * vec2f(184.189, 196.09));
-    a += dot(a, a + 21.19);
+    var a = fract(p * vec2f(87.189, 56.09));
+    a += dot(a, a + 25.19);
     return fract(a.x*a.y);
 }
 
@@ -36,7 +36,7 @@ fn shape(pixelCords: vec2f) -> vec3f {
 
     var l = vec3f(0.0, 0.0, 0.0);
     if (pixelCords.y < 0.002 && pixelCords.y > -0.002 && pixelCords.x > -0.45 && pixelCords.x < 0) {
-        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
+        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009.0)));
     }
 
     let diag = vec2f(pixelCords.x + 0.45, pixelCords.y);
@@ -58,8 +58,8 @@ fn shape2(pixelCords: vec2f) -> vec3f {
     // c = 0.0015 / c;
 
     var l = vec3f(0.0, 0.0, 0.0);
-    if (pixelCords.y < 0.2 && pixelCords.y > 0.01 && pixelCords.x > -0.45 && pixelCords.x < -0.1) {
-        l = palette(abs(fract(pixelCords.x * pixelCords.y * 1009)));
+    if (pixelCords.y < 0.081 && pixelCords.y > 0.077 && pixelCords.x > -0.45 && pixelCords.x < -0.1) {
+        l = palette(abs(fract(pixelCords.x * pixelCords.y * 24)));
     }
 
     let diag = vec2f(pixelCords.x, pixelCords.y);
@@ -70,7 +70,7 @@ fn shape2(pixelCords: vec2f) -> vec3f {
         }
     }
 
-    var s = mix(vec3f(0.0, 0.0, 0.00), vec3f(1.0), c);
+    var s = mix(vec3f(0.0), vec3f(1.0), c);
     s += l;
     return s;
 }
@@ -87,7 +87,7 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
 
     // ~~~ The cool stuff ~~~ //
     var color = vec3f(0.0);
-    for (var i = 0.0; i < 1; i += 0.05) {
+    for (var i = 0.0; i < 1; i += 0.10) {
         let randInt = rand(i);
         let mov = iTime * randInt * 0.1;
         let randY = randInt * 1.8 - 0.9;
@@ -98,16 +98,16 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
         color += shape(vec2f(wrappedX, uv.y + randY));
     }
 
-    // for (var i = 0.0; i < 1; i += 0.05) {
-    //     let randInt = rand2(i);
-    //     let mov = iTime * randInt * 0.1;
-    //     let randY = randInt * 1.8 - 0.9;
-    //     let randX = fract(randInt * 31.8) * 4.0 - 2.0;
+    for (var i = 0.0; i < 1; i += 0.10) {
+        let randInt = rand2(i);
+        let mov = iTime * randInt * 0.1;
+        let randY = randInt * 1.8 - 0.9;
+        let randX = fract(randInt * 31.8) * 4.0 - 2.0;
 
-    //     let wrappedX = (uv.x + randX - mov) % 4.0;
+        let wrappedX = (uv.x + randX - mov) % 4.0;
 
-    //     color += shape2(vec2f(wrappedX, uv.y + randY));
-    // }
+        color += shape2(vec2f(wrappedX, uv.y + randY));
+    }
 
     var fragColor = color;
     fragColor = fragColor * (1 - iLightDark) + (1 - fragColor) * iLightDark;

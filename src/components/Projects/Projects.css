@@ -26,7 +26,7 @@
     margin-top: 30px;
     display: grid;
     grid-template-columns: 20px 1fr 20px;
-    grid-template-rows: 200px 120px;
+    grid-template-rows: minmax(200px, auto) 120px;
 }
 
 .ProjectMainElement {

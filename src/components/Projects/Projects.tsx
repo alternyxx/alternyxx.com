@@ -37,14 +37,14 @@ export default function Projects({setStage, reference}: Projects) {
                 projectName="Rhythm50"
                 description={Rhythm50Description}
                 media={[
-                    "https://static.alternyxx.com/ByYourSideUpdated.mp4", 
-                    "https://static.alternyxx.com/NacreousSnowmelt.mp4",
-                    "https://static.alternyxx.com/ByYourSidePaused.png",
-                    "https://static.alternyxx.com/NacreousSnowmeltPaused.png"
+                    "https://static.alternyxx.com/mp4/ByYourSide.mp4", 
+                    "https://static.alternyxx.com/mp4/NacreousSnowmelt.mp4",
+                    "https://static.alternyxx.com/png/ByYourSidePaused.png",
+                    "https://static.alternyxx.com/png/NacreousSnowmeltPaused.png"
                 ]}
                 thumbnails={[
-                    "https://static.alternyxx.com/ByYourSide.png", 
-                    "https://static.alternyxx.com/NacreousSnowmelt.png"
+                    "https://static.alternyxx.com/png/ByYourSide.png", 
+                    "https://static.alternyxx.com/png/NacreousSnowmelt.png"
                 ]}
             />
         </motion.section>

@@ -69,8 +69,8 @@ fn vertexMain(vertexInput: VertexInput) -> VertexOutput {
     var triTranslated = triRotatedZX;
     // triTranslated.x += 6.7;
     // triTranslated.y -= 1.6;
-    triTranslated.z += 3.8;
-    var triProjected = vec4f(triTranslated.x, triTranslated.y, triTranslated.z, 1.0) * matProj;
+    triTranslated.z += 4.5;
+    var triProjected = triTranslated * matProj;
 
     var vertexOutput = VertexOutput();
     vertexOutput.pos = triProjected;
@@ -78,22 +78,14 @@ fn vertexMain(vertexInput: VertexInput) -> VertexOutput {
     return vertexOutput;
 }
 
-// incredible simplification of camera
-const camera = vec3f(0);
 
-const light = vec3f(0.0, 0.0, -1.0);
-const light_direction = vec3f(0.0, 0.0, 1.0);
+const light = vec3f(0.0, 2.0, 0.0);
 
 @fragment
 fn fragmentMain(fragmentInput: VertexOutput) -> @location(0) vec4f {
-    let dp = dot(normalize(fragmentInput.normal), normalize(light)) + 0.9;
-    // let dp = fragmentInput.normal.x * light_direction.x 
-    //          + fragmentInput.normal.y * light_direction.y
-    //          + fragmentInput.normal.z * light_direction.z;
-    let ld = dp - iLightDark;
-    var fragColor = vec3f(ld);
-    if (dp > 0.9) {
-        fragColor = vec3f(0.0);
-    }
+    let dp = dot(normalize(fragmentInput.normal), normalize(light));
+    let ld = dp + 0.5;
+    var fragColor = vec3f(round(ld * 8) / 8);
+    fragColor = fragColor * (1 - iLightDark) + (1 - fragColor) * iLightDark;
     return vec4f(fragColor * iOpacity, iOpacity);
 }

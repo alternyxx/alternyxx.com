@@ -59,11 +59,12 @@
 .MenuFooter {
     position: fixed;
     font-size: 20px;
-    top: 85vh;
+    top: 78vh;
     margin-left: 40px;
 }
 
 .MenuToggle {
+    line-height: 40px;
     color: #888888;
 }
 
