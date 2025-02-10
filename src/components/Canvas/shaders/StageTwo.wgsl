@@ -11,6 +11,7 @@ struct VertexInput {
 struct VertexOutput {
     @builtin(position) pos: vec4f,
     @location(1) normal: vec3f,
+    @location(2) light: vec4f,
 }
 
 const fNear = 0.1;
@@ -70,20 +71,21 @@ fn vertexMain(vertexInput: VertexInput) -> VertexOutput {
     // triTranslated.x += 6.7;
     // triTranslated.y -= 1.6;
     triTranslated.z += 4.5;
+
     var triProjected = triTranslated * matProj;
 
     var vertexOutput = VertexOutput();
     vertexOutput.pos = triProjected;
-    vertexOutput.normal = normalRotatedZX;
+    vertexOutput.normal = vertexInput.normal;
+    vertexOutput.light = vec4f(0.0, 2.0, 0.0, 1.0) * zAxisRotation * xAxisRotation;
     return vertexOutput;
 }
 
 
-const light = vec3f(0.0, 2.0, 0.0);
 
 @fragment
 fn fragmentMain(fragmentInput: VertexOutput) -> @location(0) vec4f {
-    let dp = dot(normalize(fragmentInput.normal), normalize(light));
+    let dp = dot(normalize(fragmentInput.normal), normalize(fragmentInput.light.xyz));
     let ld = dp + 0.5;
     var fragColor = vec3f(round(ld * 8) / 8);
     fragColor = fragColor * (1 - iLightDark) + (1 - fragColor) * iLightDark;

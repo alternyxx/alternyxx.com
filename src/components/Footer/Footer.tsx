@@ -12,7 +12,7 @@ export default function Footer() {
     const darkMode = useContext(DarkModeContext);
 
     return (
-        <div 
+        <footer
             className="Footer"
             style={{
                 backgroundColor: darkMode ? "rgba(0, 0, 0, 0.9)" : "rgba(255, 255, 255, 0.8)", 
@@ -24,11 +24,11 @@ export default function Footer() {
             </div>
             <div className="FooterText">
                 <p>
-                    It would mean the world to me if you could support me! 
-                    A single $USD can get me 5 coffees where i live :D.
+                    Feel free to reach out to me via nyx@alternyxx.com for any questions or inqueries!
+                    <br></br>
+                    If you could support me via my patreon below, it'd be greatly appreciated! 
                 </p>
                 <p>
-                    And, feel free to reach out to me via alternyxx@gmail.com for any questions or inqueries!
                 </p><br/>
                 <a href="https://www.patreon.com/c/alternyxx">
                     <img 
@@ -41,6 +41,6 @@ export default function Footer() {
                     />
                 </a>
             </div>
-        </div>
+        </footer>
     );
 }

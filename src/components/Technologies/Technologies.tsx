@@ -5,11 +5,11 @@ import IndivTechnology from "./IndivTechnology"
 
 /* i should prob use devicons but the load time is insane */
 import react from "../../assets/Techstack/react-2.svg"
-// import tailwind from "../../assets/tailwind-css-2.svg"
+import tailwind from "../../assets/Techstack/tailwind-css-2.svg"
 import figma from "../../assets/Techstack/Figma Icon (Full-color).svg"
 import typescript from "../../assets/Techstack/typescript.svg"
 import webgpu from "../../assets/Techstack/webgpu.svg"
-import opengl from "../../assets/Techstack/webgl-logo.svg"
+// import opengl from "../../assets/Techstack/webgl-logo.svg"
 import git from "../../assets/Techstack/Git-Icon-1788C.svg"
 
 import python from "../../assets/Techstack/Python_logo_01.svg"
@@ -27,7 +27,7 @@ interface Technologies {
 
 export default function Technologies({setStage}: Technologies) {
     return (
-        <motion.div 
+        <motion.section
             variants={
                 { 
                     hidden: {opacity: 0, y: 50},
@@ -77,12 +77,10 @@ export default function Technologies({setStage}: Technologies) {
                 className="IndivTechnologies"
             >
                 <IndivTechnology img={react} text="React" description="UI/UX" />
-                {/* <IndivTechnology img={tailwind} text="Tailwind" description="UI/UX" /> I am lazy to learn tailwind LMFAO
-                 and i think pure css is better so :P */}
+                <IndivTechnology img={tailwind} text="Tailwind" description="UI/UX" /> 
                 <IndivTechnology img={figma} text="Figma" description="UI/UX" />
                 <IndivTechnology img={typescript} text="Typescript" description="Javascript but better" />
-                <IndivTechnology img={webgpu} text="Webgpu" description="2D & 3D Graphics" />
-                <IndivTechnology img={opengl} text="WebGL" description="2D & 3D Graphics" />
+                <IndivTechnology img={webgpu} text="WebGPU" description="2D & 3D Graphics" />
                 <IndivTechnology img={git} text="Git" description="Version Control" />
             </motion.div>
 
@@ -113,6 +111,6 @@ export default function Technologies({setStage}: Technologies) {
                 <IndivTechnology img={c} text="C" description="Segmentation Fault" />
             </motion.div>
 
-        </motion.div>
+        </motion.section>
     )
 }

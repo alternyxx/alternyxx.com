@@ -94,6 +94,7 @@ export default function Menu(props: Menu) {
                     src={icon} 
                     className="MenuIcon" 
                     onClick={handleClick}
+                    whileHover={{scale: 1.1, transition: {duration: 0.4}}}
                     style={{filter: `invert(${darkMode ? 0 : 92}%)`}}
                     />
             </motion.a>

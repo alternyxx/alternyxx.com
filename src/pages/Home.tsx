@@ -65,25 +65,25 @@ export default function Home(props: Home) {
 			{stage > 0 ? 
 				<Menu bgShow={bgShow} setBgShow={setBgShow} htmlShow={htmlShow} setHtmlShow={setHtmlShow} /> : ''
 			}
-			<div 
-				className="Home" 
-				style={{
-					color: darkMode ? "#F6F7F9" : "#23272F",
-					textShadow: darkMode ? "1px 1px 2px #23272F" : "1px 1px 2px #F6F7F9",
-					backgroundColor: props.device && bgShow ? "transparent" : darkMode ? "#000000" : "#FFFFFF",
-					visibility: htmlShow ? "visible" : "hidden"
-				}}
-			>
-					{stage === 0 ? <Entry stage={stage} setStage={setStage} /> :
-					<>
-						<Lightbulb setDarkMode={setDarkMode} /> 
-						<Bio setStage={setStage} />
-						<Projects setStage={setStage} reference={blahajRef}/>
-						<Technologies setStage={setStage} />
-						<Footer />
-					</> 
-					}
-			</div>
+				<div 
+					className="Home" 
+					style={{
+						color: darkMode ? "#F6F7F9" : "#23272F",
+						textShadow: darkMode ? "1px 1px 2px #23272F" : "1px 1px 2px #F6F7F9",
+						backgroundColor: props.device && bgShow ? "transparent" : darkMode ? "#000000" : "#FFFFFF",
+						visibility: htmlShow ? "visible" : "hidden"
+					}}
+				>
+						{stage === 0 ? <Entry stage={stage} setStage={setStage} /> :
+						<>
+							<Lightbulb setDarkMode={setDarkMode} /> 
+							<Bio setStage={setStage} />
+							<Projects setStage={setStage} reference={blahajRef}/>
+							<Technologies setStage={setStage} />
+							<Footer />
+						</> 
+						}
+				</div>
 			</DarkModeContext.Provider>
 		</>
 	);

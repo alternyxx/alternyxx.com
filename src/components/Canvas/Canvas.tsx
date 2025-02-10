@@ -42,7 +42,7 @@ export default function Canvas(props: Canvas) {
     useEffect(() => {
         document.dispatchEvent(lightDark);
     }, [props.darkMode]);
-
+    
     // Canvas hook
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
@@ -54,13 +54,114 @@ export default function Canvas(props: Canvas) {
         context.configure({
             device: props.device,
             format: canvasFormat,
-            // this doesnt seem to work
             alphaMode: 'premultiplied',
         });
+        
+        // ~~~~~~~~~~ Vertex, Shader and Texture ~~~~~~~~~~ //
+        const vertexBuffer = props.device.createBuffer({
+            label: "Vertex Buffer",
+            size: vertices[props.stage].byteLength * 2,
+            usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
+        });
+    
+        props.device.queue.writeBuffer(vertexBuffer, 0, vertices[props.stage]);
+    
+        var shaderCode = stages[props.stage];
+    
+        const ShaderModule = props.device.createShaderModule({
+            label: "Shader Module",
+            code: shaderCode
+        });
+    
+        const vertexBufferLayout: GPUVertexBufferLayout = {
+            arrayStride: verticesInfo[props.stage] * 8, // bytes is 4, multiplied by 2 for normals
+            attributes: [{
+                // typescript doesnt like any other way
+                // and i dont like typescript enough to figure it out
+                format: `float32x${props.stage != 2 ? 2 : 3}`,
+                offset: 0,
+                shaderLocation: 0,
+            }, {
+                format: `float32x${props.stage != 2 ? 2 : 3}`,
+                offset: verticesInfo[props.stage] * 4,
+                shaderLocation: 1,
+            }],
+        };
+        
+        let depthTexture, depthTextureView: any;
+        const createDepth = () => {
+            depthTexture = props.device.createTexture({
+                label: "change",
+                size: [window.innerWidth, window.innerHeight - 1],
+                format: "depth24plus",
+                usage: GPUTextureUsage.RENDER_ATTACHMENT
+            });
+            depthTextureView = depthTexture.createView();
+        };
+        createDepth();
+        
+        // ~~~~~~~~~~ Bind Group Layout (also used in pipeline layout) ~~~~~~~~~~ //
+        const iBindGroupLayout = props.device.createBindGroupLayout({
+            label: "Group Layouts",
+            entries: [{
+                binding: 0,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 1,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 2,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 3,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }, {
+                binding: 4,
+                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+                buffer: {}
+            }]
+        });
+
+        
+        // ~~~~~~~~~~ Pipelines ~~~~~~~~~~ //
+        const pipelineLayout = props.device.createPipelineLayout({
+            label: "Pipeline Layout",
+            bindGroupLayouts: [iBindGroupLayout]
+        });
+
+        const Pipeline = props.device.createRenderPipeline({
+            label: "Pipeline",
+            layout: pipelineLayout,
+            primitive: {
+                cullMode: "front"
+            },
+            depthStencil: {
+                format: "depth24plus",
+                depthWriteEnabled: true,
+                depthCompare: "less",
+            },
+            vertex: {
+                module: ShaderModule,
+                entryPoint: "vertexMain",
+                buffers: [vertexBufferLayout]
+            },
+            fragment: {
+                module: ShaderModule,
+                entryPoint: "fragmentMain",
+                targets: [{
+                    format: canvasFormat
+                }]
+            }
+        });
+
 
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
         // ~~~ Resolution ~~~ //
-        const iResolution = new Float32Array([windowWidthHeight[0], windowWidthHeight[1]]);
+        const iResolution = new Float32Array([windowWidthHeight[0], windowWidthHeight[1] - 1]);
         const iResolutionBuffer = props.device.createBuffer({
             label: "iResolution",
             size: iResolution.byteLength,
@@ -70,17 +171,20 @@ export default function Canvas(props: Canvas) {
         props.device.queue.writeBuffer(iResolutionBuffer, 0, iResolution);
 
         // ~~~ Browser Resize Event ~~~ //
-		const handleResize = () => {
-            props.device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
-                window.innerWidth, window.innerHeight
-            ]));
-			setWindowWidthHeight([window.innerWidth, window.innerHeight]);
-		};
+        const handleResize = () => {
+            createDepth();
 
-		window.addEventListener("resize", handleResize);
+            props.device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
+                window.innerWidth, window.innerHeight - 1
+            ]));
+
+            setWindowWidthHeight([window.innerWidth, window.innerHeight]);
+        };
+
+        window.addEventListener("resize", handleResize);
 
         // ~~~ Light Mode / Dark Mode ~~~ //
-        var ldVal = props.darkMode ? 0.0 : 1.0
+        let ldVal = props.darkMode ? 0.0 : 1.0
         const iLightDark = new Float32Array([ldVal]);
         const iLightDarkBuffer = props.device.createBuffer({
             label: "iLightDark",
@@ -144,93 +248,8 @@ export default function Canvas(props: Canvas) {
         });
 
         props.device.queue.writeBuffer(iMobileBuffer, 0, iMobile);
-
-        // ~~~~~~~~~~ Vertex and Shader Buffer ~~~~~~~~~~ //
-        const vertexBuffer = props.device.createBuffer({
-            label: "Vertex Buffer",
-            size: vertices[props.stage].byteLength * 2,
-            usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
-        });
-
-        props.device.queue.writeBuffer(vertexBuffer, 0, vertices[props.stage]);
-
-        var shaderCode = stages[props.stage];
-
-        const ShaderModule = props.device.createShaderModule({
-            label: "Shader Module",
-            code: shaderCode
-        });
-
-        const vertexBufferLayout: GPUVertexBufferLayout = {
-            arrayStride: verticesInfo[props.stage] * 8, // bytes is 4, multiplied by 2 for normals
-            attributes: [{
-                // typescript doesnt like any other way
-                // and i dont like typescript enough to figure it out
-                format: `float32x${props.stage != 2 ? 2 : 3}`,
-                offset: 0,
-                shaderLocation: 0,
-            }, {
-                format: `float32x${props.stage != 2 ? 2 : 3}`,
-                offset: verticesInfo[props.stage] * 4,
-                shaderLocation: 1,
-            }],
-        };
-
-
-        // ~~~~~~~~~~ Bind Group Layout (also used in pipeline layout) ~~~~~~~~~~ //
-        const iBindGroupLayout = props.device.createBindGroupLayout({
-            label: "Group Layouts",
-            entries: [{
-                binding: 0,
-                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-                buffer: {}
-            }, {
-                binding: 1,
-                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-                buffer: {}
-            }, {
-                binding: 2,
-                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-                buffer: {}
-            }, {
-                binding: 3,
-                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-                buffer: {}
-            }, {
-                binding: 4,
-                visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-                buffer: {}
-            }]
-        });
-
-
-        // ~~~~~~~~~~ Pipelines ~~~~~~~~~~ //
-        const pipelineLayout = props.device.createPipelineLayout({
-            label: "Pipeline Layout",
-            bindGroupLayouts: [iBindGroupLayout]
-        });
-
-        const Pipeline = props.device.createRenderPipeline({
-            label: "Pipeline",
-            layout: pipelineLayout,
-            primitive: {
-                cullMode: "front"
-            },
-            vertex: {
-                module: ShaderModule,
-                entryPoint: "vertexMain",
-                buffers: [vertexBufferLayout]
-            },
-            fragment: {
-                module: ShaderModule,
-                entryPoint: "fragmentMain",
-                targets: [{
-                    format: canvasFormat
-                }]
-            }
-        });
-
-
+        
+        
         // ~~~~~~~~~~ Bind Groups ~~~~~~~~~~ //
         const iBindGroups = props.device.createBindGroup({
             label: "input Bind Groups",
@@ -253,6 +272,7 @@ export default function Canvas(props: Canvas) {
             }]
         });
 
+
         // ~~~~~~~~~~ Frame loop ~~~~~~~~~~ //
         const frame = (currentTime: number) => {
             // ~~~ Adjusting input time ~~~ //
@@ -261,14 +281,20 @@ export default function Canvas(props: Canvas) {
             props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
             
             const encoder = props.device.createCommandEncoder();
-
+            
             const pass = encoder.beginRenderPass({
                 colorAttachments: [{
                     view: context!.getCurrentTexture().createView(),
                     loadOp: "clear",
                     clearValue: {r: ldVal, g: ldVal, b: ldVal, a: 1.0},
                     storeOp: "store",
-                }]
+                }],
+                depthStencilAttachment: {
+                    view: depthTextureView,
+                    depthLoadOp: "clear",
+                    depthStoreOp: "store",
+                    depthClearValue: 1.0,
+                }
             });
             
             pass.setPipeline(Pipeline);

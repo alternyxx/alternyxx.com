@@ -46,7 +46,7 @@ export default function LightDark(props: LightDark) {
     };
 
     return (
-        <>
+        <div>
             <motion.div
                 variants={textVariants}
                 initial="hidden"
@@ -104,6 +104,6 @@ export default function LightDark(props: LightDark) {
                     />
                 </motion.a>
             </motion.div>
-        </>
+        </div>
     );
 }
