@@ -27,6 +27,6 @@ fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f {
     color = smoothstep(0.0, 0.15, color);
     var fragColor = vec3f(color);
 
-    fragColor = 1 - fragColor;
+    fragColor = fragColor;
     return vec4f(fragColor, 1.0);
 }

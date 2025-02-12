@@ -9,12 +9,12 @@ fn vertexMain(@location(0) pos: vec2f, @location(1) normal: vec2f) ->
     return vec4f(pos.x, pos.y, 0, 1); 
 } 
  
-// Just use this as a utility function for when you need lines 
-// Heavily nested version at https://www.shadertoy.com/view/DtSczc 
+// The code youre about to see is horrible and unmaintainable fyi
 fn diagonal(pixelCords: vec2f, colorA: vec3f, colorB: vec3f, thickness: f32)  
     -> vec3f { 
     return mix(colorA, colorB,  
-               smoothstep(0.249, 0.251, abs(fract(pixelCords.y - pixelCords.x) / thickness) - 0.5)); 
+               smoothstep(0.249, 0.251, abs(fract(pixelCords.y - pixelCords.x) / thickness) - 0.5)
+    ); 
 } 
  
 fn palette(t: f32) -> vec3f { 
@@ -38,20 +38,18 @@ fn rings(pixelCords: vec2f) -> vec3f {
 fn fragmentMain(@builtin(position) fragCoord: vec4f) -> @location(0) vec4f { 
     var y = iResolution.y - fragCoord.y; 
     var uv = vec2f(fragCoord.x / iResolution.x, y / iResolution.y); 
-     
     // Some zoom and normalisation // 
     uv.x = (uv.x * 2 - 1) * (iResolution.x / iResolution.y); 
     uv.y = uv.y * 2 - 1; 
  
     // ~~~~~~~~~~~ The cool stuff ~~~~~~~~~~~ // 
- 
-    // ~~~ Rings ~~~ // 
+    // // ~~~ Rings ~~~ // 
     let uvr1 = vec2f(uv.x - 1.2, uv.y - 1.2); 
     let uvr2 = vec2f(uv.x + 0.8, uv.y + 1.2); 
     var c = length(uvr2); 
     var d = length(uvr1); 
     c = sin(c * 2 + iTime / 6) * 10; 
-    d = sin(d * 2 + iTime / 6) * 10; 
+    d = sin(d * 2 + iTime / 6) * 10;    
     c = 1.2 / c;
     d = 1.2 / d;
     let c1 = palette(abs(c)); 
