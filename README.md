@@ -11,5 +11,8 @@ really need any of the features next provides, might as well not.
 The assets are stored not on fetched because api requests fail most of the time  
 and its kinda hard to code something which you literally can't see.
 
+# Previews
+
+
 # Structure
 If you're interested in the code for shaders, they're in src/components/Canvas/shaders.  

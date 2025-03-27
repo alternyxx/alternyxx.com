@@ -1,4 +1,5 @@
 import { useContext, useState, MouseEvent } from "react"
+import { useNavigate } from "react-router"
 import { DarkModeContext } from "../../common/context"
 import { motion, AnimatePresence } from "motion/react"
 
@@ -15,6 +16,8 @@ interface Menu {
 
 export default function Menu(props: Menu) {
     const darkMode = useContext(DarkModeContext);
+
+    const navigate = useNavigate();
 
     const [menuShown, setMenuShown] = useState(false);
 
@@ -33,7 +36,7 @@ export default function Menu(props: Menu) {
     return (
         <div className="Menu">
             <AnimatePresence>
-            { menuShown &&
+            { menuShown && 
             <div className="MenuShown">
                 <motion.div 
                     initial={{x: -320}}
@@ -52,8 +55,32 @@ export default function Menu(props: Menu) {
                             Menu~
                         </div>
                         <div className="MenuBody">
-                            <p>
-                                <b><u>Home</u></b> •<br />
+                            <p 
+                                onClick={(e: MouseEvent) => {
+                                    e.preventDefault();
+                                    navigate("");
+                                }}
+                                className="Page"
+                            >
+                                <b><u>Home</u></b> •<br/>
+                            </p>
+                            <p
+                                onClick={(e: MouseEvent) => {
+                                    e.preventDefault();
+                                    navigate("blogs");
+                                }}
+                                className="Page"
+                            >
+                                <b><u>Blogs</u></b> •<br/>
+                            </p>
+                            <p
+                                onClick={(e: MouseEvent) => {
+                                    e.preventDefault();
+                                    navigate("portfolio");
+                                }}
+                                className="Page"
+                            >
+                                <b><u>Portfolio</u></b> •<br/>
                             </p>
                         </div>
                         <div className="MenuFooter">

@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { StageContext } from "../../common/context"
 import { motion } from "motion/react"
 import IndivProject from "./IndivProject"
 
@@ -12,11 +14,12 @@ a more fleshed-out rhythm game with my own custom music.
 `
 
 interface Projects {
-    setStage: Function
     reference: any 
 }
 
-export default function Projects({setStage, reference}: Projects) {
+export default function Projects({reference}: Projects) {
+    const {setStage} = useContext(StageContext);
+    
     return (
         <motion.section
             className="Projects"

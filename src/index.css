@@ -14,18 +14,53 @@ html, body {
     background: #686868;
 }
 
-.Home {
-    position: absolute;
-    color: #F6F7F9;
-    font-family: "DM Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
+.App {
+    display: flex; 
+    flex-direction: column;
+}
+
+.App::after {
+    content: "";
+    display: block;
+    height: 1px; /* Ensures `.App` stretches */
 }
 
 .Canvas {
     position: fixed;
     z-index: -10;
+}
+
+.Home {
+    position: absolute;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background: transparent;
+}
+
+/* ~~~ For mobile phones ~~~ */
+.Entry {
+    color: #F6F7F9;
+    text-shadow: 0;
+    position: fixed;
+    font-size: 14px;
+    margin-left: 3%;
+    top: 27%;
+    z-index: -1;
+}
+
+.Typewriter {
+    background-color: #F6F7F9;
+}
+
+/* ~~~ For PC devices ~~~ */
+@media only screen and (min-width: 768px) {
+    .Entry {
+        font-size: 20px;
+        margin-left: 2%;
+        top: 30%;
+    }
 }
 
 /* Utility Classes */

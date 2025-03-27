@@ -1,44 +1,20 @@
+import { useContext } from "react"
 import { motion } from "motion/react"
 import { isMobile } from "react-device-detect"
+import { StageContext } from "../../common/context"
 import haj from "../../assets/haj.webp"
 import "./Bio.css"
 
-const sectionVariants = { 
-    hidden: {opacity: 0, y: 50},
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { staggerChildren: 0.5, delayChildren: 1 }
-    } 
-};
+import {
+    sectionVariants,
+    elementVarient,
+    textVariants,
+    noteVarients,
+} from "../../common/variants"
 
-const elementVarient = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 },
-};
-
-const textVariants = { 
-    hidden: {opacity: 0, y: 50},
-    show: {
-        opacity: 1,
-        y: 0,
-    }
-};
-
-const noteVarients = {
-    hidden: {opacity: 0, y: 30},
-    show: {
-        opacity: 1,
-        y: 0,
-    }
-};
-
-interface Bio {
-    setStage: Function
-}
-                    
-export default function Bio({setStage}: Bio) {    
+export default function Bio() {
     // This should probably be in a useEffect
+    const {setStage} = useContext(StageContext);
     let fontSizes = {whileHoverFontSize: "", whileTapFontSize: ""};
 
     // make this a media query

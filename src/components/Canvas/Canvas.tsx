@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 
 // import { DarkModeContext } from "../../common/context";
+import { StageContext } from "../../common/context";
 
 // vertices
 import { Screen } from "./vertices/Screen";
@@ -18,17 +19,18 @@ import StageThree from "./shaders/StageThree.wgsl?raw"
 const stages = [Entry, StageOne, StageTwo, StageThree];
 
 interface Canvas {
-    stage: number
-    darkMode: boolean
     device: GPUDevice
+    darkMode: boolean
 }
 
-export default function Canvas(props: Canvas) {
-    // useContext will rerender the whole thing which is not what i want
+export default function Canvas({
+    device, darkMode
+}: Canvas) {
+    // useContext will rerender the whole thing which is not what i want for darkmode
     // const darkMode = useContext(DarkModeContext);
-    const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
-
+    const {stage} = useContext(StageContext); // its fine here because the whole thing needs to rerender
     const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
+    const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
     const lightDarkTransition = useRef<number>(0);
     const loopRef = useRef<number>(0);
@@ -41,56 +43,58 @@ export default function Canvas(props: Canvas) {
     // no ref exists check since i cheekily make this render first before canvas c:
     useEffect(() => {
         document.dispatchEvent(lightDark);
-    }, [props.darkMode]);
+    }, [darkMode]);
     
     // Canvas hook
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
         const context = canvas.current.getContext("webgpu");
+        console.log("uhm")
         if (!context) {
             return;
         }
+
         const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
         context.configure({
-            device: props.device,
+            device: device,
             format: canvasFormat,
             alphaMode: 'premultiplied',
         });
         
         // ~~~~~~~~~~ Vertex, Shader and Texture ~~~~~~~~~~ //
-        const vertexBuffer = props.device.createBuffer({
+        const vertexBuffer = device.createBuffer({
             label: "Vertex Buffer",
-            size: vertices[props.stage].byteLength * 2,
+            size: vertices[stage].byteLength * 2,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
         });
     
-        props.device.queue.writeBuffer(vertexBuffer, 0, vertices[props.stage]);
+        device.queue.writeBuffer(vertexBuffer, 0, vertices[stage]);
     
-        var shaderCode = stages[props.stage];
+        var shaderCode = stages[stage];
     
-        const ShaderModule = props.device.createShaderModule({
+        const ShaderModule = device.createShaderModule({
             label: "Shader Module",
             code: shaderCode
         });
     
         const vertexBufferLayout: GPUVertexBufferLayout = {
-            arrayStride: verticesInfo[props.stage] * 8, // bytes is 4, multiplied by 2 for normals
+            arrayStride: verticesInfo[stage] * 8, // bytes is 4, multiplied by 2 for normals
             attributes: [{
                 // typescript doesnt like any other way
                 // and i dont like typescript enough to figure it out
-                format: `float32x${props.stage != 2 ? 2 : 3}`,
+                format: `float32x${stage != 2 ? 2 : 3}`,
                 offset: 0,
                 shaderLocation: 0,
             }, {
-                format: `float32x${props.stage != 2 ? 2 : 3}`,
-                offset: verticesInfo[props.stage] * 4,
+                format: `float32x${stage != 2 ? 2 : 3}`,
+                offset: verticesInfo[stage] * 4,
                 shaderLocation: 1,
             }],
         };
         
         let depthTexture, depthTextureView: any;
         const createDepth = () => {
-            depthTexture = props.device.createTexture({
+            depthTexture = device.createTexture({
                 label: "change",
                 size: [window.innerWidth, window.innerHeight - 1],
                 format: "depth24plus",
@@ -101,7 +105,7 @@ export default function Canvas(props: Canvas) {
         createDepth();
         
         // ~~~~~~~~~~ Bind Group Layout (also used in pipeline layout) ~~~~~~~~~~ //
-        const iBindGroupLayout = props.device.createBindGroupLayout({
+        const iBindGroupLayout = device.createBindGroupLayout({
             label: "Group Layouts",
             entries: [{
                 binding: 0,
@@ -128,12 +132,12 @@ export default function Canvas(props: Canvas) {
 
         
         // ~~~~~~~~~~ Pipelines ~~~~~~~~~~ //
-        const pipelineLayout = props.device.createPipelineLayout({
+        const pipelineLayout = device.createPipelineLayout({
             label: "Pipeline Layout",
             bindGroupLayouts: [iBindGroupLayout]
         });
 
-        const Pipeline = props.device.createRenderPipeline({
+        const Pipeline = device.createRenderPipeline({
             label: "Pipeline",
             layout: pipelineLayout,
             primitive: {
@@ -162,19 +166,19 @@ export default function Canvas(props: Canvas) {
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
         // ~~~ Resolution ~~~ //
         const iResolution = new Float32Array([windowWidthHeight[0], windowWidthHeight[1] - 1]);
-        const iResolutionBuffer = props.device.createBuffer({
+        const iResolutionBuffer = device.createBuffer({
             label: "iResolution",
             size: iResolution.byteLength,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(iResolutionBuffer, 0, iResolution);
+        device.queue.writeBuffer(iResolutionBuffer, 0, iResolution);
 
         // ~~~ Browser Resize Event ~~~ //
         const handleResize = () => {
             createDepth();
 
-            props.device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
+            device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
                 window.innerWidth, window.innerHeight - 1
             ]));
 
@@ -184,15 +188,15 @@ export default function Canvas(props: Canvas) {
         window.addEventListener("resize", handleResize);
 
         // ~~~ Light Mode / Dark Mode ~~~ //
-        let ldVal = props.darkMode ? 0.0 : 1.0
+        let ldVal = darkMode ? 0.0 : 1.0
         const iLightDark = new Float32Array([ldVal]);
-        const iLightDarkBuffer = props.device.createBuffer({
+        const iLightDarkBuffer = device.createBuffer({
             label: "iLightDark",
             size: iLightDark.byteLength,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(iLightDarkBuffer, 0, iLightDark);
+        device.queue.writeBuffer(iLightDarkBuffer, 0, iLightDark);
 
         // ~~~ Light Mode / Dark Mode Switch ~~~ //
         const handleLightDark = () => {
@@ -204,7 +208,7 @@ export default function Canvas(props: Canvas) {
             }
             const write = () => {
                 ldVal += ld;
-                props.device.queue.writeBuffer(iLightDarkBuffer, 0, new Float32Array([
+                device.queue.writeBuffer(iLightDarkBuffer, 0, new Float32Array([
                     ldVal
                 ]));
 
@@ -221,37 +225,37 @@ export default function Canvas(props: Canvas) {
 
         // ~~~ Time passed ~~~ //
         const iTime = new Float32Array([0]);
-        const iTimeBuffer = props.device.createBuffer({
+        const iTimeBuffer = device.createBuffer({
             label: "iTIme",
             size: iTime.byteLength,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(iTimeBuffer, 0, iTime);
+        device.queue.writeBuffer(iTimeBuffer, 0, iTime);
     
         // ~~~ Opacity ~~~ //
         const iOpacity = new Float32Array([0]);
-        const iOpacityBuffer = props.device.createBuffer({
+        const iOpacityBuffer = device.createBuffer({
             label: "iOpacity",
             size: iOpacity.byteLength,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
+        device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
 
         // ~~~ Mobile ~~~ //
         const iMobile = new Float32Array([0]);
-        const iMobileBuffer = props.device.createBuffer({
+        const iMobileBuffer = device.createBuffer({
             label: "iMobile",
             size: iMobile.byteLength,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
-        props.device.queue.writeBuffer(iMobileBuffer, 0, iMobile);
+        device.queue.writeBuffer(iMobileBuffer, 0, iMobile);
         
         
         // ~~~~~~~~~~ Bind Groups ~~~~~~~~~~ //
-        const iBindGroups = props.device.createBindGroup({
+        const iBindGroups = device.createBindGroup({
             label: "input Bind Groups",
             layout: iBindGroupLayout,
             entries: [{
@@ -278,9 +282,9 @@ export default function Canvas(props: Canvas) {
             // ~~~ Adjusting input time ~~~ //
             iTime[0] = currentTime / 1000 - prevStageTime.current;
             
-            props.device.queue.writeBuffer(iTimeBuffer, 0, iTime)
+            device.queue.writeBuffer(iTimeBuffer, 0, iTime)
             
-            const encoder = props.device.createCommandEncoder();
+            const encoder = device.createCommandEncoder();
             
             const pass = encoder.beginRenderPass({
                 colorAttachments: [{
@@ -300,11 +304,11 @@ export default function Canvas(props: Canvas) {
             pass.setPipeline(Pipeline);
             pass.setVertexBuffer(0, vertexBuffer);
             pass.setBindGroup(0, iBindGroups);
-            pass.draw(vertices[props.stage].length / verticesInfo[props.stage]);
+            pass.draw(vertices[stage].length / verticesInfo[stage]);
             
             pass.end();
             
-            props.device.queue.submit([encoder.finish()]);
+            device.queue.submit([encoder.finish()]);
             
             // I could prob ultra optimise this and put this is 
             // a seperate custom event but i aint getting paid at all
@@ -319,7 +323,7 @@ export default function Canvas(props: Canvas) {
                 else {
                     iOpacity[0] += 0.0125;
                 }
-                props.device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
+                device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
             }
             
             loopRef.current = requestAnimationFrame(frame);
@@ -338,7 +342,7 @@ export default function Canvas(props: Canvas) {
             // Cancel animation from previous render
             window.cancelAnimationFrame(loopRef.current);
         };
-    }, [props.stage]);
+    }, [stage]);
     
     // Return canvas
     return (

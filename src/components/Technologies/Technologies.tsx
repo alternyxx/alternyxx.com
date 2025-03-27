@@ -1,31 +1,54 @@
+import { useContext } from "react"
 import { motion } from "motion/react"
+import { StageContext } from "../../common/context"
+import { elementVarient } from "../../common/variants"
 
 import "./Technologies.css"
-import IndivTechnology from "./IndivTechnology"
 
 /* i should prob use devicons but the load time is insane */
+import nextjs from "../../assets/Techstack/nextjs-original.svg"
 import react from "../../assets/Techstack/react-2.svg"
 import tailwind from "../../assets/Techstack/tailwind-css-2.svg"
-import figma from "../../assets/Techstack/Figma Icon (Full-color).svg"
 import typescript from "../../assets/Techstack/typescript.svg"
 import webgpu from "../../assets/Techstack/webgpu.svg"
-// import opengl from "../../assets/Techstack/webgl-logo.svg"
 import git from "../../assets/Techstack/Git-Icon-1788C.svg"
 
 import python from "../../assets/Techstack/Python_logo_01.svg"
 import c from "../../assets/Techstack/c-1.svg"
 
-
-const elementVarient = {
-    hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0 },
-};
-
-interface Technologies {
-    setStage: Function
+interface IndivTechnology {
+    img: any
+    text: string
+    description: string
 }
 
-export default function Technologies({setStage}: Technologies) {
+const IndivTechnology = (props: IndivTechnology) => {
+    return (
+        <motion.div 
+            variants={{ 
+                hidden: {opacity: 0, y: 100},
+                show: {
+                    opacity: 1,
+                    y: 0,
+                } 
+            }}
+            whileHover={{scale: 1.05}}
+            whileTap={{scale: 1.02}}
+            className="IndivTechnology" 
+        >            
+            <img src={props.img} 
+                className="TechnologyImg" />
+            <div className="TechnologyText">
+                <p className="TechnologyName">{props.text}</p>
+                <p className="TechnologyDescription">{props.description}</p>
+            </div>
+        </motion.div>
+    )
+}
+
+export default function Technologies() {
+    const {setStage} = useContext(StageContext);
+    
     return (
         <motion.section
             variants={
@@ -76,9 +99,9 @@ export default function Technologies({setStage}: Technologies) {
                 viewport={{margin: "100px 0px 0px 10000px"}}
                 className="IndivTechnologies"
             >
-                <IndivTechnology img={react} text="React" description="UI/UX" />
+                <IndivTechnology img={nextjs} text="NextJS" description="Web Dev" />
+                <IndivTechnology img={react} text="React" description="Reactive" />
                 <IndivTechnology img={tailwind} text="Tailwind" description="UI/UX" /> 
-                <IndivTechnology img={figma} text="Figma" description="UI/UX" />
                 <IndivTechnology img={typescript} text="Typescript" description="Javascript but better" />
                 <IndivTechnology img={webgpu} text="WebGPU" description="2D & 3D Graphics" />
                 <IndivTechnology img={git} text="Git" description="Version Control" />

@@ -2,6 +2,7 @@ import { useContext } from "react";
 
 import { DarkModeContext } from "../../common/context";
 
+// idk why the white one is smaller???
 import WordmarkWhite from "../../assets/PATREON_WORDMARK_1_WHITE_RGB.svg"
 import WordmarkBlack from "../../assets/PATREON_WORDMARK_1_BLACK_RGB.svg"
 import PatreonWhite from "../../assets/PATREON_SYMBOL_1_WHITE_RGB.svg"
