@@ -1,4 +1,4 @@
-import { useContext, useState, MouseEvent } from "react";
+import { Dispatch, SetStateAction, useContext, useState, MouseEvent } from "react";
 import { motion, useScroll, useSpring, useMotionValueEvent } from "motion/react"
 
 import { DarkModeContext } from "../../common/context";
@@ -19,7 +19,8 @@ const lightbulbVariants = {
 }
 
 interface LightDark {
-    setDarkMode: Function
+    setDarkMode: Dispatch<SetStateAction<boolean>>, // i forgot why this ws explicitly passed
+    lowHanging?: boolean,
 }
 
 export default function LightDark(props: LightDark) {
@@ -31,7 +32,7 @@ export default function LightDark(props: LightDark) {
     const scroll = useSpring(scrollY);
 
     useMotionValueEvent(scrollY, "change", current => {
-        if (current < window.innerHeight) {
+        if (current < window.innerHeight && !props.lowHanging) {
             setHandle(current - 100);
             scroll.set(current - 20);
         } else {
@@ -45,6 +46,7 @@ export default function LightDark(props: LightDark) {
         props.setDarkMode((prev: boolean) => !prev);
     };
 
+    // top level div just makes inspecting look a lot nicer
     return (
         <div>
             <motion.div

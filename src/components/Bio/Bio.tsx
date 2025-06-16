@@ -1,6 +1,5 @@
-import { useContext } from "react"
+import { useContext, useState, useEffect } from "react"
 import { motion } from "motion/react"
-import { isMobile } from "react-device-detect"
 import { StageContext } from "../../common/context"
 import haj from "../../assets/haj.webp"
 import "./Bio.css"
@@ -13,19 +12,27 @@ import {
 } from "../../common/variants"
 
 export default function Bio() {
-    // This should probably be in a useEffect
     const {setStage} = useContext(StageContext);
-    let fontSizes = {whileHoverFontSize: "", whileTapFontSize: ""};
+    let [fontSizes, setFontSizes] = useState({whileHoverFontSize: "", whileTapFontSize: ""});
 
-    // make this a media query
-    if (isMobile) {
-        fontSizes.whileHoverFontSize = "13px";
-        fontSizes.whileTapFontSize = "13px";
+    const handler = (e: MediaQueryList | MediaQueryListEvent) => {
+        if (e.matches) {
+            setFontSizes({whileHoverFontSize: "20.3px", whileTapFontSize: "19px"});
+        } else {
+            setFontSizes({whileHoverFontSize: "13px", whileTapFontSize: "13px"});
+        }
     }
-    else {
-        fontSizes.whileHoverFontSize = "18.8px";
-        fontSizes.whileTapFontSize = "17px";
-    }
+
+    useEffect(() => {
+        const query = window.matchMedia("only screen and (min-width: 768px)");
+        handler(query);
+
+        query.addEventListener("change", handler);
+
+        return () => {
+            query.removeEventListener("change", handler);
+        }
+    }, []);
 
     return (
         <>
@@ -61,7 +68,8 @@ export default function Bio() {
                     transition={{ duration: 2, }}
                     className="HejText" 
                 >
-                    Hej! I've been working on this as a project during the <span className="Winter">winter</span> holidays!
+                    Hej! I've been working on this as a project during the 
+                    <span className="Winter">winter</span> holidays!
                 </motion.p>
 
 
@@ -98,7 +106,7 @@ export default function Bio() {
                     transition={{ duration: 1.5, }} 
                         className="BioText" 
                 >   
-                        My name's Nyx and I'm from Myanmar! I'm your average 16 year old with a bit of time in their hands.
+                    My name's Nyx and I'm from Myanmar! I'm your average 16 year old with a bit of time in their hands.
                     Back in July of 2024, I had made the unfortunate decision to go down the path of computer science.
                     I started my journey by learning C and Python and worked on a few projects.
                         Then in November, I stumbled upon web development. Though, this site isn't quite traditional.

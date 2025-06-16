@@ -8,6 +8,7 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    visibility: visible;
 }
 
 .MenuIcon {
@@ -56,14 +57,18 @@
     margin-left: 40px;
 }
 
-.Page {
+.PageButton {
     cursor: pointer;
+}
+
+.PageHover:hover {
+    text-decoration: underline;
 }
 
 .MenuFooter {
     position: fixed;
     font-size: 20px;
-    top: 78vh;
+    bottom: 6vh;
     margin-left: 40px;
 }
 
@@ -128,7 +133,7 @@
     .MenuFooter {
         position: fixed;
         font-size: 20px;
-        top: 83vh;
+        bottom: 5%;
         margin-left: 40px;
     }
     

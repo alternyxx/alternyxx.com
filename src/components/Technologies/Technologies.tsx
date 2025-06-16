@@ -15,6 +15,7 @@ import git from "../../assets/Techstack/Git-Icon-1788C.svg"
 
 import python from "../../assets/Techstack/Python_logo_01.svg"
 import c from "../../assets/Techstack/c-1.svg"
+import ferris from "../../assets/Techstack/cuddlyferris.svg"
 
 interface IndivTechnology {
     img: any
@@ -130,8 +131,9 @@ export default function Technologies() {
                 viewport={{margin: "100px 0px 0px 10000px"}}
                 className="IndivTechnologies"
             >
-                <IndivTechnology img={python} text="Python" description="Two snakes" />
+                <IndivTechnology img={ferris} text="Rust" description="Best language" />
                 <IndivTechnology img={c} text="C" description="Segmentation Fault" />
+                <IndivTechnology img={python} text="Python" description="Two snakes" />
             </motion.div>
 
         </motion.section>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 
 // import { DarkModeContext } from "../../common/context";
-import { StageContext } from "../../common/context";
+import { CanvasContext, StageContext } from "../../common/context";
 
 // vertices
 import { Screen } from "./vertices/Screen";
@@ -28,7 +28,8 @@ export default function Canvas({
 }: Canvas) {
     // useContext will rerender the whole thing which is not what i want for darkmode
     // const darkMode = useContext(DarkModeContext);
-    const {stage} = useContext(StageContext); // its fine here because the whole thing needs to rerender
+    const { stage } = useContext(StageContext); // its fine here because the whole thing needs to rerender
+    // const { vertices, shader } = useContext(CanvasContext);
     const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
@@ -49,7 +50,6 @@ export default function Canvas({
     useEffect(() => {
         // ~~~~~~~~~~ Canvas And Context Set-Up ~~~~~~~~~~ //
         const context = canvas.current.getContext("webgpu");
-        console.log("uhm")
         if (!context) {
             return;
         }
@@ -313,15 +313,11 @@ export default function Canvas({
             // I could prob ultra optimise this and put this is 
             // a seperate custom event but i aint getting paid at all
             if (iOpacity[0] < 1.0) {
-                if (iOpacity[0] > 0.95) {
-                    iOpacity[0] = 1.0;
-                }
-                else if (iOpacity[0] == 0.0) {
+                if (iOpacity[0] == 0.0) {
                     prevStageTime.current = currentTime / 1000;
-                    iOpacity[0] += 0.0125;
-                }
-                else {
-                    iOpacity[0] += 0.0125;
+                    iOpacity[0] += 0.04;
+                } else {
+                    iOpacity[0] += 0.04;
                 }
                 device.queue.writeBuffer(iOpacityBuffer, 0, iOpacity);
             }

@@ -1,26 +1,32 @@
-import { useContext, useState, useRef, useEffect, ReactElement } from "react";
-import { StageContext } from "../common/context";
+import { useState, useRef, useEffect, ReactElement, useContext } from "react";
+import { useNavigate, useParams } from "react-router";
 import { motion } from "motion/react";
-import Home from "./Home";
+import { StageContext } from "../common/context";
 
 export default function Entry() {
-    // const [typewriterPos, setTypewriterPos] = useState<number>(1);
-    const {stage, setStage} = useContext(StageContext);
-    const [text, setText] = useState<Array<string | ReactElement>>("A 15 year old with way too much time.".split(''));
+    const { setStage } = useContext(StageContext);
+    const navigate = useNavigate();
+    const { enter } = useParams();
+
+    const [text, setText] = useState<Array<string | ReactElement>>(
+        "A 16 year old with way too much time.".split('')
+    );
     
     const typewriterTimer = useRef<number>(0);
     const yTimer = useRef<number>(0);
 
     // Adding Ys to the text
     useEffect(() => {
-        const timeOut = setTimeout(() => setStage(1), 13200);
+        const timeOut = setTimeout(() => {
+            setStage(1);
+            navigate(`/${enter}`)
+        }, 14500);
 
         // ~~~ Enter button to skip entry ~~~ //
 		const keyDown = (key: KeyboardEvent) => {
-            // it doesnt hurt to check stage is 0
-            if (stage === 0 && key.key === "Enter") {
+            if (key.key === "Enter") {
                 key.preventDefault();
-                setStage(1);
+                navigate(`/${enter}`);
             }
         };
 
@@ -94,15 +100,17 @@ export default function Entry() {
     }, []);
 
     return (
-        <motion.div className="Entry">
-            <motion.h1 
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 0 }}
-            transition={{ duration: 1.5, delay: 11.2, ease: "linear" }}
-            className="EntryText"
-            >
-                {text}
-            </motion.h1>
-        </motion.div>
+        <>
+            <motion.div className="Entry">
+                <motion.h1 
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 0 }}
+                transition={{ duration: 1.5, delay: 11.2, ease: "linear" }}
+                className="EntryText"
+                >
+                    {text}
+                </motion.h1>
+            </motion.div>
+        </>
     );
 }

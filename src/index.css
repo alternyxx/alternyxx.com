@@ -1,3 +1,10 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+/* @import "tailwindcss/preflight.css" layer(base); */
+/* this currently breaks the previous css i had :3 */
+@import "tailwindcss/utilities.css" layer(utilities);
+@plugin "@tailwindcss/typography";
+
 html, body {
     margin: 0 !important;
     padding: 0 !important;
@@ -14,15 +21,15 @@ html, body {
     background: #686868;
 }
 
-.App {
+.Layout {
+    position: absolute;
+    background: transparent;
     display: flex; 
     flex-direction: column;
-}
-
-.App::after {
-    content: "";
-    display: block;
-    height: 1px; /* Ensures `.App` stretches */
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .Canvas {
@@ -30,16 +37,19 @@ html, body {
     z-index: -10;
 }
 
-.Home {
-    position: absolute;
-    font-family: "DM Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    background: transparent;
+.Projects {
+    position: relative;
+    margin-top: 80vh;
+    margin-left: 4%;
+    margin-right: 6%;
 }
 
-/* ~~~ For mobile phones ~~~ */
+.Page {
+    position: relative;
+    width: 100%;
+    margin-top: 8vh;
+}
+
 .Entry {
     color: #F6F7F9;
     text-shadow: 0;
@@ -54,16 +64,12 @@ html, body {
     background-color: #F6F7F9;
 }
 
-/* ~~~ For PC devices ~~~ */
-@media only screen and (min-width: 768px) {
-    .Entry {
-        font-size: 20px;
-        margin-left: 2%;
-        top: 30%;
-    }
+/* Utility Classes */
+.Heading {
+    font-size: 20px;
+    font-weight: 800;
 }
 
-/* Utility Classes */
 .Hyperlink {
     color: #1da8f2;
 }
@@ -86,4 +92,28 @@ html, body {
 
 .Youtube:hover {
     color: #DD3333;
+}
+
+/* ~~~ For PC devices ~~~ */
+@media only screen and (min-width: 768px) {
+    .Page {
+        margin-top: 10vh;
+    }
+    
+    .Entry {
+        font-size: 20px;
+        margin-left: 2%;
+        top: 30%;
+    }
+
+    .Projects {
+        margin-top: 85vh;
+        margin-left: 11%;
+        margin-right: 11%;
+    }
+    
+    .Heading {
+        font-size: 32px;
+        font-weight: 800;
+    }
 }

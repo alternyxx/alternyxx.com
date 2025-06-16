@@ -1,7 +1,7 @@
 /* ~~~ For mobile phones ~~~ */
 .Footer {
     position: relative;
-    margin-top: 30vh;
+    margin-top: 15vh;
     width: 100%;
     padding-top: 20px;
     z-index: 20;
@@ -38,21 +38,20 @@
 /* ~~~~~~~~~~~~ For PC devices ~~~~~~~~~~~~ */
 @media only screen and (min-width: 768px) {
     .Footer {
-        margin-top: 30vh;
-        padding-top: 20px;
+        margin-top: 25vh;
+        padding-top: 1.2rem;
     }
     
     .FooterHeading {
-        font-size: 32px;
+        font-size: 2rem;
         font-weight: 600;
         text-align: center;
     }    
     
     .FooterText {
-        margin-top: 30px;
-        font-size: 18px;
-        padding-bottom: 70px;
+        margin-top: 1.8rem;
+        font-size: 1.2rem;
+        padding-bottom: 2rem;
         text-align: center;
-        padding-bottom: 30px;
     }
 }

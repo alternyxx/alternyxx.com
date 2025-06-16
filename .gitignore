@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-#other testing shit
-simulation.wgsl
+# this is js petty to not include soz :P
+public/*.json
