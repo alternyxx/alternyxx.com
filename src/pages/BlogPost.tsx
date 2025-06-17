@@ -4,14 +4,24 @@ import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { gruvboxDark, gruvboxLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { DarkModeContext, BlogsContext, StageContext } from "../common/context"
+import { DarkModeContext, BlogsContext, CanvasStateContext } from "../common/context"
 import { kebab } from "../common/utils";
+import Screen from "../common/vertices/Screen";
+import rings from "../common/shaders/rings.wgsl?raw"
 
 export default function BlogPost()  {
-    const { setStage } = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     const darkMode = useContext(DarkModeContext);
     const blogPosts = useContext(BlogsContext);
     let { blog } = useParams();
+
+    useEffect(() => {
+        setCanvasState({
+            vertices: Screen,
+            dimensions: 2,
+            shader: rings,
+        });
+    }, []);
 
     return (
         <div className="Page">
@@ -55,9 +65,11 @@ export default function BlogPost()  {
                         },
                     }}
                 >
-                    { blogPosts.blogs[blogPosts.blogs.findIndex((blogPost) => {
-                        return kebab(blogPost.title) == blog;
-                    })].text }
+                    { (blogPosts.blogs.length != 0) ? blogPosts.blogs[blogPosts.blogs.findIndex(
+                        (blogPost) => {
+                            return kebab(blogPost.title) == blog;
+                        }
+                    )].text : "" }
                 </Markdown>
             </div>
         </div>

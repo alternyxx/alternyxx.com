@@ -1,18 +1,20 @@
 import { useContext, useState, useEffect } from "react"
 import { motion } from "motion/react"
-import { StageContext } from "../../common/context"
-import haj from "../../assets/haj.webp"
-import "./Bio.css"
-
+import { CanvasStateContext } from "../../common/context"
 import {
     sectionVariants,
     elementVarient,
     textVariants,
     noteVarients,
 } from "../../common/variants"
+import Screen from "../../common/vertices/Screen"
+import rings from "../../common/shaders/rings.wgsl?raw"
+
+import haj from "../../assets/haj.webp"
+import "./Bio.css"
 
 export default function Bio() {
-    const {setStage} = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     let [fontSizes, setFontSizes] = useState({whileHoverFontSize: "", whileTapFontSize: ""});
 
     const handler = (e: MediaQueryList | MediaQueryListEvent) => {
@@ -47,7 +49,13 @@ export default function Bio() {
                 }}
                 initial="hidden"
                 whileInView="show"      
-                onViewportEnter={() => {setStage(1)}}
+                onViewportEnter={() => {
+                    setCanvasState({
+                        vertices: Screen,
+                        dimensions: 2,
+                        shader: rings,
+                    });
+                }}
                 className="Hej" 
             >
 

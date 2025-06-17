@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect, ReactElement, useContext } from "react";
 import { useNavigate, useParams } from "react-router";
 import { motion } from "motion/react";
-import { StageContext } from "../common/context";
+
+import { CanvasStateContext } from "../common/context";
+import Screen from "../common/vertices/Screen";
+import entry from "../common/shaders/entry.wgsl?raw"
 
 export default function Entry() {
-    const { setStage } = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     const navigate = useNavigate();
     const { enter } = useParams();
 
@@ -17,8 +20,13 @@ export default function Entry() {
 
     // Adding Ys to the text
     useEffect(() => {
+        setCanvasState({
+            vertices: Screen,
+            dimensions: 2,
+            shader: entry,
+        });
+
         const timeOut = setTimeout(() => {
-            setStage(1);
             navigate(`/${enter}`)
         }, 14500);
 

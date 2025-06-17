@@ -2,9 +2,11 @@ import { motion } from "motion/react"
 import { useContext, useEffect } from "react"
 import { useNavigate, NavigateFunction } from "react-router"
 
-import { StageContext, BlogsContext } from "../common/context"
+import { CanvasStateContext, BlogsContext } from "../common/context"
 
 import { kebab } from "../common/utils"
+import Screen from "../common/vertices/Screen"
+import rings from "../common/shaders/rings.wgsl?raw"
 
 const TechFlair = () => {
     return (
@@ -61,12 +63,16 @@ const BlogPostPreview = ({navigate, heading, date, description, flairs}: {
 }
 
 export default function Blogs()  {
-    const { setStage } = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     const blogPosts = useContext(BlogsContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setStage(1);
+        setCanvasState({
+            vertices: Screen,
+            dimensions: 2,
+            shader: rings,
+        });
     }, []);
     
     return (

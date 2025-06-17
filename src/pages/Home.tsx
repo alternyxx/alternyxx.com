@@ -1,10 +1,14 @@
 import { useContext, useRef, useEffect } from "react"
-import { StageContext } from "../common/context"
 import { motion } from "motion/react"
 
 import Bio from "../components/Bio/Bio"
 import Project from "../components/Project/Project"
 import Technologies from "../components/Technologies/Technologies"
+
+import { CanvasStateContext } from "../common/context"
+
+import Blahaj from "../common/vertices/Blahaj"
+import blahajShader from "../common/shaders/blahaj.wgsl?raw"
 
 /* temp, will prob switch to json in the future */
 const Rhythm50Description = `
@@ -16,7 +20,7 @@ the compiled version via
 `
 
 export default function Home({blahaj}: {blahaj?: boolean}) {
-	const { setStage } = useContext(StageContext);
+	const { setCanvasState } = useContext(CanvasStateContext);
 	const blahajRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -33,7 +37,13 @@ export default function Home({blahaj}: {blahaj?: boolean}) {
 			<motion.section
 				className="Projects"
 				viewport={{amount: 0.25}}
-				onViewportEnter={() => {setStage(2)}}
+				onViewportEnter={() => {
+					setCanvasState({
+						vertices: Blahaj,
+						dimensions: 3,
+						shader: blahajShader,
+					});
+				}}
 				ref={blahajRef}
 			>
 				<motion.p 

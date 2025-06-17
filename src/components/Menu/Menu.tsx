@@ -71,13 +71,13 @@ export default function Menu(props: Menu) {
             props.setHtmlShow(false);
         }
     }, [location.pathname]);
-    
+
     return (
         <div className="Menu">
             <AnimatePresence>
-            { menuShown && 
+            { menuShown &&
             <div className="MenuShown">
-                <motion.div 
+                <motion.div
                     initial={{x: -320}}
                     animate={{x: 0}}
                     exit={{x: -320}}

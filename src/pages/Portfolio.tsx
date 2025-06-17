@@ -1,13 +1,19 @@
 import { useContext, useEffect } from "react";
 import Project from "../components/Project/Project"
 
-import { StageContext } from "../common/context";
+import { CanvasStateContext} from "../common/context";
+import Screen from "../common/vertices/Screen";
+import rings from "../common/shaders/rings.wgsl?raw"
 
 export default function Portfolio() {
-    const { setStage } = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     
     useEffect(() => {
-        setStage(1);
+        setCanvasState({
+            vertices: Screen,
+            dimensions: 2,
+            shader: rings,
+        });
     }, []);
 
     return (

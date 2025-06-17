@@ -8,54 +8,45 @@ import {
 } from "react";
 import { Outlet } from "react-router";
 
-import { Screen } from "./vertices/Screen";
+import Screen from "./vertices/Screen";
 import rings from "./shaders/rings.wgsl?raw";
 
 export const DarkModeContext = createContext(false);
 
 // love me some typescript
-interface StageContext {
-    stage: number;
-    setStage: Dispatch<SetStateAction<number>>
-}
-
-export const StageContext = createContext<StageContext>({
-    stage: 1,
-    setStage: () => {},
-});
-
-export const StageContextProvider = ({children}: {children: ReactNode}) => {
-    const [stage, setStage] = useState(0);
-
-    return (
-        <StageContext.Provider value={{stage, setStage}}>
-            {children}
-        </StageContext.Provider>
-    );
-};
-
-interface CanvasContext {
+interface CanvasState {
     vertices: Float32Array,
-    shader: string,
-    setVertices: Dispatch<SetStateAction<Float32Array>>,
-    setShader: Dispatch<SetStateAction<string>>,
+    dimensions: 2 | 3,
+    shader: string,    
 }
 
-export const CanvasContext = createContext<CanvasContext>({
+interface CanvasStateContext extends CanvasState {
+    setCanvasState: Dispatch<SetStateAction<CanvasState>>,
+}
+
+export const CanvasStateContext = createContext<CanvasStateContext>({
     vertices: new Float32Array,
-    setVertices: () => {},
+    dimensions: 2,
     shader: "",
-    setShader: () => {},
+    setCanvasState: () => {},
 });
 
-export const CanvasContextProvider = ({children}: {children: ReactNode}) => {
-    const [vertices, setVertices] = useState(Screen);
-    const [shader, setShader] = useState(rings);
+export const CanvasStateContextProvider = ({children}: {children: ReactNode}) => {
+    const [{vertices, dimensions, shader}, setCanvasState] = useState<CanvasState>({
+        vertices: Screen,
+        dimensions: 2,
+        shader: rings,
+    });
 
     return (
-        <CanvasContext.Provider value={{vertices, setVertices, shader, setShader}}>
+        <CanvasStateContext.Provider value={{
+            vertices,
+            dimensions,
+            shader,
+            setCanvasState,
+        }}>
             {children}
-        </CanvasContext.Provider>
+        </CanvasStateContext.Provider>
     );
 }
 

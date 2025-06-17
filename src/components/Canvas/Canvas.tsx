@@ -1,22 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 
 // import { DarkModeContext } from "../../common/context";
-import { CanvasContext, StageContext } from "../../common/context";
-
-// vertices
-import { Screen } from "./vertices/Screen";
-import { Blahaj } from "./vertices/Blahaj"
-
-const vertices = [Screen, Screen, Blahaj, Screen];
-const verticesInfo = [2, 2, 3, 2];
-
-// shaders
-import Entry from "./shaders/Entry.wgsl?raw"
-import StageOne from "./shaders/StageOne.wgsl?raw"
-import StageTwo from "./shaders/StageTwo.wgsl?raw"
-import StageThree from "./shaders/StageThree.wgsl?raw"
-
-const stages = [Entry, StageOne, StageTwo, StageThree];
+import { CanvasStateContext } from "../../common/context";
 
 interface Canvas {
     device: GPUDevice
@@ -28,8 +13,7 @@ export default function Canvas({
 }: Canvas) {
     // useContext will rerender the whole thing which is not what i want for darkmode
     // const darkMode = useContext(DarkModeContext);
-    const { stage } = useContext(StageContext); // its fine here because the whole thing needs to rerender
-    // const { vertices, shader } = useContext(CanvasContext);
+    const { vertices, dimensions, shader } = useContext(CanvasStateContext); // its fine here because the whole thing needs to rerender
     const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
@@ -64,13 +48,13 @@ export default function Canvas({
         // ~~~~~~~~~~ Vertex, Shader and Texture ~~~~~~~~~~ //
         const vertexBuffer = device.createBuffer({
             label: "Vertex Buffer",
-            size: vertices[stage].byteLength * 2,
+            size: vertices.byteLength * 2,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
         });
     
-        device.queue.writeBuffer(vertexBuffer, 0, vertices[stage]);
+        device.queue.writeBuffer(vertexBuffer, 0, vertices);
     
-        var shaderCode = stages[stage];
+        var shaderCode = shader;
     
         const ShaderModule = device.createShaderModule({
             label: "Shader Module",
@@ -78,16 +62,16 @@ export default function Canvas({
         });
     
         const vertexBufferLayout: GPUVertexBufferLayout = {
-            arrayStride: verticesInfo[stage] * 8, // bytes is 4, multiplied by 2 for normals
+            arrayStride: dimensions * 8, // bytes is 4, multiplied by 2 for normals
             attributes: [{
                 // typescript doesnt like any other way
                 // and i dont like typescript enough to figure it out
-                format: `float32x${stage != 2 ? 2 : 3}`,
+                format: `float32x${dimensions}`,
                 offset: 0,
                 shaderLocation: 0,
             }, {
-                format: `float32x${stage != 2 ? 2 : 3}`,
-                offset: verticesInfo[stage] * 4,
+                format: `float32x${dimensions}`,
+                offset: dimensions * 4,
                 shaderLocation: 1,
             }],
         };
@@ -304,7 +288,7 @@ export default function Canvas({
             pass.setPipeline(Pipeline);
             pass.setVertexBuffer(0, vertexBuffer);
             pass.setBindGroup(0, iBindGroups);
-            pass.draw(vertices[stage].length / verticesInfo[stage]);
+            pass.draw(vertices.length / dimensions);
             
             pass.end();
             
@@ -338,7 +322,7 @@ export default function Canvas({
             // Cancel animation from previous render
             window.cancelAnimationFrame(loopRef.current);
         };
-    }, [stage]);
+    }, [vertices, shader, dimensions]);
     
     // Return canvas
     return (

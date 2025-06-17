@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router'
 import { useState, useEffect } from 'react'
 
 import {
-    CanvasContextProvider,
-    StageContextProvider,
+    CanvasStateContextProvider,
     BlogsContextProvider,
 } from './common/context.js'
 
@@ -58,8 +57,7 @@ export default function App() {
     }, []);
     
     return (
-        <CanvasContextProvider>
-        <StageContextProvider>
+        <CanvasStateContextProvider>
             {device && bgShow && 
                 <Canvas 
                     darkMode={darkMode}
@@ -94,7 +92,6 @@ export default function App() {
                 {/* Path with entry... most people dont like it :c */}
                 <Route path="entry/:enter" element={ <Entry/> }/>
             </Routes>
-        </StageContextProvider>
-        </CanvasContextProvider>
+        </CanvasStateContextProvider>
     );
 }

@@ -1,7 +1,9 @@
 import { useContext } from "react"
 import { motion } from "motion/react"
-import { StageContext } from "../../common/context"
+import { CanvasStateContext } from "../../common/context"
 import { elementVarient } from "../../common/variants"
+import Screen from "../../common/vertices/Screen"
+import tech from "../../common/shaders/tech.wgsl?raw"
 
 import "./Technologies.css"
 
@@ -48,7 +50,7 @@ const IndivTechnology = (props: IndivTechnology) => {
 }
 
 export default function Technologies() {
-    const {setStage} = useContext(StageContext);
+    const { setCanvasState } = useContext(CanvasStateContext);
     
     return (
         <motion.section
@@ -65,7 +67,13 @@ export default function Technologies() {
             initial="hidden"
             whileInView="show"
             viewport={{margin: "100px 0px 0px 10000px"}}
-            onViewportEnter={() => {setStage(3)}}
+            onViewportEnter={() => {
+                setCanvasState({
+                    vertices: Screen,
+                    dimensions: 2,
+                    shader: tech,
+                });
+            }}
             className="Technologies"
         >
 
