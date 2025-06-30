@@ -11,13 +11,15 @@ import { Outlet } from "react-router";
 import Screen from "./vertices/Screen";
 import rings from "./shaders/rings.wgsl?raw";
 
+import blogPosts from "../data/blogs.json"
+
 export const DarkModeContext = createContext(false);
 
 // love me some typescript
 interface CanvasState {
     vertices: Float32Array,
     dimensions: 2 | 3,
-    shader: string,    
+    shader: string,
 }
 
 interface CanvasStateContext extends CanvasState {
@@ -53,9 +55,9 @@ export const CanvasStateContextProvider = ({children}: {children: ReactNode}) =>
 interface BlogsContext {
     blogs: {
         title: string,
-        date: string,
         shortDescription: string,
         flairs: string[],
+        date: string,
         text: string,
     }[],
 }
@@ -63,23 +65,6 @@ interface BlogsContext {
 export const BlogsContext = createContext<BlogsContext>({blogs: []});
 
 export const BlogsContextProvider = () => {
-    let [blogPosts, setBlogPosts] = useState<BlogsContext>({
-        blogs: [],
-        // blogs: [{
-        //     title: "Currently fetching blogs...",
-        //     date: "",
-        //     shortDescription: "",
-        //     flairs: [],
-        //     text: "",
-        // }],
-    });
-    
-    useEffect(() => {
-        fetch("/blogs.json")
-            .then(data => data.json())
-            .then(blogs => setBlogPosts(blogs));
-    }, []);
-    
     return (
         <BlogsContext.Provider value={blogPosts}>
             <Outlet/>

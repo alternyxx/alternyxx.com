@@ -10,15 +10,32 @@ import Menu from './components/Menu/Menu'
 import Lightbulb from './components/Lightbulb/Lightbulb'
 import Footer from "./components/Footer/Footer"; // i hate the way ive done the css
 
+interface Lightbulb {
+    enabled: boolean,
+    lowHanging: boolean,
+}
+
 interface Layout {
     device: GPUDevice | undefined,
     bgShow: boolean,
     setBgShow: Dispatch<SetStateAction<boolean>>,
     darkMode: boolean,
     setDarkMode: Dispatch<SetStateAction<boolean>>,
+    menu?: boolean,
+    lightbulb?: Lightbulb,
+    footer?: boolean,
 }
 
-export default function Layout({ device, bgShow, setBgShow, darkMode, setDarkMode }: Layout) {
+export default function Layout({
+    device,
+    bgShow,
+    setBgShow,
+    darkMode,
+    setDarkMode,
+    menu,
+    lightbulb,
+    footer,
+}: Layout) {
     const [htmlShow, setHtmlShow] = useState(true);
     const [lightbulbEnabled, setLightbulbEnabled] = useState(true);
 
@@ -33,17 +50,20 @@ export default function Layout({ device, bgShow, setBgShow, darkMode, setDarkMod
             className="Layout"
         >
             <DarkModeContext.Provider value={darkMode}>
-                <Menu
+                { menu && <Menu
                     bgShow={ bgShow }
                     setBgShow={ setBgShow }
                     htmlShow={ htmlShow }
                     setHtmlShow={ setHtmlShow }
                     lightbulbEnabled={ lightbulbEnabled }
                     setLightbulbEnabled={ setLightbulbEnabled }
-                />
-                { lightbulbEnabled && <Lightbulb setDarkMode={ setDarkMode }/> } 
+                /> }
+                { lightbulb?.enabled && <Lightbulb
+                    setDarkMode={ setDarkMode }
+                    lowHanging={ lightbulb?.lowHanging }
+                /> } 
                 <Outlet/>
-                <Footer/>
+                { footer && <Footer/> }
             </DarkModeContext.Provider>
         </div>
     )

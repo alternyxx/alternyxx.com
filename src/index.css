@@ -30,6 +30,7 @@ html, body {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    width: 100%;
 }
 
 .Canvas {
@@ -46,8 +47,9 @@ html, body {
 
 .Page {
     position: relative;
-    width: 100%;
+    min-width: 100%;
     margin-top: 8vh;
+    min-height: 35vh;
 }
 
 .Entry {

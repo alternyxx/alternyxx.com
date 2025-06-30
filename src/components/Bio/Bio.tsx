@@ -76,7 +76,7 @@ export default function Bio() {
                     transition={{ duration: 2, }}
                     className="HejText" 
                 >
-                    Hej! I've been working on this as a project during the 
+                    Hej! I've been working on this as a project during the&nbsp;
                     <span className="Winter">winter</span> holidays!
                 </motion.p>
 

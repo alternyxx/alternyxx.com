@@ -119,6 +119,12 @@ export default function Menu(props: Menu) {
                                 active={location.pathname.startsWith('/portfolio')}
                                 page="Portfolio"
                             />
+                            <Page
+                                navigate={navigate}
+                                navigation="/tools"
+                                active={location.pathname.startsWith("/tools")}
+                                page="Tools"
+                            />
                         </div>
                         <div className="MenuFooter">
                             <a

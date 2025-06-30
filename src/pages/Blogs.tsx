@@ -3,34 +3,11 @@ import { useContext, useEffect } from "react"
 import { useNavigate, NavigateFunction } from "react-router"
 
 import { CanvasStateContext, BlogsContext } from "../common/context"
+import { TechFlair, TravelFlair, LifeFlair } from "../components/Flairs"
 
 import { kebab } from "../common/utils"
 import Screen from "../common/vertices/Screen"
 import rings from "../common/shaders/rings.wgsl?raw"
-
-const TechFlair = () => {
-    return (
-        <div className="bg-green-400/70 rounded-xl px-[1rem] py-[0]">
-            <span className="block text-lg/5">Tech</span>
-        </div>
-    );
-}
-
-const TravelFlair = () => {
-    return (
-        <div className="bg-orange-400/70 rounded-xl px-[1rem] py-[0]">
-            <span className="block text-lg/5">Travel</span>
-        </div>
-    );
-}
-
-const LifeFlair = () => {
-    return (
-        <div className="bg-blue-500/70 rounded-xl px-[1rem] py-[0]">
-            <span className="block text-lg/5">Life</span>
-        </div>
-    );
-}
 
 const BlogPostPreview = ({navigate, heading, date, description, flairs}: {
     navigate: NavigateFunction,
@@ -79,12 +56,12 @@ export default function Blogs()  {
         <div className="Page">
             { blogPosts.blogs.map((blogPost, i) => {
                 return <BlogPostPreview
-                    navigate={navigate}
-                    heading={blogPost.title}
-                    date="June 6th 2025"
-                    description={blogPost.shortDescription}
-                    flairs={blogPost.flairs}
-                    key={i}
+                    navigate={ navigate }
+                    heading={ blogPost.title }
+                    date={ blogPost.date }
+                    description={ blogPost.shortDescription }
+                    flairs={ blogPost.flairs }
+                    key={ i }
                 />;
             }) }
         </div>

@@ -31,7 +31,7 @@
     border-radius: 20px;
     padding: 4px;
     display: flex;
-    width: 170px;
+    min-width: 170px;
 }
 
 .TechnologyImg {

@@ -103,8 +103,7 @@ const ProjectMedia = (props: ProjectMedia) => {
                         disablePictureInPicture
                         disableRemotePlayback
                         preload=""
-                        />
-                    :
+                    /> :
                     <motion.video
                         whileHover={{
                             scale: 1.01, 
@@ -182,26 +181,6 @@ export default function Project(props: Project) {
         <motion.div 
             className="IndivProject"
         >
-            <motion.p 
-                initial={{opacity: 0, y: 50}}
-                whileInView={{opacity: 1, y: 0,}}
-                viewport={{margin: "200px 0px 0px 0px"}}
-                transition={{ duration: 1.5, }}
-                className="ProjectName"
-            >
-                {props.projectName}
-            </motion.p>
-
-            <motion.p 
-                initial={{opacity: 0, y: 50}}
-                whileInView={{opacity: 1, y: 0,}}
-                viewport={{margin: "200px 0px 0px 0px"}}
-                transition={{ duration: 1.5, }}
-                className="ProjectDescription"
-            >
-                {props.description}
-            </motion.p>
-
             { /* ~~~~~~~~ Media ~~~~~~~~ */ }
             <motion.div className="ProjectShowcase">
                 { /* ~~~~~~~~ Video ~~~~~~~~ */ }

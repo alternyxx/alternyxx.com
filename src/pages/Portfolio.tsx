@@ -17,7 +17,7 @@ export default function Portfolio() {
     }, []);
 
     return (
-        <div className="Page ml-[5%] mr-[5%]">
+        <div className="Page">
             <Project 
                 projectName="Rhythm50"
                 description="uhm"

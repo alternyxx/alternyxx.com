@@ -49,24 +49,25 @@ export default function LightDark(props: LightDark) {
     // top level div just makes inspecting look a lot nicer
     return (
         <div>
-            <motion.div
-                variants={textVariants}
-                initial="hidden"
-                animate="show"
-                className="LightbulbText"
-                style={{ color: darkMode ? "#777777" : "#888888"}}
-            >
-                <motion.p className="LightbulbMainText">
-                    | Lighting
-                </motion.p>
-                <motion.p className="LightbulbNote">
-                    (ps: plz dont spam)
-                </motion.p>
-                <motion.p className="LightbulbNote">
-                    (it CAN break)
-                </motion.p>
-            </motion.div>
-
+            { props.lowHanging &&
+                <motion.div
+                    variants={textVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="LightbulbText"
+                    style={{ color: darkMode ? "#777777" : "#888888"}}
+                >
+                    <motion.p className="LightbulbMainText">
+                        | Lighting
+                    </motion.p>
+                    <motion.p className="LightbulbNote">
+                        (ps: plz dont spam)
+                    </motion.p>
+                    <motion.p className="LightbulbNote">
+                        (it CAN break)
+                    </motion.p>
+                </motion.div>
+            }
             <motion.img
                 variants={lightbulbVariants}
                 initial="hidden"

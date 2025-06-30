@@ -108,17 +108,15 @@ export default function Entry() {
     }, []);
 
     return (
-        <>
-            <motion.div className="Entry">
-                <motion.h1 
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 0 }}
-                transition={{ duration: 1.5, delay: 11.2, ease: "linear" }}
-                className="EntryText"
-                >
-                    {text}
-                </motion.h1>
-            </motion.div>
-        </>
+        <motion.div className="Entry">
+            <motion.h1 
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 1.5, delay: 11.2, ease: "linear" }}
+            className="EntryText"
+            >
+                {text}
+            </motion.h1>
+        </motion.div>
     );
 }

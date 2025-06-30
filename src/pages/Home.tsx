@@ -54,7 +54,26 @@ export default function Home({blahaj}: {blahaj?: boolean}) {
 					className="Heading"
 				>
 					Highlighted works
-				</motion.p>    
+				</motion.p>
+				<motion.p 
+					initial={{opacity: 0, y: 50}}
+					whileInView={{opacity: 1, y: 0,}}
+					viewport={{margin: "200px 0px 0px 0px"}}
+					transition={{ duration: 1.5, }}
+					className="ProjectName"
+				>
+					Rhythm50
+				</motion.p>
+
+				<motion.p 
+					initial={{opacity: 0, y: 50}}
+					whileInView={{opacity: 1, y: 0,}}
+					viewport={{margin: "200px 0px 0px 0px"}}
+					transition={{ duration: 1.5, }}
+					className="ProjectDescription"
+				>
+					{Rhythm50Description}
+				</motion.p>
 				<Project 
 					projectName="Rhythm50"
 					description={Rhythm50Description}

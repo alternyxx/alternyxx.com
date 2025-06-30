@@ -23,5 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# this is js petty to not include soz :P
-public/*.json
+# this is js petty to not include but soz :P
+/src/data/*
+
+# scripts that i have for transforming some stuff
+# not worth including imo 
+*.sh
+*.py

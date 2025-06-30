@@ -20,12 +20,12 @@ import c from "../../assets/Techstack/c-1.svg"
 import ferris from "../../assets/Techstack/cuddlyferris.svg"
 
 interface IndivTechnology {
-    img: any
+    img?: any
     text: string
     description: string
 }
 
-const IndivTechnology = (props: IndivTechnology) => {
+export const IndivTechnology = (props: IndivTechnology) => {
     return (
         <motion.div 
             variants={{ 
@@ -33,14 +33,16 @@ const IndivTechnology = (props: IndivTechnology) => {
                 show: {
                     opacity: 1,
                     y: 0,
-                } 
+                }
             }}
             whileHover={{scale: 1.05}}
             whileTap={{scale: 1.02}}
             className="IndivTechnology" 
-        >            
-            <img src={props.img} 
-                className="TechnologyImg" />
+        >
+            { props.img && <img
+                src={ props.img }
+                className="TechnologyImg"
+            /> }
             <div className="TechnologyText">
                 <p className="TechnologyName">{props.text}</p>
                 <p className="TechnologyDescription">{props.description}</p>

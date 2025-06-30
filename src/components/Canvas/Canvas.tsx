@@ -3,18 +3,31 @@ import { useState, useEffect, useRef, useContext } from "react";
 // import { DarkModeContext } from "../../common/context";
 import { CanvasStateContext } from "../../common/context";
 
+interface Callbacks {
+    onResize?: () => [number, number],
+    onRedraw?: () => void,
+}
+
 interface Canvas {
-    device: GPUDevice
-    darkMode: boolean
+    device: GPUDevice,
+    darkMode: boolean,
+    res?: [number, number],
+    callbacks?: Callbacks,
 }
 
 export default function Canvas({
-    device, darkMode
+    device, darkMode, res, callbacks
 }: Canvas) {
     // useContext will rerender the whole thing which is not what i want for darkmode
     // const darkMode = useContext(DarkModeContext);
-    const { vertices, dimensions, shader } = useContext(CanvasStateContext); // its fine here because the whole thing needs to rerender
-    const [windowWidthHeight, setWindowWidthHeight] = useState([window.innerWidth, window.innerHeight]);
+    // its fine here because the whole thing needs to rerender
+    // there's still a plan to move this context up into App
+    const { vertices, dimensions, shader } = useContext(CanvasStateContext);
+    
+    // - 1 is to disable scroll in entry
+    const [resolution, setResolution] = useState<[number, number]>(
+        res ? res : [window.innerWidth, window.innerHeight - 1]
+    );
     const canvas = useRef<HTMLCanvasElement>(document.createElement("canvas"));
 
     const lightDarkTransition = useRef<number>(0);
@@ -77,16 +90,16 @@ export default function Canvas({
         };
         
         let depthTexture, depthTextureView: any;
-        const createDepth = () => {
+        const createDepth = (res: [number, number]) => {
             depthTexture = device.createTexture({
                 label: "change",
-                size: [window.innerWidth, window.innerHeight - 1],
+                size: res,
                 format: "depth24plus",
                 usage: GPUTextureUsage.RENDER_ATTACHMENT
             });
             depthTextureView = depthTexture.createView();
         };
-        createDepth();
+        createDepth(resolution);
         
         // ~~~~~~~~~~ Bind Group Layout (also used in pipeline layout) ~~~~~~~~~~ //
         const iBindGroupLayout = device.createBindGroupLayout({
@@ -149,7 +162,7 @@ export default function Canvas({
 
         // ~~~~~~~~~~ Global variables for shaders ~~~~~~~~~~ //
         // ~~~ Resolution ~~~ //
-        const iResolution = new Float32Array([windowWidthHeight[0], windowWidthHeight[1] - 1]);
+        const iResolution = new Float32Array(resolution);
         const iResolutionBuffer = device.createBuffer({
             label: "iResolution",
             size: iResolution.byteLength,
@@ -160,13 +173,20 @@ export default function Canvas({
 
         // ~~~ Browser Resize Event ~~~ //
         const handleResize = () => {
-            createDepth();
+            let newResolution: [number, number];
+            if (!res) {
+                newResolution = [window.innerWidth, window.innerHeight - 1];
+            } else if (callbacks && callbacks.onResize) {
+                newResolution = callbacks.onResize();
+            } else {
+                newResolution = resolution;
+            }
 
-            device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array([
-                window.innerWidth, window.innerHeight - 1
-            ]));
+            createDepth(newResolution);
 
-            setWindowWidthHeight([window.innerWidth, window.innerHeight]);
+            device.queue.writeBuffer(iResolutionBuffer, 0, new Float32Array(newResolution));
+            
+            setResolution(newResolution);
         };
 
         window.addEventListener("resize", handleResize);
@@ -327,11 +347,9 @@ export default function Canvas({
     // Return canvas
     return (
         <canvas 
-            width={ windowWidthHeight[0] }
-            // - 1 is to disable scroll in entry
-            height={ windowWidthHeight[1] - 1 } 
+            width={ resolution[0] }
+            height={ resolution[1] } 
             ref={canvas}
-            className="Canvas" >
-        </canvas>
+        />
     )
 }
