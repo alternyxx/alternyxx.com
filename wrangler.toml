@@ -1,5 +1,5 @@
 name = "alternyxx"
-compatibility_date = "2025-07-05"
+compatibility_date = "2025-08-05"
 
 [assets]
 directory = "./dist/client/"
