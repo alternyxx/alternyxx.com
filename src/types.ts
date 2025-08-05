@@ -1,0 +1,1 @@
+String.prototype.toKebab = function (this: string): string { return this.replace(/[_\s]+/g, '-'); };
