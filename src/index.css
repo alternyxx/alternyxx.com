@@ -21,6 +21,34 @@ html, body {
     background: #686868;
 }
 
+.BlogPost iframe {
+    width: 80vw;
+    height: 45vw;
+    margin-top: 2rem
+}
+
+.BlogPost img {
+    margin: auto;
+    width:80vw;
+    height: auto;
+    margin-block:2rem;
+    display:block
+}
+
+.BlogPost video {
+    width: 80vw;
+    height: auto;
+    margin: auto;
+    margin-block: 2rem
+}
+
+.video-anim {
+    margin: auto!important;
+    width: 80vw!important;
+    height: auto!important;
+    margin-block: 2rem!important
+}
+
 .Layout {
     position: absolute;
     background: transparent;
@@ -96,8 +124,37 @@ html, body {
     color: #DD3333;
 }
 
+.sticker {
+    height:auto;
+    width:200px!important
+}
+
 /* ~~~ For PC devices ~~~ */
 @media only screen and (min-width: 768px) {
+    .BlogPost iframe {
+        width:50vw;
+        height:28.125vw;
+        margin-top:3rem
+    }
+    
+    .BlogPost img {
+        width:50vw;
+        height: auto
+    }
+    
+    .BlogPost video {
+        width:50vw;
+        margin-block:3rem
+    }
+    
+    .video-anim {
+        margin-left:4.5em!important;
+        margin-right:6rem!important;
+        width:20vw!important;
+        height: auto!important;
+        margin-block:0!important
+    }
+
     .Page {
         margin-top: 10vh;
     }

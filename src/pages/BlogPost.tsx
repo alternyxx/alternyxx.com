@@ -8,7 +8,6 @@ import rehypeRaw from "rehype-raw";
 
 import Flairs from "../components/Flairs"
 import { DarkModeContext, BlogsContext, CanvasStateContext } from "../common/context"
-import { kebab } from "../common/utils";
 import Screen from "../common/vertices/Screen";
 import rings from "../common/shaders/rings.wgsl?raw"
 
@@ -40,7 +39,7 @@ export default function BlogPost()  {
     
         setBlogPost(
             blogPosts.blogs[blogPosts.blogs.findIndex(blogPost => {
-                return kebab(blogPost.title) == blog;
+                return blogPost.title.toKebab() == blog;
             })]
         );
     }, [blogPosts, blog]);
@@ -54,7 +53,7 @@ export default function BlogPost()  {
     }, [location.hash]);
 
     return (
-        <div className="Page">
+        <div className="Page BlogPost">
             <div className="mt-[5vh] ml-[5vw] max-w-[85vw] mr-[7vw] lg:mt-[2vh] lg:ml-[10vw] lg:mr-[10vw]">
                 <h1 className="Heading">
                     { blogPost?.title }
@@ -74,7 +73,7 @@ export default function BlogPost()  {
                             return (
                                 <h1
                                     ref={ref => {
-                                        sectionLinks.current.set(kebab(props.children?.toString()!), ref!);
+                                        sectionLinks.current.set(props.children?.toString().toKebab()!, ref!);
                                     }}
                                     className="Heading lg:mt-[8rem]"
                                 >
@@ -89,11 +88,17 @@ export default function BlogPost()  {
                             );
                         }, p(props) {
                             return (
-                                <p className="text-sm lg:text-xl">
+                                <p style={ props.style } className={`${props.className} text-sm lg:text-xl`}>
                                     { props.children }
                                 </p>
                             );
-                        }, code(props) {
+                        }, a(props) {
+                            return (
+                                <a href={ props.href } className="text-fuchsia-50 font-medium">
+                                    { props.children }
+                                </a>
+                            );
+                        },  code(props) {
                             const {children, className, node, ...rest} = props
                             const match = /language-(\w+)/.exec(className || '')
                             return match ? (
@@ -103,6 +108,7 @@ export default function BlogPost()  {
                                     children={ String(children).replace(/\n$/, '') }
                                     language={ match[1] }
                                     style={ darkMode ? gruvboxDark : gruvboxLight }
+                                    class="text-xs lg:text-lg"
                                 />
                             ) : (
                                 <code {...rest} className={className}>

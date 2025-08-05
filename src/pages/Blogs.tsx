@@ -5,7 +5,6 @@ import { useNavigate, NavigateFunction } from "react-router"
 import { CanvasStateContext, BlogsContext } from "../common/context"
 import { TechFlair, TravelFlair, LifeFlair } from "../components/Flairs"
 
-import { kebab } from "../common/utils"
 import Screen from "../common/vertices/Screen"
 import rings from "../common/shaders/rings.wgsl?raw"
 
@@ -20,7 +19,7 @@ const BlogPostPreview = ({navigate, heading, date, description, flairs}: {
         <div className="ml-[4%] mb-[25%] lg:ml-[10%] lg:mb-[10%]">
             <motion.div
                 onClick={() => {
-                    navigate(kebab(heading));
+                    navigate(heading.toKebab());
                     window.scrollTo(0, 0);
                 }}
                 className="no-underline cursor-pointer lg:mb-[3rem]"
