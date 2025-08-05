@@ -1,0 +1,7 @@
+# i dont actually know if this helps xD
+
+User-agent: *
+Disallow: /*.webp$
+Disallow: /*.png$
+Disallow: /*.mp4$
+Disallow: /*.gif$
