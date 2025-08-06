@@ -2,5 +2,5 @@ name = "alternyxx"
 compatibility_date = "2025-08-05"
 
 [assets]
-directory = "./dist/client/"
+directory = "./dist/"
 not_found_handling = "single-page-application"
