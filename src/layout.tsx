@@ -2,7 +2,6 @@ import {
     useState,
     Dispatch,
     SetStateAction,
-    MenuHTMLAttributes,
 } from "react"
 import { Outlet } from "react-router";
 import { DarkModeContext } from "./common/context";
