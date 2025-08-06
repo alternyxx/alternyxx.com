@@ -1,1 +1,0 @@
-export const kebab = (s: string) => s.replace(/[_\s]+/g, '-');

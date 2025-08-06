@@ -21,35 +21,38 @@ const lightbulbVariants = {
 interface LightDark {
     setDarkMode: Dispatch<SetStateAction<boolean>>, // i forgot why this ws explicitly passed
     lowHanging?: boolean,
+    noScrolling?: boolean,
 }
 
-export default function LightDark(props: LightDark) {
+export default function LightDark({ setDarkMode, lowHanging, noScrolling }: LightDark) {
     const darkMode = useContext(DarkModeContext);
 
-    const [handle, setHandle] = useState<number>(0);
+    const [handle, setHandle] = useState<number>(lowHanging ? -230 : -100);
     const { scrollY } = useScroll();
 
     const scroll = useSpring(scrollY);
 
     useMotionValueEvent(scrollY, "change", current => {
-        if (current < window.innerHeight && !props.lowHanging) {
-            setHandle(current - 100);
-            scroll.set(current - 20);
-        } else {
-            setHandle(current - 230);
-            scroll.set(current - 150);
+        if (!noScrolling) {
+            if (current < window.innerHeight && !lowHanging) {
+                setHandle(current - 100);
+                scroll.set(current - 20);
+            } else {
+                setHandle(current - 230);
+                scroll.set(current - 150);
+            }
         }
     });
 
     const handleClick = (event: MouseEvent) => {
         event.preventDefault();
-        props.setDarkMode((prev: boolean) => !prev);
+        setDarkMode((prev: boolean) => !prev);
     };
 
     // top level div just makes inspecting look a lot nicer
     return (
         <div>
-            { props.lowHanging &&
+            { !lowHanging &&
                 <motion.div
                     variants={textVariants}
                     initial="hidden"
@@ -87,7 +90,7 @@ export default function LightDark(props: LightDark) {
                 className="Lightbulb"
                 style={{ top: scroll }}
             >   
-                <motion.a 
+                <motion.a
                     href="#"
                     onClick={handleClick}
                 >

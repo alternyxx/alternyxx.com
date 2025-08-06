@@ -9,7 +9,7 @@ import entry from "../common/shaders/entry.wgsl?raw"
 export default function Entry() {
     const { setCanvasState } = useContext(CanvasStateContext);
     const navigate = useNavigate();
-    const { enter } = useParams();
+    const enter = useParams()["*"];
 
     const [text, setText] = useState<Array<string | ReactElement>>(
         "A 16 year old with way too much time.".split('')

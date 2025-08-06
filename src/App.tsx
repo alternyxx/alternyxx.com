@@ -12,9 +12,9 @@ import Home from './pages/Home.tsx'
 import Entry from './pages/Entry.tsx'
 import Blogs from './pages/Blogs.tsx'
 import BlogPost from './pages/BlogPost.tsx'
-import Portfolio from './pages/Portfolio.tsx'
-import Tools from './pages/tools/Tools.tsx'
-import Playground from './pages/tools/Playground.tsx'
+// import Portfolio from './pages/Portfolio.tsx'
+// import Tools from './pages/tools/Tools.tsx'
+// import Playground from './pages/tools/Playground.tsx'
 
 export default function App() {
     const [device, setDevice] = useState<GPUDevice | undefined>();
@@ -23,8 +23,8 @@ export default function App() {
     const [lightbulb, setLightbulb] = useState({
         enabled: true,
         lowHanging: false,
-    }); 
-    const [footer, setFooter] = useState(true);
+        noScrolling: false,
+    });
 
     const location = useLocation();
 
@@ -72,20 +72,28 @@ export default function App() {
             setLightbulb({
                 enabled: false,
                 lowHanging: false,
+                noScrolling: false,
             });
-            setFooter(false);
         } else if (location.pathname.startsWith("/blogs")) {
-            setLightbulb({
-                enabled: true,
-                lowHanging: false,
-            });
-            setFooter(true);
+            if (location.pathname.length > 7) {
+                setLightbulb({
+                    enabled: false,
+                    lowHanging: false,
+                    noScrolling: false,
+                });
+            } else {
+                setLightbulb({
+                    enabled: true,
+                    lowHanging: true,
+                    noScrolling: false,                    
+                });
+            }
         } else {
             setLightbulb({
                 enabled: true,
-                lowHanging: true,
+                lowHanging: false,
+                noScrolling: false,
             });
-            setFooter(true);
         }
     }, [location]);
 
@@ -104,12 +112,11 @@ export default function App() {
                     <Layout
                         device={device}
                         bgShow={bgShow}
-                        setBgShow={setBgShow}
                         darkMode={darkMode}
                         setDarkMode={setDarkMode}
-                        menu={true} // no reason for this to be a state rn
+                        menu={{ enabled: true, setBgShow: setBgShow }} // no reason for this to be a state rn
                         lightbulb={lightbulb}
-                        footer={footer}
+                        footer={{ enabled: true }}
                     />
                 }>
                     <Route index element={ <Home/> }/>
@@ -121,19 +128,19 @@ export default function App() {
                             <Route index element={ <Blogs/> }/>
                             <Route path=":blog" element={ <BlogPost/> }/>
                         </Route>
-                    </Route>
+3                    </Route>
                     
-                    <Route path="portfolio" element={ <Portfolio/> }/>
+                    {/* <Route path="portfolio" element={ <Portfolio/> }/>
                     <Route path="tools">
                         <Route index element={ <Tools/> }/>
                         <Route path="playground" element={
                             <Playground device={ device } setBgShow={ setBgShow }/>
                         }/>
-                    </Route>
+                    </Route> */}
                 </Route>
 
                 {/* Path with entry... most people dont like it :c */}
-                <Route path="entry/:enter" element={ <Entry/> }/>
+                <Route path="entry/*" element={ <Entry/> }/>
             </Routes>
         </CanvasStateContextProvider>
     );

@@ -2,6 +2,7 @@ import {
     useState,
     Dispatch,
     SetStateAction,
+    MenuHTMLAttributes,
 } from "react"
 import { Outlet } from "react-router";
 import { DarkModeContext } from "./common/context";
@@ -10,26 +11,33 @@ import Menu from './components/Menu/Menu'
 import Lightbulb from './components/Lightbulb/Lightbulb'
 import Footer from "./components/Footer/Footer"; // i hate the way ive done the css
 
-interface Lightbulb {
+interface MenuComponent {
+    enabled: boolean,
+    setBgShow: Dispatch<SetStateAction<boolean>>,
+}
+
+interface LightbulbComponent {
     enabled: boolean,
     lowHanging: boolean,
+}
+
+interface FooterComponent {
+    enabled: boolean,
 }
 
 interface Layout {
     device: GPUDevice | undefined,
     bgShow: boolean,
-    setBgShow: Dispatch<SetStateAction<boolean>>,
     darkMode: boolean,
     setDarkMode: Dispatch<SetStateAction<boolean>>,
-    menu?: boolean,
-    lightbulb?: Lightbulb,
-    footer?: boolean,
+    menu: MenuComponent,
+    lightbulb: LightbulbComponent,
+    footer: FooterComponent,
 }
 
 export default function Layout({
     device,
     bgShow,
-    setBgShow,
     darkMode,
     setDarkMode,
     menu,
@@ -50,20 +58,20 @@ export default function Layout({
             className="Layout"
         >
             <DarkModeContext.Provider value={darkMode}>
-                { menu && <Menu
+                { menu.enabled && <Menu
                     bgShow={ bgShow }
-                    setBgShow={ setBgShow }
+                    setBgShow={ menu.setBgShow }
                     htmlShow={ htmlShow }
                     setHtmlShow={ setHtmlShow }
                     lightbulbEnabled={ lightbulbEnabled }
                     setLightbulbEnabled={ setLightbulbEnabled }
                 /> }
-                { lightbulb?.enabled && <Lightbulb
+                { lightbulb.enabled && <Lightbulb
                     setDarkMode={ setDarkMode }
                     lowHanging={ lightbulb?.lowHanging }
                 /> } 
                 <Outlet/>
-                { footer && <Footer/> }
+                { footer.enabled && <Footer/> }
             </DarkModeContext.Provider>
         </div>
     )

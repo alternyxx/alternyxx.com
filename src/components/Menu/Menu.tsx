@@ -113,7 +113,7 @@ export default function Menu(props: Menu) {
                                 active={location.pathname.startsWith("/blogs")}
                                 page="Blogs"
                             />
-                            <Page
+                            {/* <Page
                                 navigate={navigate}
                                 navigation="/portfolio"
                                 active={location.pathname.startsWith('/portfolio')}
@@ -124,7 +124,7 @@ export default function Menu(props: Menu) {
                                 navigation="/tools"
                                 active={location.pathname.startsWith("/tools")}
                                 page="Tools"
-                            />
+                            /> */}
                         </div>
                         <div className="MenuFooter">
                             <a
