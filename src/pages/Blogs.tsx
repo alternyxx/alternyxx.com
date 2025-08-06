@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react"
 import { useNavigate, NavigateFunction } from "react-router"
 
 import { CanvasStateContext, BlogsContext } from "../common/context"
-import { TechFlair, TravelFlair, LifeFlair } from "../components/Flairs"
+import Flairs from "../components/Flairs"
 
 import Screen from "../common/vertices/Screen"
 import rings from "../common/shaders/rings.wgsl?raw"
@@ -16,7 +16,7 @@ const BlogPostPreview = ({navigate, heading, date, description, flairs}: {
     description: string,
 }) => {
     return (
-        <div className="ml-[4%] mb-[25%] lg:ml-[10%] lg:mb-[10%]">
+        <div className="ml-[5vw] mb-[25%] lg:ml-[10vw] lg:mb-[10%]">
             <motion.div
                 onClick={() => {
                     navigate(heading.toKebab());
@@ -26,14 +26,10 @@ const BlogPostPreview = ({navigate, heading, date, description, flairs}: {
             >
                 <p className="Heading mb-[0.5rem] lg:mb-[1rem]">{ heading }</p>
                 <p className="text-sm mr-[4%] lg:text-xl lg:mr-[25%]">{ description }</p>
-                <div className="flex gap-x-3">
-                    { flairs.includes("Tech") && <TechFlair/> }
-                    { flairs.includes("Travel") && <TravelFlair/> }
-                    { flairs.includes("Life") && <LifeFlair/> }
-                </div>
+                <Flairs flairs={flairs}/>
             </motion.div>
 
-            <p className="text-sm ml-[65vw] mb-px lg:text-base">{ date }</p>
+            <h4 className="text-sm ml-[65vw] mb-px lg:text-lg">{ date }</h4>
         </div>
     );
 }

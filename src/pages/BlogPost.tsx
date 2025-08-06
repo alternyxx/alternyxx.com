@@ -54,7 +54,7 @@ export default function BlogPost()  {
 
     return (
         <div className="Page BlogPost">
-            <div className="mt-[5vh] ml-[5vw] max-w-[85vw] mr-[7vw] lg:mt-[2vh] lg:ml-[10vw] lg:mr-[10vw]">
+            <div className="ml-[5vw] max-w-[85vw] mr-[7vw] lg:ml-[10vw] lg:mr-[10vw]">
                 <h1 className="Heading">
                     { blogPost?.title }
                 </h1>
@@ -62,10 +62,10 @@ export default function BlogPost()  {
                 <p className="text-sm lg:text-xl pt-[1rem]">
                     { blogPost?.shortDescription }
                 </p>
-                <h4 className="flex text-sm justify-end lg:text-lg pr-[5rem]">
+                <h4 className="flex text-sm justify-end pr-[1rem] lg:text-lg lg:pr-[5rem]">
                     Date: { blogPost?.date }
                 </h4>
-                <motion.div className="bg-gray-600/50 rounded-xl h-[0.15rem] w-[98%] mt-[1.6rem] mb-[2rem]"/>
+                <motion.div className="bg-gray-600/50 rounded-xl h-[0.15rem] w-[98%] mt-[1.6rem] mb-[-2rem] lg:mb-[-3.5rem]"/>
 
                 <Markdown
                     components={{        // copy pasted from react-markdown :PPPPP
@@ -75,20 +75,26 @@ export default function BlogPost()  {
                                     ref={ref => {
                                         sectionLinks.current.set(props.children?.toString().toKebab()!, ref!);
                                     }}
-                                    className="Heading lg:mt-[8rem]"
+                                    className="Heading mt-[5rem] lg:mt-[8rem]"
                                 >
                                     { props.children }
                                 </h1>
                             );
+                        }, h2(props) {
+                            return (
+                                <h2 className="text-lg lg:text-2xl">
+                                    { props.children }
+                                </h2>
+                            );
                         }, h3(props) {
                             return (
-                               <h3>
+                               <h3 className="text-sm lg:text-xl">
                                     { props.children }
                                 </h3>
                             );
                         }, p(props) {
                             return (
-                                <p style={ props.style } className={`${props.className} text-sm lg:text-xl`}>
+                                <p style={ props.style } className={`${props.className ? props.className : ''} text-sm lg:text-xl`}>
                                     { props.children }
                                 </p>
                             );

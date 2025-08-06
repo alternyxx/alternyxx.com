@@ -60,7 +60,7 @@ export default function Home({blahaj}: {blahaj?: boolean}) {
 					whileInView={{opacity: 1, y: 0,}}
 					viewport={{margin: "200px 0px 0px 0px"}}
 					transition={{ duration: 1.5, }}
-					className="ProjectName"
+					className="text-[1.2rem] lg:text-[1.75rem]"
 				>
 					Rhythm50
 				</motion.p>
@@ -70,7 +70,7 @@ export default function Home({blahaj}: {blahaj?: boolean}) {
 					whileInView={{opacity: 1, y: 0,}}
 					viewport={{margin: "200px 0px 0px 0px"}}
 					transition={{ duration: 1.5, }}
-					className="ProjectDescription"
+					className="text-sm lg:text-[1.25rem] lg:mb-[2rem]"
 				>
 					{Rhythm50Description}
 				</motion.p>
