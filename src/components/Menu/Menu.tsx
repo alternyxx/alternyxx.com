@@ -162,6 +162,7 @@ export default function Menu(props: Menu) {
                         </div>
                     </div>
                 </motion.div>
+                <div className="MenuRetract" onClick={() => {setMenuShown(false);}}/>
             </div>
             }
             </AnimatePresence>

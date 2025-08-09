@@ -54,7 +54,7 @@ export default function BlogPost()  {
 
     return (
         <div className="Page BlogPost">
-            <div className="ml-[5vw] max-w-[85vw] mr-[7vw] lg:ml-[10vw] lg:mr-[10vw]">
+            <div className="ml-[5vw] w-[79vw] max-w-[100rem] mr-[7vw] lg:ml-[10vw] lg:mr-[10vw]">
                 <h1 className="Heading">
                     { blogPost?.title }
                 </h1>
